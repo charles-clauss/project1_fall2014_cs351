@@ -2,7 +2,11 @@
 CS351 Project 1
 +++++++++++++++++++++++++++++++++++++++++
 
-1. First CS351 project of the semester
-  - Groups of two
-  - Connection to virtual world
-  - Optimize A* and ant spawning/food retrieval
+The Ant Project
+===============
+
+- Socket connection to virtual world
+- Generate a graph data structure of the map
+- Write an implementation of A* for path optimization
+- Task delegation based on ant type
+- Decision optimization
