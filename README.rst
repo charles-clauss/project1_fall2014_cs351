@@ -10,3 +10,18 @@ The Ant Project
 - Write an implementation of A* for path optimization
 - Task delegation based on ant type
 - Decision optimization
+
+Sockets and Threading
+---------------------
+
+World Graph
+-----------
+
+A* Graph Traversal
+------------------
+
+Important Ant Tasks
+-------------------
+
+Overall Priority Scheme for AI
+------------------------------
