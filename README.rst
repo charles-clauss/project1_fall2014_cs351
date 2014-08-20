@@ -2,6 +2,9 @@
 CS351 Project 1
 +++++++++++++++++++++++++++++++++++++++++
 
+Charles Clauss (cclauss@unm.edu)
+Aaron Gonzales (agonzales@cs.unm.edu)
+
 The Ant Project
 ===============
 
