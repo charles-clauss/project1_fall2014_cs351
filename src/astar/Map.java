@@ -1,0 +1,53 @@
+package astar;
+import java.io.File;
+import java.nio.file.Path;
+
+/*Will reimplement as file reader
+ * 
+ * 
+ */
+public class Map {
+	
+	//redo to add as file reader
+	protected String map = new StringBuilder()
+			.append("01X000000001XX0X0000000XX101\n")
+			.append("100X1110000X0000000000011110\n")
+			.append("0000111000000XXXXXXXX0011100\n")
+			.append("0000000000000000XX00XX01!101\n")
+			.append("00000000XXXXXXXXXXX000100010\n")
+			.append("000000XXXXXXXXXXX0X021000110\n")
+			.append("0000XXXXXXXXXXXX00XXXX001101\n")
+			.append("00000XXXXXXXXXX10XXXXX000001\n")
+			.append("000XXXXXXX1110000XXXX0000111\n")
+			.append("X0XXXXXXX011100X0XXXX0000101\n")
+			.append("0000XXXX000000XX00XX00001010\n")
+			.append("0100000XXXX01XX1000XXXXX1000\n")
+			.append("0000000XXXXXXX000000111X0X1X\n")
+			.append("000000XXXXX00000100111111XXX\n")
+			.append("00000XXXXX11011000011111110X\n")
+			.append("010XXXXXXX001XXX001111100XXX\n")
+			.append("10XXXXXX10000XXXX11111000XXX\n")
+			.append("10XXXX0X000000XXXX1111000XXX\n")
+			.append("00XXX0000100000XXXX100000002\n")
+			.append("01XXX000001000XXXXXXXXX00000\n")
+			.append("00001000000002XXXXXXXXX10000\n")
+			.append("000001XXX00222XXXXXXXXX00010\n")
+			.append("00000XXXXXXX00000XXXXXX00000\n")
+			.append("000001XXXXXX000000XXXXXX0000\n")
+			.append("000000XXXXX10000000XXXXXX010\n")
+			.append("0000001XX0100XXXX000XX111000\n")
+			.append("0100000011000XXXX0000X111000\n")
+			.append("0000000000000XXX000000000100\n")
+			.append("0>0000000000XXXX000000000101\n")
+			.append("000000000000XXXX000100001010\n")
+			.toString();
+
+
+	// add methods for converting each cell to NODE
+	// read file char by char, convert each char to Node
+
+	
+
+}
+
+
