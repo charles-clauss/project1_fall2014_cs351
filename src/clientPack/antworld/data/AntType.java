@@ -1,5 +1,4 @@
-package antworld.data;
-
+package clientPack.antworld.data;
 
 public enum AntType
 {

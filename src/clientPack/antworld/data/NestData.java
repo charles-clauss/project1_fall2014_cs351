@@ -1,4 +1,4 @@
-package antworld.data;
+package clientPack.antworld.data;
 
 import java.io.Serializable;
 
