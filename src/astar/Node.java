@@ -1,8 +1,19 @@
 package astar;
 
-public class Node {
-	protected int cost;
+/*
+ * Node will be the generic Node that is passed to us?
+ * Perhaps?
+ *
+ *
+ */
+public class Node<N> {
+	// counter for number of nodes
+	private static int numNodes = 0;
+	//weight of the node
+	protected <N> weight;
+	// can move to this node
 	protected Boolean canMoveTo;
+	// all nodes by default are not targets
 	protected Boolean isTarget = false;
 	
 	Node createNode(char c){
