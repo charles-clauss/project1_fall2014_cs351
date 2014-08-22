@@ -22,6 +22,11 @@ World Graph
 
 A* Graph Traversal
 ------------------
+Plan on implementing the graph system as follows:
+- Class for Node, Graph 
+  graph stores nodes in a balanced search tree? log(n) operations?
+- Class for AStar, the heuristic, 
+  uses PriorityQueue (heap), again, log(n) operations?
 
 Important Ant Tasks
 -------------------
