@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Astar {
-  public static int[][] map;
+  public static int[][] map = new int[30][28];
   public static int startx;
   public static int starty;
   public static int finishx;
@@ -17,7 +20,6 @@ public class Astar {
   }
 
   public void readMap() {
-    map = new int[30][28];
     File file = new File("/Users/cclauss/Documents/workspace/cs351lab1/MapWeights");
     FileReader filereader;
     try {
@@ -49,19 +51,18 @@ public class Astar {
                 break;
               case '>':
                 temp = 0;
-                startx = row;
-                starty = column;
+                startx = column;
+                starty = row;
                 break;
               case '!':
                 temp = 0;
-                finishx = row;
-                finishy = column;
+                finishx = column;
+                finishy = row;
                 break;
               default:
                 temp = -1;
                 break;
             }
-
             map[row][column] = temp;
             column++;
           }
@@ -73,18 +74,118 @@ public class Astar {
       }
   }
 
-  public void shortestPath() {
+  public String shortestPath() {
+    Tuple3 start = new Tuple3(startx, starty, map[starty][startx]);
+    Tuple3 visit;
+    Comparator<Tuple3> compare = new TupleSort();
+    PriorityQueue<Tuple3> pq = new PriorityQueue<Tuple3>(25, compare);
+    if(pq.comparator() == null) { return "Natural order."; }
+    int visitx;
+    int visity;
+    int westx;
+    int eastx;
+    int southy;
+    int northy;
+    pq.add(start);
+    ArrayList<Tuple3> visited = new ArrayList<Tuple3>();
     
+    while((visit = pq.poll()) != null) {
+      visited.add(visit);
+      visitx = visit.getX();
+      visity = visit.getY();
+      System.out.println(visitx);
+      System.out.println(visity);
+      if(visitx == finishx && visity == finishy) {
+        return constructPath(visit);
+      }
+      westx = visitx - 1;
+      eastx = visitx + 1;
+      southy = visity + 1;
+      northy = visity - 1;
+      if(westx >= 0) {
+        Tuple3 westNeighbor = new Tuple3(westx, visity, visit.getCost() + map[visity][westx]);
+        if(!visited.contains(westNeighbor)) {
+          pq.add(westNeighbor);
+          System.out.println("Searched west.");
+        }
+      }
+      if(eastx < map[0].length) {
+        Tuple3 eastNeighbor = new Tuple3(eastx, visity, visit.getCost() + map[visity][eastx]);
+        if(!visited.contains(eastNeighbor)) {
+          pq.add(eastNeighbor);
+          System.out.println("Searched east.");
+        }
+      }
+      if(southy < map.length) {
+        Tuple3 southNeighbor = new Tuple3(visitx, southy, visit.getCost() + map[southy][visitx]);
+        if(!visited.contains(southNeighbor)) {
+          pq.add(southNeighbor);
+          System.out.println("Searched south.");
+        }
+      }
+      if(northy >= 0) {
+        Tuple3 northNeighbor = new Tuple3(visitx, northy, visit.getCost() + map[northy][visitx]);
+        if(!visited.contains(northNeighbor)) {
+          pq.add(northNeighbor);
+          System.out.println("Searched north.");
+        }
+      }
+    }
+    return "Failure.";
+  }
+
+  public String constructPath(Tuple3 finish) {
+    return "Success.";
+  }
+
+  public int cost(int x, int y, int accumulate) {
+    int heuristic = Math.abs(finishx - x) + Math.abs(finishy - y);
+    return accumulate + heuristic;
   }
 
   public static void main(String[] args) {
     Astar star = new Astar();
     star.readMap();
-    for(int i = 0; i < 30; i++) {
-      for(int j = 0; j < 28; j++) {
-        
+    String status = star.shortestPath();
+    System.out.println(status);
+
+  }
+}
+
+class Tuple3 {
+  protected final int x;
+  protected final int y;
+  protected int pathCost;
+  protected Tuple3 origin = null;
+  public Tuple3(int x, int y, int pathCost) {
+    this.x = x;
+    this.y = y;
+    this.pathCost = pathCost;
+  }
+  public Tuple3(int x, int y, int pathCost, Tuple3 origin) {
+    this.x = x;
+    this.y = y;
+    this.pathCost = pathCost;
+    this.origin = origin;
+  }
+  public int getX() { return this.x; }
+  public int getY() { return this.y; }
+  public int getCost() { return this.pathCost; }
+  public void setCost(int pathCost) { this.pathCost = pathCost; }
+  public void setPrevious(Tuple3 origin) { this.origin = origin; }
+  public boolean equals(Object o) {
+    if(o instanceof Tuple3) {
+      if(((Tuple3)o).getX() == this.x &&
+         ((Tuple3)o).getY() == this.y) {
+        return true;
       }
     }
+    return false;
   }
+}
 
+class TupleSort implements Comparator<Tuple3> {
+  public int compare(Tuple3 a, Tuple3 b) {
+    return b.getCost() - a.getCost();
+  }
 }
