@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Comparator;
+import cs351lab1.Picture;
 
 public class Astar {
   public static int[][] map = new int[30][28];
@@ -15,12 +16,13 @@ public class Astar {
   public static int starty;
   public static int finishx;
   public static int finishy;
+  public static Picture pic = new Picture("/Users/cclauss/Documents/workspace/cs351lab1/src/cs351lab1/mapimage.png");
 
   public Astar() {
   }
 
   public void readMap() {
-    File file = new File("/Users/cclauss/Documents/workspace/cs351lab1/MapWeights");
+    File file = new File("/Users/cclauss/Documents/workspace/cs351lab1/src/cs351lab1/MapWeights.txt");
     FileReader filereader;
     try {
       filereader = new FileReader(file);
@@ -145,10 +147,16 @@ public class Astar {
     Tuple3 current = finish.getOrigin();
     String path = "";
     while(current != null) {
+      for(int i = 0; i < 16; i++) {
+        for(int j = 0; j < 16; j++) {
+          pic.setRGB(16*previous.getX() + i, 16*previous.getY() + j, 255, 0, 0);
+        }
+      }
       path += pathHelper(current, previous);
       previous = current;
       current = current.getOrigin();
     }
+    pic.saveImage();
     return finish.getFullCost() + "\n" + (new StringBuffer(path).reverse().toString());
   }
 
@@ -170,7 +178,6 @@ public class Astar {
     star.readMap();
     String status = star.shortestPath();
     System.out.println(status);
-
   }
 }
 
