@@ -16,9 +16,14 @@ The Ant Project
 
 Sockets and Threading
 ---------------------
+- Client code will be provided by Joel?
 
 World Graph
 -----------
+- Needs to be read once and stored
+- Parse color data to get height values
+- Determine location of assigned nest
+- (extra) analyze terrain for strong choke points
 
 A* Graph Traversal
 ------------------
@@ -28,8 +33,8 @@ Plan on implementing the graph system as follows:
 - Class for AStar, the heuristic, 
   uses PriorityQueue (heap), again, log(n) operations?
 
-Important Ant Tasks
--------------------
-
-Overall Priority Scheme for AI
-------------------------------
+Ant Controller
+------------------
+- Thread for each ant
+- Objects spawned by a factory
+- Initially just need to be able to find and gather food
