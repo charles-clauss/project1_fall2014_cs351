@@ -3,9 +3,6 @@
  */
 package astar;
 
-import MapData;
-import SortMapData;
-import constructPath;
 
 import java.util.ArrayList;
 import java.util.Comparator;

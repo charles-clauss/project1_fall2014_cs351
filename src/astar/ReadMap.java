@@ -18,7 +18,16 @@ public class ReadMap {
 	ReadMap() {
 	};
 
-	public void readMap() throws MalformedURLException, IOException {
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws MalformedURLException
+	 */
+	public void readMapPic() throws IOException, MalformedURLException {
+		
+	}
+	
+	public void readMapText() throws MalformedURLException, IOException {
 		// I made this a URL mostly as practice, but also so that there wouldn't
 		// be
 		// file system issues when I turned in my code.

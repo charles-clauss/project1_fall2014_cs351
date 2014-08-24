@@ -1,11 +1,5 @@
 package astar;
 
-import Astar;
-import MapData;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Comparator;
 
 /*
  * Map will implement something as a weighted graph structure 
