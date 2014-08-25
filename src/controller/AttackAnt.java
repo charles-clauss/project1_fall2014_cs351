@@ -1,7 +1,9 @@
 package controller;
 
 public class AttackAnt implements Ant {
-  public AttackAnt() {
+  private AntData data;
+  public AttackAnt(AntData data) {
+    this.data = data;
   }
   public void run() {
   }
