@@ -1,6 +1,6 @@
 package controller;
 
-public class MedicAnt implements Ant {
+public class MedicAnt extends Ant {
   public MedicAnt(AntData data) {
     this.data = data;
   }
