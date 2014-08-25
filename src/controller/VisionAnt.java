@@ -1,6 +1,6 @@
 package controller;
 
-public class VisionAnt implements Ant {
+public class VisionAnt extends Ant {
   public VisionAnt(AntData data) {
     this.data = data;
   }
