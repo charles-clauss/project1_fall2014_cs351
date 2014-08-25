@@ -1,7 +1,8 @@
 package controller;
 
 public class MedicAnt implements Ant {
-  public MedicAnt() {
+  public MedicAnt(AntData data) {
+    this.data = data;
   }
   public void run() {
   }
