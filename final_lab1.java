@@ -1,4 +1,4 @@
-package cs351lab1;
+
 
 import java.io.BufferedReader;
 import java.io.Reader;
@@ -15,14 +15,14 @@ import java.net.MalformedURLException;
 * finding the shortest path in a best first search manner, and
 * outputting the path to the terminal along with its cost.
 */
-public class Astar {
+public class final_lab1 {
   public static int[][] map = new int[30][28];
   public static int startx;
   public static int starty;
   public static int finishx;
   public static int finishy;
 
-  public Astar() {
+  public final_lab1() {
   }
 
   /**
@@ -190,7 +190,7 @@ public class Astar {
   }
 
   public static void main(String[] args) {
-    Astar star = new Astar();
+    final_lab1 star = new final_lab1();
     try {
       star.readMap();
     } catch(IOException e) {
@@ -222,7 +222,7 @@ class MapData {
     this.x = x;
     this.y = y;
     this.pathCost = pathCost;
-    this.fullCost = Astar.cost(x, y, pathCost);
+    this.fullCost = final_lab1.cost(x, y, pathCost);
   }
   /**
   * Constructs a MapData object with a reference to the
@@ -239,7 +239,7 @@ class MapData {
     this.x = x;
     this.y = y;
     this.pathCost = pathCost;
-    this.fullCost = Astar.cost(x, y, pathCost);
+    this.fullCost = final_lab1.cost(x, y, pathCost);
     this.origin = origin;
   }
   public int getX() { return this.x; }
@@ -269,7 +269,7 @@ class MapData {
 * Provides the parameter of interest to be used
 * for comparison in the priority queue that is
 * used to implement the Astar algorithm.
-* @see Astar
+* @see final_lab1
 */
 class SortMapData implements Comparator<MapData> {
   public int compare(MapData a, MapData b) {
