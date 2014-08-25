@@ -1,4 +1,4 @@
-package astar;
+package gamesate;
 
 /**
  * Generic methods for tuples, mostly used as a 
