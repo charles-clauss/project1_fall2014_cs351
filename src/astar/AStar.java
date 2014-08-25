@@ -23,10 +23,10 @@ public class AStar {
 	 *         reach the goal as cheaply as possible.
 	 */
 	public String shortestPath() {
-		Map start = new Map(startx, starty, map[starty][startx]);
-		Map visit;
-		Comparator<Map> compare = new SortMapData();
-		PriorityQueue<Map> pq = new PriorityQueue<Map>(25, compare);
+		GameMap start = new GameMap(startx, starty, map[starty][startx]);
+		GameMap visit;
+		Comparator<GameMap> compare = new SortMapData();
+		PriorityQueue<GameMap> pq = new PriorityQueue<GameMap>(25, compare);
 		int visitx;
 		int visity;
 		int westx;
@@ -34,7 +34,7 @@ public class AStar {
 		int southy;
 		int northy;
 		pq.add(start);
-		ArrayList<Map> visited = new ArrayList<Map>();
+		ArrayList<GameMap> visited = new ArrayList<GameMap>();
 		while ((visit = pq.poll()) != null) {
 			visited.add(visit);
 			visitx = visit.getX();
@@ -47,28 +47,28 @@ public class AStar {
 			southy = visity + 1;
 			northy = visity - 1;
 			if (westx >= 0) {
-				Map westNeighbor = new Map(westx, visity, visit.getPathCost()
+				GameMap westNeighbor = new GameMap(westx, visity, visit.getPathCost()
 						+ map[visity][westx], visit);
 				if (!visited.contains(westNeighbor)) {
 					pq.add(westNeighbor);
 				}
 			}
 			if (eastx < map[0].length) {
-				Map eastNeighbor = new Map(eastx, visity, visit.getPathCost()
+				GameMap eastNeighbor = new GameMap(eastx, visity, visit.getPathCost()
 						+ map[visity][eastx], visit);
 				if (!visited.contains(eastNeighbor)) {
 					pq.add(eastNeighbor);
 				}
 			}
 			if (southy < map.length) {
-				Map southNeighbor = new Map(visitx, southy, visit.getPathCost()
+				GameMap southNeighbor = new GameMap(visitx, southy, visit.getPathCost()
 						+ map[southy][visitx], visit);
 				if (!visited.contains(southNeighbor)) {
 					pq.add(southNeighbor);
 				}
 			}
 			if (northy >= 0) {
-				Map northNeighbor = new Map(visitx, northy, visit.getPathCost()
+				GameMap northNeighbor = new GameMap(visitx, northy, visit.getPathCost()
 						+ map[northy][visitx], visit);
 				if (!visited.contains(northNeighbor)) {
 					pq.add(northNeighbor);
@@ -84,9 +84,9 @@ public class AStar {
 	 * 
 	 * @return The list of moves to reach the finish from the start.
 	 */
-	public String constructPath(Map finish) {
-		Map previous = finish;
-		Map current = finish.getOrigin();
+	public String constructPath(GameMap finish) {
+		GameMap previous = finish;
+		GameMap current = finish.getOrigin();
 		String path = "";
 		while (current != null) {
 			/*
@@ -111,7 +111,7 @@ public class AStar {
 	 * @return A single character string of L, R, D, or U.
 	 * @see constructPath
 	 */
-	public String pathHelper(Map a, Map b) {
+	public String pathHelper(GameMap a, GameMap b) {
 		if ((a.getX() - b.getX()) == 1) {
 			return "L";
 		}
