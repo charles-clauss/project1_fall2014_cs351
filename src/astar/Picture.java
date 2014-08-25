@@ -391,7 +391,8 @@ public class Picture extends JFrame implements ComponentListener
   
   public static void main(String[] args)
   { new Picture();
-    new Picture("Smaug.gif");
+  	String path = new String("../clientPack/AntWorld.png");
+    new Picture();
   }
   
   
