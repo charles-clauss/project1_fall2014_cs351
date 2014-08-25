@@ -1,4 +1,5 @@
 package astar;
+import clientPack.antworld.data.*;
 
 /**
  * I'm still wrangling with how this should
@@ -16,7 +17,11 @@ public class Graph {
 
 	Graph(){
 	}
-
+	
+	void readPic(Picture pic){
+		
+		
+	}
 
 
 }
