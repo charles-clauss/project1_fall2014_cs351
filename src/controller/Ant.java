@@ -1,5 +1,5 @@
 package controller;
 
-public interface Ant extends Runnable {
-
+public abstract class Ant implements Runnable {
+  protected AntData data;
 }
