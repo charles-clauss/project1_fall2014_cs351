@@ -5,7 +5,7 @@ import clientPack.antworld.data.*;
 public class AntFactory {
   public AntFactory() {
   }
-  public Ant makeAnt(AntData data) {
+  public static Ant makeant(AntData data) {
     switch(data.antType) {
       case DEFENCE:
         return new DefenceAnt(data);

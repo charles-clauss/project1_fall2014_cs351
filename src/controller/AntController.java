@@ -4,13 +4,21 @@ import java.util.concurrent.*;
 import clientPack.antworld.data.*;
 
 public class AntController {
-  ExecutorService exec = Executors.newFixedThreadPool(4);
-  AntFactory af = new AntFactory();
-  CommData cd = new CommData(NestNameEnum.WOOD, TeamNameEnum.Antithesis);
+  private ExecutorService exec = Executors.newFixedThreadPool(4);
+  private CommData cd = new CommData(NestNameEnum.WOOD, TeamNameEnum.Antithesis);
 
-  for(AntData data : cd.myAntList) {
-    exec.submit(new af.makeAnt(data));
+  public AntController() {
+    initialize(cd);
   }
-  exec.shutdown();
-  while(!exec.isTerminated()) {}
+  
+  public void initialize(CommData data) {
+  }
+  
+  public void dispatchThreads() {
+    for(AntData data : cd.myAntList) {
+      exec.submit(AntFactory.makeant(data));
+    }
+    exec.shutdown();
+    while(!exec.isTerminated()) {}
+  }
 }
