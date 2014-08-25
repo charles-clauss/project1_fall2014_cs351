@@ -1,4 +1,4 @@
-package astar;
+package gamesate;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
