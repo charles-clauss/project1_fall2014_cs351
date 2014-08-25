@@ -1,26 +1,26 @@
 package controller;
 
-import clientPack.antworld.data.AntType;
+import clientPack.antworld.data.*;
 
 public class AntFactory {
   public AntFactory() {
   }
-  public Ant makeAnt(AntType type) {
-    switch(type) {
+  public Ant makeAnt(AntData data) {
+    switch(data.antType) {
       case DEFENCE:
-        return new DefenceAnt();
+        return new DefenceAnt(data);
       case ATTACK:
-        return new AttackAnt();
+        return new AttackAnt(data);
       case SPEED:
-        return new SpeedAnt();
+        return new SpeedAnt(data);
       case VISION:
-        return new VisionAnt();
+        return new VisionAnt(data);
       case CARRY:
-        return new CarryAnt();
+        return new CarryAnt(data);
       case MEDIC:
-        return new MedicAnt();
+        return new MedicAnt(data);
       default:
-        return new BasicAnt();
+        return new BasicAnt(data);
     }
   }
 }
