@@ -1,6 +1,6 @@
 package controller;
 
-public class DefenceAnt implements Ant {
+public class DefenceAnt extends Ant {
   public DefenceAnt(AntData data) {
     this.data = data;
   }
