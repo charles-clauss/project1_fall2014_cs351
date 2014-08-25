@@ -1,4 +1,4 @@
-package astar;
+package gamesate;
 import clientPack.antworld.data.*;
 
 /**

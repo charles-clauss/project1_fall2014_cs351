@@ -1,4 +1,4 @@
-package astar;
+package gamesate;
 
 /*
  * Node will be the generic Node that is passed to us?

@@ -1,6 +1,8 @@
-package astar;
+package gamesate;
 
 import java.util.Comparator;
+
+import astar.AStar;
 
 
 /*
@@ -11,7 +13,7 @@ import java.util.Comparator;
  * to hold / count, shorts won't cut it. may have memory issues? 
  *
  */
-class GameMap {
+public class GameMap {
 	protected final int x;
 	protected final int y;
 	protected int pathCost;
