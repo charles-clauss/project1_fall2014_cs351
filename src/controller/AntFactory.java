@@ -3,7 +3,7 @@ package controller;
 import clientPack.antworld.data.AntType;
 
 public class AntFactory {
-  public Ant makeAnt(AntType type) {
+  public static Ant makeAnt(AntType type) {
     switch(type) {
       case DEFENCE:
         return new DefenceAnt();

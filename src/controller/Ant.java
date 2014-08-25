@@ -1,5 +1,5 @@
 package controller;
 
-public interface Ant {
+public interface Ant extends Runnable {
 
 }
