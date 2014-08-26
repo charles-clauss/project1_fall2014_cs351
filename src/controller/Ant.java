@@ -1,20 +1,29 @@
 package controller;
 
 import java.util.ArrayDeque;
+import astar.Vertex;
 import clientPack.antworld.data.*;
 
+//Make this extend an Observer class that can be notified
+//by a global event handler that holds game state
 public abstract class Ant implements Runnable {
   protected AntData data;
+  protected Vertex position;
   protected int queueCap = 10;
   protected ArrayDeque<AntAction> actions;
   public Ant() {
     actions = new ArrayDeque<AntAction>(queueCap);
   }
   public AntAction getNextAction() {
-	return actions.poll();
+	if(!actions.isEmpty()) {
+	  return actions.poll();
+	}
+	else return new AntAction(AntAction.AntActionType.STASIS);
   }
-  public void findPath(int x, int y) {
-	//Use astar to retrieve a path and create an action list
+  public void findPath() {
+	//Need to be able to tell astar what your current goal is
+	//only call when about to run out of actions to perform
+	//or some other event occurred
   }
   public void goToNest() {
     //Find closest nest point and get a path there
