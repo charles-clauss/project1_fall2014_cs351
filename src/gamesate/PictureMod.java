@@ -15,13 +15,14 @@ public class PictureMod {
 	 * @param y
 	 * @return
 	 */
-	public int[] getPixelVal(Picture pic, int x, int y){
+	public List getPixelVal(Picture pic, int x, int y){
 		int red = pic.getRed(x, y);
 		int green = pic.getGreen(x,y);
 		int blue = pic.getBlue(x, y);
-		int pixarray[] = {red, green, blue};  
+		List pixels = new List();
+		pixels.add(red,green,blue);
 		
-		return pixarray;
+		return pixels;
 	}
 	
 	/**
@@ -51,6 +52,7 @@ public class PictureMod {
 		System.out.println("red = " + red);
 		System.out.println("green = " + green);
 		
+		System.out.println(getPixelVal(pic, 10,10));
 		
 		
 		
