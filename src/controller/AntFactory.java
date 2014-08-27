@@ -3,7 +3,7 @@ package controller;
 import clientPack.antworld.data.*;
 
 public class AntFactory {
-  public AntFactory() {
+  private AntFactory() {
   }
   public static Ant makeant(AntData data) {
     switch(data.antType) {

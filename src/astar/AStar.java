@@ -7,14 +7,17 @@ package astar;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import event.Observer;
 
 /**
  * @author agonzales Implements a version of the A* algorithm using a priority
  *         queue. Will change as we get program specs on how the graph is
  *         represented.
  */
-public class AStar {
+public class AStar extends Observer {
 
+	public AStar() {
+	}
 	/**
 	 * Implements the Astar best first search algorithm to find the shortest
 	 * path from the start to the goal.
@@ -127,4 +130,6 @@ public class AStar {
 		return "X";
 	}
 
+  public void update() {
+  }
 }

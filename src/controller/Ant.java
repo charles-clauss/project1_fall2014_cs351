@@ -3,10 +3,11 @@ package controller;
 import java.util.ArrayDeque;
 import astar.Vertex;
 import clientPack.antworld.data.*;
+import event.Observer;
 
 //Make this extend an Observer class that can be notified
 //by a global event handler that holds game state
-public abstract class Ant implements Runnable {
+public abstract class Ant extends Observer implements Runnable {
   protected AntData data;
   protected Vertex position;
   protected int queueCap = 10;
@@ -30,5 +31,7 @@ public abstract class Ant implements Runnable {
   }
   public void heal() {
     //logic to either go to the nest or wait inside the nest
+  }
+  public void update() {
   }
 }
