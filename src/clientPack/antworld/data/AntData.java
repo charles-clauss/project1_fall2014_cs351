@@ -1,7 +1,10 @@
 package clientPack.antworld.data;
 
 import java.io.Serializable;
-import clientPack.antworld.*;
+
+import clientPack.antworld.data.*;
+import clientPack.antworld.data.AntAction.AntActionType;
+
 
 public class AntData implements Comparable<AntData>, Serializable {
   private static final long serialVersionUID = Constants.VERSION;

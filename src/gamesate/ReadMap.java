@@ -1,11 +1,11 @@
-/**
- * 
- */
-package astar;
+package gamesate;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 public class ReadMap {
 
@@ -23,7 +23,15 @@ public class ReadMap {
 	 * @throws IOException
 	 * @throws MalformedURLException
 	 */
-	public void readMapPic() throws IOException, MalformedURLException {
+	public void readMapPic() throws IOException {
+		BufferedImage img = ImageIO.read(new File("../clientPack/Antworld.png")); // Throws IOException
+		int[] pixels = img.getRGB(0,0, img.getWidth(), img.getHeight(), null, 0, img.getWidth());
+
+		// also available through the BufferedImage's Raster, in multiple
+		// formats.
+		// Raster r = img.getData();
+		// int[] pixels = r.getPixels(0,0,r.getWidth(), r.getHeight(),
+		// (int[])null);
 		
 	}
 	
