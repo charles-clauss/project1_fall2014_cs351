@@ -1,126 +1,149 @@
 package gamesate;
+import java.util.*;
 
-/*
- * Node will be the generic Node that is passed to us?
- * Perhaps?
- *
- *
+/**
+ * @author aaron gonzales
+ * The Vertex class provides a Vertex object that contains relevant information 
+ * for our game board. The Vertices will be put into an adjacency list represeentation in the 
+ * Graph class. 
+ * 
  */
-public class Vertex {
-	// counter for number of nodes
-	private static int totalVertex = 0;
-	//weight of the node
-	protected int weight;
-	// all nodes by default are not targets
-	protected boolean isMovable = false;
-	protected boolean isWater = false;
-	protected boolean isTarget = false;
-	protected boolean isFood = false;
-	protected boolean isEnemy = false;
-	protected boolean isFriendly = false;
-	// x and y coordinates
-	protected final int x;
-	protected final int y;
-
-	// 'pointers' to connected nodes
-	Vertex north; 
-	Vertex east;
-	Vertex south;
-	Vertex west;
+class Vertex {
+	private int id;
+	private int x;
+	private int y;
+	private int weight;
+	protected boolean walkable;
+	protected int fullCost;
+	// pointers to the vertices connecting it, may remove these at some point
+	protected Vertex origin = null;
+	protected Vertex up = null;
+	protected Vertex down = null;
+	protected Vertex left = null;
+	protected Vertex right = null;
+	// list of edges for this node
+	List<Vertex> edgeList = new ArrayList<Vertex>();
+	//Iterator it = new edgeList.iterator();
 
 
 	/**
-	 * default const
+	 * Constructor that takes the id, x and y, and walkable
 	 */
-	Vertex (){
-		this.weight = 1;
-		this.isMovable = true;
-		this.isTarget = false;
-		this.isFood = false;
-		this.isEnemy = false;
-		this.isFriendly = false;
-		this.isMovable = true;
-		// x and y uninitialized
-		totalVertex++;
-		this.x = -1;
-		this.y = -1;
+	Vertex(int id, int x, int y, boolean walkable){
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.weight = 0;
+		this.walkable = true;
 	}
 
-	Vertex(int edgeWeight, boolean canMove, boolean Target, 
-			boolean food, boolean enemy, boolean friendly, boolean movable,
-			int xPos, int yPos){
-		if (totalVertex == 0){
-			// set root, upper left??
-			this.north = null;
-			this.west = null;
+	/**
+	 * Constructor that adds the weight to the node 
+	 * may make this the default?
+	 *
+	 */
+	Vertex(int Id, int X, int Y, int Weight, boolean Walkable){
+		this.id = Id;
+		this.x = X;
+		this.y = Y;
+		this.weight = Weight;
+		this.walkable = Walkable;
+	}
+
+	/**
+	 * Constructor that provides the edges for this node in a List<Vertex>
+	 *
+	 */
+	Vertex(int Id, int X, int Y, int Weight, boolean Walkable, List<Vertex> edges){
+		this.id = Id;
+		this.x = X;
+		this.y = Y;
+		this.weight = Weight;
+		this.walkable = Walkable;
+		this.edgeList = edges;
+	}
+
+	// getter and setters
+	public int getId(){
+		return this.id;
+	}
+
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
+
+	public int getWeight() {
+		return this.weight;
+	}
+
+	/**
+	 * will be essential to read game state?
+	 * may re implement another way, perhaps with a 
+	 * few more Booleans, e.g. isFood, isEnemy, etc.
+	 */
+	public void updateWeight(int X) {
+		this.x = X;
+	}
+
+	public boolean getWalkable(){
+		return this.walkable;
+	}
+
+	public void setWalkable(boolean w){
+		this.walkable = w;
+	}
+
+	public List<Vertex> getEdges(){
+		return this.edgeList;
+	}
+
+	/**
+	 * Adds an edge to the object's list
+	 */
+	public void addEdge(Vertex v){
+		this.edgeList.add(v);
+	}
+
+	/**
+	 * @param edges - adds a list of edges to this object's list
+	 */
+	public void addEdges(List<Vertex> edges){
+		for (Vertex e : edges){
+			this.edgeList.add(e);
 		}
-		this.weight = edgeWeight;
-		this.isMovable = canMove;
-		this.isTarget = Target;
-		this.isFood = food;
-		this.isEnemy = enemy;
-		this.isFriendly = friendly;
-		this.isMovable = movable;
-
-		this.x = xPos;
-		this.y = yPos;
-		// x and y uninitialized
-		totalVertex++;
 	}
 
-	// getters
-	int getTotalVertex(){
-		return totalVertex;
+	/**
+	 * Indicates the estimated cost from the start to the finish if this node is
+	 * included in the path.
+	 * 
+	 * @return Returns f(node), where [f(node) = g(node) + h(node)] g being the
+	 *         cost to reach this node, and h being the heuristic that estimates
+	 *         the remaining cost to the finish.
+	 */
+	public int getFullCost() {
+		return this.fullCost;
 	}
 
-	Vertex(int edgeWeight, boolean canMove, boolean Target, 
-			boolean food, boolean enemy, boolean friendly, boolean movable,
-			int xPos, int yPos, int color){
-		this.weight = edgeWeight;
-		this.isMovable = canMove;
-		this.isTarget = Target;
-		this.isFood = food;
-		this.isEnemy = enemy;
-		this.isFriendly = friendly;
-		this.isMovable = movable;
-
-		this.x = xPos;
-		this.y = yPos;
-		// x and y uninitialized
-		totalVertex++;
+	public Vertex getOrigin() {
+		return this.origin;
 	}
 
-	/*
-	private void setParams(String color){
-		switch (color){
-			case 'blue': 
-				isWater = true;
-				break;
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Vertex) {
+			if (((Vertex) o).getX() == this.x && 
+					((Vertex) o).getY() == this.y &&
+					((Vertex) o).getWeight() == this.weight) {
+				return true;
+					}
+		}
+		return false;
+	}
+} // end class 
 
-			case 'black':
-				isNest = true;
-				break;
-			case 'green':
-				weight = 1;
-				break;
-			case 'deepGreen':
-				weight = 2;
-				break;
-			case 'lightGreen':
-				weight = 3;
-				break;
-			case 'otherGreen':
-				weight = 4;
-				break;
-			case 'lightestGreen':
-				weight = 5;
-				break;
-		} //end switch
-
-
-
-	} // end setParams method
-	*/
-
-}//end class
 
