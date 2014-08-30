@@ -25,15 +25,19 @@ public interface GameGraphInterface<V>
    */
   boolean hasEdge(V vertex1, V vertex2);
 
-  List<V> getEdges(V vertex);
-
-  /**
+    /**
    * Returns the line of vertices of the graph.
    */
   ArrayList<V> vertices();
 
   /**
-   * Returns the line adjacency of vertex.
+   * Returns the adjacent vertices of vertex.
    */
   List<V> neighbors(V vertex);
+  
+  /**
+   * 
+   * @return number of vertices contained in this graph
+   */
+  int getTotalVertices();
 }

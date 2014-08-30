@@ -5,7 +5,8 @@ import java.util.*;
 /**
  * @author aaron gonzales The Vertex class provides a Vertex object that
  *         contains relevant information for our game board. The Vertices will
- *         be put into an adjacency list represeentation in the Graph class.
+ *         be put into an adjacency list in the Graph class.
+ * 
  */
 class Vertex
 {
@@ -17,21 +18,19 @@ class Vertex
   protected int fullCost;
   // pointers to the vertices connecting it, may remove these at some point
   protected Vertex origin = null;
-  protected Vertex up = null;
-  protected Vertex down = null;
-  protected Vertex left = null;
-  protected Vertex right = null;
+  protected Vertex north = null;
+  protected Vertex east = null;
+  protected Vertex south = null;
+  protected Vertex west = null;
   // list of edges for this node
   List<Vertex> edgeList = new ArrayList<Vertex>();
-
-  // Iterator it = new edgeList.iterator();
 
   /**
    * Constructor that takes the id, x and y, and walkable
    */
-  Vertex(int id, int x, int y, boolean walkable)
+  Vertex(int Id, int x, int y, boolean walkable)
   {
-    this.id = id;
+    this.id = Id;
     this.x = x;
     this.y = y;
     this.weight = 0;
