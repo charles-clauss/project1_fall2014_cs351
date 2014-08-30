@@ -39,5 +39,5 @@ public interface GameGraphInterface<V>
    * 
    * @return number of vertices contained in this graph
    */
-  int getVertices();
+  int getTotalVertices();
 }
