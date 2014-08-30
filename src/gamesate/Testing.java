@@ -1,50 +1,227 @@
 package gamesate;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.*;
 import java.net.*;
 
-public class Testing
-{
+public class Testing {
 
-  public static void display(Iterator<Vertex> it)
-  {
-    while (it.hasNext())
-    {
-      Vertex p = it.next();
-      System.out.println(p.getId() + " : " + p + " ");
-    }
-  }
+	public static void display(Iterator<Vertex> it) {
+		while (it.hasNext()) {
+			Vertex p = it.next();
+			System.out.println(p.getId() + " : " + p + " ");
+		}
+	}
 
-  public static void main(String[] args) throws MalformedURLException,
-      IOException
-  {
-    Graph myGraph = new Graph();
-    // make vertices
-    Vertex a = new Vertex(1, 0, 0, 1, true);
-    Vertex b = new Vertex(2, 1, 0, 1, true);
-    // Vertex c = new Vertex(3, 2, 0, 3, true);
-    // Vertex d = new Vertex(4, 3, 0, 5, true);
-    // test vertex attribues
-    System.out.println("Vertex a = a: " + a.equals(a));
-    System.out.println("Vertex a = b: " + a.equals(b));
-    System.out.println("Vertex a(x) : " + a.getX());
-    System.out.println("Vertex a(y) : " + a.getY());
-    System.out.println("Vertex a(weight) : " + a.getWeight());
-    System.out.println("Vertex a(walkable) : " + a.getWalkable());
-    System.out.println("Vertex a(id): " + a.getId());
-    System.out.println("Vertex b(id): " + b.getId());
+	public static String bytesToHex(byte[] b) {
+		char hexDigit[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'A', 'B', 'C', 'D', 'E', 'F' };
+		StringBuffer buf = new StringBuffer();
+		for (int j = 0; j < b.length; j++) {
+			buf.append(hexDigit[(b[j] >> 4) & 0x0f]);
+			buf.append(hexDigit[b[j] & 0x0f]);
+		}
+		return buf.toString();
+	}
 
-    // test adding
-    myGraph.addVertex(a);
-    System.out.println("Graph has vertex a: " + myGraph.hasVertex(a));
-    System.out.println("Graph has vertex b: " + myGraph.hasVertex(b));
-    // edges
-    System.out.println("vertex a edges: " + a.getEdges());
-    a.addEdge(b);
-    a.addEdge(a);
-    System.out.println("vertex a edges: " + a.getEdges());
-    System.out.println("Map : " + myGraph.toString());
+	public static int hashCode(int myInteger) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(myInteger);
+		return builder.toString().hashCode();
+	}
 
-  }
+	public static void testVertices() {
+		Vertex a = new Vertex(1, 0, 0, 1, true);
+		Vertex b = new Vertex(2, 1, 0, 1, true);
+		// Vertex c = new Vertex(3, 2, 0, 3, true);
+		// Vertex d = new Vertex(4, 3, 0, 5, true);
+		// test vertex attribues
+		System.out.println("Vertex a = a: " + a.equals(a));
+		System.out.println("Vertex a = b: " + a.equals(b));
+		System.out.println("Vertex a(x) : " + a.getX());
+		System.out.println("Vertex a(y) : " + a.getY());
+		System.out.println("Vertex a(weight) : " + a.getWeight());
+		System.out.println("Vertex a(walkable) : " + a.getWalkable());
+		System.out.println("Vertex a(id): " + a.getId());
+		System.out.println("Vertex b(id): " + b.getId());
+
+		// edges
+		System.out.println("vertex a edges: " + a.getEdges());
+		a.addEdge(b);
+		a.addEdge(a);
+		System.out.println("vertex a edges: " + a.getEdges().size());
+
+	}
+
+	public static Graph testGraph() {
+		Graph myGraph = new Graph();
+		System.out.println("now testing the graph");
+
+		// make vertices
+		Vertex a = new Vertex(1, 0, 0, 1, true);
+		Vertex b = new Vertex(2, 1, 0, 1, true);
+		Vertex c = new Vertex(3, 2, 0, 1, true);
+		Vertex d = new Vertex(4, 3, 0, 1, true);
+		
+		a.addEdge(b);
+		b.addEdge(a);
+		c.addEdge(d);
+		d.addEdge(a);
+		b.addEdge(d);
+		b.addEdge(c);
+		
+		// test adding
+		myGraph.addVertex(a);
+		myGraph.addVertex(b);
+		myGraph.addVertex(c);
+		myGraph.addVertex(d);
+		// System.out.println("Graph has vertex a: " + myGraph.hasVertex(a));
+		// System.out.println("Graph has vertex b: " + myGraph.hasVertex(b));
+
+		// System.out.println("Map : " + myGraph.toString());
+
+		System.out.println("Map values to follow");
+		System.out.println("Map = " + myGraph.gameMap);
+
+		for (Integer key : myGraph.gameMap.keySet()) {
+			System.out.println(key);
+		}
+		for (Map.Entry<Integer, List<Vertex>> entry : myGraph.gameMap
+				.entrySet()) {
+			
+			int key = entry.getKey();
+			List<Vertex> value = entry.getValue();
+			
+			System.out.print("key: " + key + " | ");
+			System.out.println("value: " + value);
+		}
+		
+		Vertex not = new Vertex(-1, 0, 0, 0, true);
+		//Iterator<Integer> it = myGraph.gameMap.iterator();
+		System.out.println(myGraph.hasVertex(a));
+		System.out.println(myGraph.hasVertex(b));
+		System.out.println(myGraph.hasVertex(not));
+		
+		System.out.println("Hasedge: " + myGraph.hasEdge(a, b));
+		System.out.println("Map = " + myGraph.gameMap);
+		System.out.println("GetNeightbors: " + myGraph.neighbors(b));
+
+		
+		return myGraph;
+	}
+	
+	public static void makeEdges(Graph graph){
+		
+	}
+	
+	public static Graph makeBigGraph(int x, int y){
+		//Random rand = new Random();
+		Graph graph = new Graph();
+		Vertex[][] vertArray = new Vertex[x][y];
+		int id = 0;
+		for (int i = 0; i < vertArray.length; i++)
+		{
+			  for(int j = 0; j < vertArray[i].length; j++){
+				  id++;
+
+				  System.out.println("Coordinates: " + i + "," + j);
+				  System.out.println("ID =         " + id);
+				  // = i * j + Math.abs(rand.nextInt());
+				  //System.out.println( );
+				  vertArray[i][j] = new Vertex(id, i, j, true);
+			  }
+			id++;
+		}
+		/*
+		System.out.println(vertArray[x-x][y-y].getId());
+		System.out.println(vertArray[x-x][y-y].getEdges());
+		System.out.println(vertArray[x-x][y-y].getX());
+		
+		System.out.println(vertArray[x-1][y-1].getId());
+		System.out.println(vertArray[x-1][y-1].getEdges());
+		System.out.println(vertArray[x-1][y-1].getX());
+		*/
+		int col = 0;
+		for (int row = 0; row < vertArray.length; row++)
+		{
+			  while (col < vertArray[row].length ){
+
+				  // assign north - 
+				  if (row == 0){
+					  vertArray[row][col].north = null;
+				  }
+				  else {
+					  vertArray[row][col].north = vertArray[row-1][col];
+				  }
+				  
+				  // assign south
+				  if ( row == (vertArray.length -1) ){
+					  vertArray[row][col].south = null;
+				  }
+				  else {
+					  vertArray[row][col].south = vertArray[row+1][col].south;
+				  }
+				  
+				  // assign east
+				  if ( col == (vertArray[row].length -1) ){
+					  vertArray[row][col].east = null;
+				  }
+				  else {
+					  vertArray[row][col].east = vertArray[row][col+1];
+				  }
+				  // assign west
+				  if ( col == 0){
+					  vertArray[row][col].east = null;
+				  }
+				  else {
+					  vertArray[row][col].east = vertArray[row][col-1];
+				  }
+				  
+				  // test print
+				  //System.out.println(vertArray[row][col].getId());
+				  //if (vertArray[row][col].south == null){
+				//	  System.out.println("null");
+				  //}
+				  //else {
+				  
+				//  System.out.println(vertArray[row][col].south.getId());
+				 // }
+				  
+				  List<Vertex> tmpEdges = new ArrayList<Vertex>();
+				  tmpEdges.add(vertArray[row][col].north);
+				  tmpEdges.add(vertArray[row][col].east);
+				  tmpEdges.add(vertArray[row][col].south);
+				  tmpEdges.add(vertArray[row][col].west);
+				  vertArray[row][col].addEdges(tmpEdges);
+				  // graph.addVertex();
+				  tmpEdges.clear();
+				  				  
+				  col++;
+
+			  }
+			  col = 0;
+			  System.out.println(vertArray[row][col].getEdges());
+			  System.out.println(vertArray[row][col].north);
+			  System.out.println(vertArray[row][col].east);
+			  System.out.println(vertArray[row][col].south);
+			  System.out.println(vertArray[row][col].west);
+
+		}
+		
+		return graph;
+
+		
+	}
+	
+	public static void main(String[] args) throws MalformedURLException,
+			IOException, NoSuchAlgorithmException {
+		//testVertices();
+		//Graph testGraph = testGraph();
+		//makeEdges(testGraph);
+		Graph newGraph = makeBigGraph(2,2);
+		System.out.println(newGraph);
+		
+	}
 }
