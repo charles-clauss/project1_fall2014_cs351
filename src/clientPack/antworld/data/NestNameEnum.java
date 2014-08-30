@@ -1,4 +1,4 @@
-package clientPack.antworld.data;
+package antworld.data;
 
 public enum NestNameEnum
 {
@@ -10,6 +10,8 @@ public enum NestNameEnum
   ROVER,        NEEDLE,       TURTLE,         ACROBAT,           FUNGUS_GROWING, 
   CONE,         FORELIUS,     THATCH,         GUEST,             HYPOPONERA,
   LASIUS,       LEPTOGENYS,   LEPTOTHORAX,    VELVETY_TREE,      MYRMICA,
-  TIGER,        OCHETELLUS,   PROCERATIUM,    STIGMA,            DRACULA,
-  TAPINOMA,     WHITE_FOOTED, ACORN,          XENOMYRMEX,        WINTER 
+  TIGER,        OCHETELLUS,   STIGMA,         DRACULA,           ACORN,
+  WHITE_FOOTED;
+  
+  public static final int SIZE = values().length;
 }

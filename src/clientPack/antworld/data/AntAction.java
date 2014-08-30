@@ -1,7 +1,10 @@
-package clientPack.antworld.data;
+package antworld.data;
 
-public class AntAction
+import java.io.Serializable;
+
+public class AntAction implements Serializable
 {
+  private static final long serialVersionUID = Constants.VERSION;
   public enum AntActionType 
   { MOVE,       // MOVE direction
     ATTACK,     // ATTACK direction
@@ -14,8 +17,6 @@ public class AntAction
     DIED,       // 
     STASIS      // STASIS
   }; 
-  
-  public static AntAction STASIS = new AntAction(AntActionType.STASIS);
   
   public AntActionType type;
   public Direction direction;
@@ -51,9 +52,18 @@ public class AntAction
     this.y = y;
   }
   
+  public void copyFrom(AntAction source)
+  {
+    type = source.type;
+    direction = source.direction;
+    x = source.x;
+    y = source.y;
+    quantity = source.quantity;
+  }
+  
   public String toString()
   {
-    String out = "AntAction: [type="+type+", ";
+    String out = "AntAction: ["+type+", ";
     if (type == AntActionType.MOVE) out += direction +"]";
     else if (type == AntActionType.ATTACK) out += direction +"]";
     else if (type == AntActionType.PICKUP) out += direction +" quentity="+quantity+"]";

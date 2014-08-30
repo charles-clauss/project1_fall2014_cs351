@@ -1,5 +1,6 @@
 package event;
 
-public class ExploreEvent extends GameEvent {
+public class ExploreEvent extends GameEvent
+{
 
 }

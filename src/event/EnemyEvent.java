@@ -1,5 +1,6 @@
 package event;
 
-public class EnemyEvent extends GameEvent {
+public class EnemyEvent extends GameEvent
+{
 
 }
