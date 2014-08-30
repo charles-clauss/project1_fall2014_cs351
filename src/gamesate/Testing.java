@@ -3,6 +3,7 @@ package gamesate;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.Map.Entry;
 import java.io.*;
 import java.net.*;
 
@@ -57,21 +58,22 @@ public class Testing {
 
 	public static Graph testGraph() {
 		Graph myGraph = new Graph();
-		System.out.println("now testing the graph");
+		System.out
+				.println("****************now testing the handmade graph****************");
 
 		// make vertices
 		Vertex a = new Vertex(1, 0, 0, 1, true);
 		Vertex b = new Vertex(2, 1, 0, 1, true);
 		Vertex c = new Vertex(3, 2, 0, 1, true);
 		Vertex d = new Vertex(4, 3, 0, 1, true);
-		
+
 		a.addEdge(b);
 		b.addEdge(a);
 		c.addEdge(d);
 		d.addEdge(a);
 		b.addEdge(d);
 		b.addEdge(c);
-		
+
 		// test adding
 		myGraph.addVertex(a);
 		myGraph.addVertex(b);
@@ -85,143 +87,234 @@ public class Testing {
 		System.out.println("Map values to follow");
 		System.out.println("Map = " + myGraph.gameMap);
 
-		for (Integer key : myGraph.gameMap.keySet()) {
+		for (Vertex key : myGraph.gameMap.keySet()) {
 			System.out.println(key);
 		}
-		for (Map.Entry<Integer, List<Vertex>> entry : myGraph.gameMap
-				.entrySet()) {
-			
-			int key = entry.getKey();
+		for (Entry<Vertex, List<Vertex>> entry : myGraph.gameMap.entrySet()) {
+
+			Vertex key = entry.getKey();
 			List<Vertex> value = entry.getValue();
-			
+
 			System.out.print("key: " + key + " | ");
 			System.out.println("value: " + value);
 		}
-		
+
 		Vertex not = new Vertex(-1, 0, 0, 0, true);
-		//Iterator<Integer> it = myGraph.gameMap.iterator();
+		// Iterator<Integer> it = myGraph.gameMap.iterator();
 		System.out.println(myGraph.hasVertex(a));
 		System.out.println(myGraph.hasVertex(b));
 		System.out.println(myGraph.hasVertex(not));
-		
+
 		System.out.println("Hasedge: " + myGraph.hasEdge(a, b));
 		System.out.println("Map = " + myGraph.gameMap);
 		System.out.println("GetNeightbors: " + myGraph.neighbors(b));
+		System.out.println("GetVertices: " + myGraph.getVertices());
 
-		
 		return myGraph;
 	}
-	
-	public static void makeEdges(Graph graph){
-		
-	}
-	
-	public static Graph makeBigGraph(int x, int y){
-		//Random rand = new Random();
+
+	public static Graph makeBigGraph(int x, int y) {
+		// Random rand = new Random();
+		System.out.println("****************now testing the graph****************");
 		Graph graph = new Graph();
 		Vertex[][] vertArray = new Vertex[x][y];
 		int id = 0;
-		for (int i = 0; i < vertArray.length; i++)
-		{
-			  for(int j = 0; j < vertArray[i].length; j++){
-				  id++;
+		for (int i = 0; i < vertArray.length; i++) {
+			for (int j = 0; j < vertArray[i].length; j++) {
+				id++;
 
-				  System.out.println("Coordinates: " + i + "," + j);
-				  System.out.println("ID =         " + id);
-				  // = i * j + Math.abs(rand.nextInt());
-				  //System.out.println( );
-				  vertArray[i][j] = new Vertex(id, i, j, true);
-			  }
+				System.out.println("Coordinates: " + i + "," + j);
+				System.out.println("ID =         " + id);
+				// = i * j + Math.abs(rand.nextInt());
+				// System.out.println( );
+				vertArray[i][j] = new Vertex(id, i, j, true);
+				List<Vertex> empty = new ArrayList<Vertex>();
+				graph.addVertex(vertArray[i][j], empty);
+			}
 			id++;
 		}
 		/*
-		System.out.println(vertArray[x-x][y-y].getId());
-		System.out.println(vertArray[x-x][y-y].getEdges());
-		System.out.println(vertArray[x-x][y-y].getX());
-		
-		System.out.println(vertArray[x-1][y-1].getId());
-		System.out.println(vertArray[x-1][y-1].getEdges());
-		System.out.println(vertArray[x-1][y-1].getX());
-		*/
+		 * System.out.println(vertArray[x-x][y-y].getId());
+		 * System.out.println(vertArray[x-x][y-y].getEdges());
+		 * System.out.println(vertArray[x-x][y-y].getX());
+		 * 
+		 * System.out.println(vertArray[x-1][y-1].getId());
+		 * System.out.println(vertArray[x-1][y-1].getEdges());
+		 * System.out.println(vertArray[x-1][y-1].getX());
+		 */
 		int col = 0;
-		for (int row = 0; row < vertArray.length; row++)
-		{
-			  while (col < vertArray[row].length ){
+		for (int row = 0; row < vertArray.length; row++) {
+			System.out.println("Initializing row " + row + " of the vertices");
+			while (col < vertArray[row].length) {
 
-				  // assign north - 
-				  if (row == 0){
-					  vertArray[row][col].north = null;
-				  }
-				  else {
-					  vertArray[row][col].north = vertArray[row-1][col];
-				  }
-				  
-				  // assign south
-				  if ( row == (vertArray.length -1) ){
-					  vertArray[row][col].south = null;
-				  }
-				  else {
-					  vertArray[row][col].south = vertArray[row+1][col].south;
-				  }
-				  
-				  // assign east
-				  if ( col == (vertArray[row].length -1) ){
-					  vertArray[row][col].east = null;
-				  }
-				  else {
-					  vertArray[row][col].east = vertArray[row][col+1];
-				  }
-				  // assign west
-				  if ( col == 0){
-					  vertArray[row][col].east = null;
-				  }
-				  else {
-					  vertArray[row][col].east = vertArray[row][col-1];
-				  }
-				  
-				  // test print
-				  //System.out.println(vertArray[row][col].getId());
-				  //if (vertArray[row][col].south == null){
-				//	  System.out.println("null");
-				  //}
-				  //else {
-				  
-				//  System.out.println(vertArray[row][col].south.getId());
-				 // }
-				  
-				  List<Vertex> tmpEdges = new ArrayList<Vertex>();
-				  tmpEdges.add(vertArray[row][col].north);
-				  tmpEdges.add(vertArray[row][col].east);
-				  tmpEdges.add(vertArray[row][col].south);
-				  tmpEdges.add(vertArray[row][col].west);
-				  vertArray[row][col].addEdges(tmpEdges);
-				  // graph.addVertex();
-				  tmpEdges.clear();
-				  				  
-				  col++;
+				// assign north -
+				if (row == 0) {
+					vertArray[row][col].north = null;
+					System.out.println("Null!" + vertArray[row][col].north);
 
-			  }
-			  col = 0;
-			  System.out.println(vertArray[row][col].getEdges());
-			  System.out.println(vertArray[row][col].north);
-			  System.out.println(vertArray[row][col].east);
-			  System.out.println(vertArray[row][col].south);
-			  System.out.println(vertArray[row][col].west);
+				} else {
+					vertArray[row][col].north = vertArray[row - 1][col];
+					System.out.println("NotNull!" + vertArray[row][col].north);
+				}
+
+				// assign south
+				if (row == (vertArray.length - 1)) {
+					vertArray[row][col].south = null;
+					System.out.println("Null!" + vertArray[row][col].north);
+
+				} else {
+					vertArray[row][col].south = vertArray[row + 1][col].south;
+					System.out.println("NotNull!" + vertArray[row][col].north);
+
+				}
+
+				// assign east
+				if (col == (vertArray[row].length - 1)) {
+					vertArray[row][col].east = null;
+					System.out.println("Null!" + vertArray[row][col].north);
+					
+
+				} else {
+					vertArray[row][col].east = vertArray[row][col + 1];
+					System.out.println("NotNull!" + vertArray[row][col].north);
+
+				}
+				// assign west
+				if (col == 0) {
+					vertArray[row][col].east = null;
+					System.out.println("Null!" + vertArray[row][col].north);
+					System.out.println("NotNull!" + vertArray[row][col].north);
+
+
+				} else {
+					vertArray[row][col].east = vertArray[row][col - 1];
+				}
+
+				// test print
+				// System.out.println(vertArray[row][col].getId());
+				// if (vertArray[row][col].south == null){
+				// System.out.println("null");
+				// }
+				// else {
+
+				// System.out.println(vertArray[row][col].south.getId());
+				// }
+
+				List<Vertex> tmpEdges = new ArrayList<Vertex>();
+				tmpEdges.add(vertArray[row][col].north);
+				tmpEdges.add(vertArray[row][col].east);
+				tmpEdges.add(vertArray[row][col].south);
+				tmpEdges.add(vertArray[row][col].west);
+				vertArray[row][col].addEdges(tmpEdges);
+				// graph.addVertex();
+				// tmpEdges.clear();
+
+				graph.addVertex(vertArray[row][col]);
+
+				col++;
+
+			}
+			col = 0;
+			System.out.println(vertArray[row][col].getEdges());
+			System.out.println(vertArray[row][col].north);
+			System.out.println(vertArray[row][col].east);
+			System.out.println(vertArray[row][col].south);
+			System.out.println(vertArray[row][col].west);
 
 		}
-		
+
 		return graph;
 
-		
 	}
 	
+	public static Graph makeBigGraph2(int x, int y) {
+		
+		System.out.println("****************now testing the graph****************");
+		Graph graph = new Graph();
+		Vertex[][] vertArray = new Vertex[x][y];
+		int id = 0;
+		for (int i = 0; i < vertArray.length; i++) {
+			for (int j = 0; j < vertArray[i].length; j++) {
+				id++;
+
+				System.out.println("Coordinates: " + i + "," + j);
+				System.out.println("ID =         " + id);
+				// = i * j + Math.abs(rand.nextInt());
+				// System.out.println( );
+				vertArray[i][j] = new Vertex(id, i, j, true);
+				List<Vertex> empty = new ArrayList<Vertex>();
+				graph.addVertex(vertArray[i][j], empty);
+			}
+			id++;
+		}
+		
+		int col = 0;
+		for (int row = 0; row < vertArray.length; row++) {
+			System.out.println("Initializing row " + row + " of the vertices");
+			while (col < vertArray[row].length) {
+
+				// assign north -
+				if (row == 0) {
+					vertArray[row][col].north = null;
+					System.out.println("North Null!" + vertArray[row][col].north);
+
+				} else {
+					graph.addEdge(vertArray[row][col], vertArray[row - 1][col]);
+					System.out.println("North NotNull!");
+				}
+
+				// assign south
+				if (row == (vertArray.length - 1)) {
+					vertArray[row][col].south = null;
+					System.out.println("South Null!" + vertArray[row][col].north);
+
+				} else {
+					graph.addEdge(vertArray[row][col], vertArray[row + 1][col]);
+					System.out.println("South NotNull!" + vertArray[row][col].north);
+
+				}
+
+				// assign east
+				if (col == (vertArray[row].length - 1)) {
+					vertArray[row][col].east = null;
+					System.out.println("East Null!" + vertArray[row][col].north);
+					
+
+				} else {
+					graph.addEdge(vertArray[row][col], vertArray[row][col + 1]);
+					System.out.println("East NotNull!" + vertArray[row][col].north);
+
+				}
+				// assign west
+				if (col == 0) {
+					vertArray[row][col].east = null;
+					System.out.println("East Null!" + vertArray[row][col].north);
+				} else {
+					graph.addEdge(vertArray[row][col], vertArray[row][col - 1]);
+					System.out.println("East NotNull!" + vertArray[row][col].north);
+				}
+				System.out.println(graph.getVertices());
+
+				//////////// do not touch this ////////
+				col++;
+				////////// do not touch this ////////
+			}
+			col = 0;
+			System.out.println("Neighbor test " + graph.neighbors(vertArray[row][col]));
+
+		}
+
+		return graph;
+
+	}
+
 	public static void main(String[] args) throws MalformedURLException,
 			IOException, NoSuchAlgorithmException {
-		//testVertices();
-		//Graph testGraph = testGraph();
-		//makeEdges(testGraph);
-		Graph newGraph = makeBigGraph(2,2);
-		System.out.println(newGraph);
-		
+		testVertices();
+		Graph testGraph = testGraph();
+		// makeEdges(testGraph);
+		Graph newGraph = makeBigGraph2(2, 2);
+		System.out.println(newGraph.gameMap);
+
 	}
 }
