@@ -6,8 +6,8 @@ import java.net.UnknownHostException;
 
 public class ClientSocket extends Socket
 {
-  private static final String HOST = "We don't have host info yet.";
-  private static final int PORT = 0;
+  private static final String HOST = "127.0.0.1";
+  private static final int PORT = 12321;
   public ClientSocket() throws UnknownHostException, IOException
   {
     super(HOST, PORT);

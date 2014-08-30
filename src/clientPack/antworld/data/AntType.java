@@ -1,4 +1,5 @@
-package clientPack.antworld.data;
+package antworld.data;
+
 
 public enum AntType
 {
@@ -43,11 +44,11 @@ public enum AntType
   public int getMaxHealth() {return 20;}
   public int getMaxAttackDamage() {return 6;} //actual damage is 1 through getMaxAttackDamage()
   public double getAttritionDamageProbability() {return 0.0001;}
-  public int getBaseMovementTicksPerCell() {return 4;}
-  public int getUpHillMultiplier() {return 2;}
+  public int getBaseMovementTicksPerCell() {return 2;}
+  public int getUpHillMultiplier() {return 5;}
   public int getHalfEncumbranceMultiplier() {return 2;}
   
-  public int getVisionRadius() {return 40;}
+  public int getVisionRadius() {return 30;}
   public int getCarryCapacity() {return 50;}
   public int getFoodUnitsOfDeadBody() {return 5;}
   public int getHealPointsPerWaterUnit() {return 1;}

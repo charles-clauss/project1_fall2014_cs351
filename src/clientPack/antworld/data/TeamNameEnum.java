@@ -1,27 +1,27 @@
-package clientPack.antworld.data;
+package antworld.data;
 
 public enum TeamNameEnum
 {
-  NONE, LUKONIAN_NEAR_BRAINLESS_BOTS, 
-  AlkaliMuhly, 
-  Antithesis,
-  Aster,
-  BlackGrama,
-  Bluestem,
-  Bromegrass,
-  Buffalograss,
-  Canarygrass,
-  Daisy,
-  Dandelion,
-  GiantDropseed,
+  NEARLY_BRAINLESS_BOTS, 
   IndianRicegrass,
-  MesaDropseed,
-  Milkweed,
-  Onion,
+  BlueGrama,
   SandDropseed,
-  SandLily,
-  Seealis,
   SpikeDropseed,
+  MesaDropseed,
+  Lovegrass,
+  AlkaliMuhly,
+  Toothachegrass,
+  Buffalograss,
+  Bromegrass,
+  Canarygrass,
+  Antithesis,
+  Seealis,
+  Daisy,
+  Windmillgrass,
+  Onion,
+  GoldenPheasantTail,
   Thistle,
-  Yucca
+  Yucca,
+  SandLily
 }
+

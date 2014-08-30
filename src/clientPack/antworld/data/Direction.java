@@ -1,6 +1,4 @@
-package clientPack.antworld.data;
-
-import java.util.Random;
+package antworld.data;
 
 public enum Direction 
 { NORTH
