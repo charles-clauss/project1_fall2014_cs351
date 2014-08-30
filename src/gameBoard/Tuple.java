@@ -1,4 +1,4 @@
-package gamesate;
+package gameBoard;
 
 /**
  * Generic methods for tuples, mostly used as a data structure for generating

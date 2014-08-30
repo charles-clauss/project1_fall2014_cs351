@@ -1,4 +1,4 @@
-package gamesate;
+package gameBoard;
 
 import java.awt.Graphics;
 import java.awt.Image;

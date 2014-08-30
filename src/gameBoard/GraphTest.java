@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gamesate;
+package gameBoard;
 
 import static org.junit.Assert.*;
 

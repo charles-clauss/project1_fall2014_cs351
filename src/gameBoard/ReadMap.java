@@ -1,4 +1,4 @@
-package gamesate;
+package gameBoard;
 
 import java.awt.image.BufferedImage;
 import java.io.*;

@@ -4,11 +4,12 @@
 package astar;
 
 
-import gamesate.GameMap;
+import gameBoard.GameMap;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+
 import event.Observer;
 
 /**
