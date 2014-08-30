@@ -1,31 +1,29 @@
 package gamesate;
 
 import java.util.*;
-
+/**
+ * it's possible that this could be implemetned using a TreeMap
+ * as it can have a subMap method that could be very useful for 
+ * returning a subset of the map for each ant.
+ * @author agonzales
+ *
+ */
 public class Graph implements GameGraphInterface<Vertex>
 {
 
-  private Map<Integer, List<Vertex>> graphDict;
+  protected static Map<Integer, List<Vertex>> gameMap;
   // public Iterator<Integer> it = graphDict.
   protected int numVertices;
 
   
   Graph()
   {
-
+	  gameMap = new HashMap<Integer, List<Vertex>>();
   }
 
   public void addVertex(Vertex vertex)
   {
-    // add each 'key' using the linkedHashMap
-    if (graphDict == null)
-    {
-      graphDict = new HashMap<Integer, List<Vertex>>();
-    }
-    else
-    {
-      graphDict.put(vertex.getId(), vertex.getEdges());
-    }
+    gameMap.put(vertex.getId(), vertex.getEdges());
 
   }
 
@@ -37,7 +35,7 @@ public class Graph implements GameGraphInterface<Vertex>
   public boolean hasVertex(Vertex vertex)
   {
     boolean present;
-    present = graphDict.containsKey(vertex.getId());
+    present = gameMap.containsKey(vertex.getId());
     return present;
   }
 
@@ -45,7 +43,7 @@ public class Graph implements GameGraphInterface<Vertex>
   {
     boolean present;
     // if vertex 2 is in vertex 1's edgelist
-    present = graphDict.get(vertex1.getId()).contains(vertex2);
+    present = gameMap.get(vertex1.getId()).contains(vertex2);
     return present;
   }
 
@@ -57,7 +55,7 @@ public class Graph implements GameGraphInterface<Vertex>
 
   public List<Vertex> neighbors(Vertex vertex)
   {
-    return graphDict.get(vertex.getId());
+    return gameMap.get(vertex.getId());
   }
 
   public List<Vertex> getEdges(Vertex vertex)
