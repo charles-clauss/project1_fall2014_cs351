@@ -5,7 +5,8 @@ import java.util.*;
 /**
  * @author aaron gonzales The Vertex class provides a Vertex object that
  *         contains relevant information for our game board. The Vertices will
- *         be put into an adjacency list represeentation in the Graph class.
+ *         be put into an adjacency list in the Graph class.
+ * 
  */
 class Vertex
 {
