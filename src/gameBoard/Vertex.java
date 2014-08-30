@@ -8,7 +8,7 @@ import java.util.*;
  *         be put into an adjacency list in the Graph class.
  * 
  */
-class Vertex
+public class Vertex
 {
   private int id;
   private int x;
