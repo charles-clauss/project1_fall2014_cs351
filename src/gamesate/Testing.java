@@ -85,12 +85,12 @@ public class Testing {
 		// System.out.println("Map : " + myGraph.toString());
 
 		System.out.println("Map values to follow");
-		System.out.println("Map = " + myGraph.gameMap);
+		System.out.println("Map = " + myGraph.getGameMap());
 
-		for (Vertex key : myGraph.gameMap.keySet()) {
+		for (Vertex key : myGraph.getGameMap().keySet()) {
 			System.out.println(key);
 		}
-		for (Entry<Vertex, List<Vertex>> entry : myGraph.gameMap.entrySet()) {
+		for (Entry<Vertex, List<Vertex>> entry : myGraph.getGameMap().entrySet()) {
 
 			Vertex key = entry.getKey();
 			List<Vertex> value = entry.getValue();
@@ -106,9 +106,9 @@ public class Testing {
 		System.out.println(myGraph.hasVertex(not));
 
 		System.out.println("Hasedge: " + myGraph.hasEdge(a, b));
-		System.out.println("Map = " + myGraph.gameMap);
+		System.out.println("Map = " + myGraph.getGameMap());
 		System.out.println("GetNeightbors: " + myGraph.neighbors(b));
-		System.out.println("GetVertices: " + myGraph.getVertices());
+		System.out.println("GetVertices: " + myGraph.getTotalVertices());
 
 		return myGraph;
 	}
@@ -293,7 +293,7 @@ public class Testing {
 					graph.addEdge(vertArray[row][col], vertArray[row][col - 1]);
 					System.out.println("East NotNull!" + vertArray[row][col].north);
 				}
-				System.out.println(graph.getVertices());
+				System.out.println(graph.getTotalVertices());
 
 				//////////// do not touch this ////////
 				col++;
@@ -303,6 +303,7 @@ public class Testing {
 			System.out.println("Neighbor test " + graph.neighbors(vertArray[row][col]));
 
 		}
+		vertArray=null;
 
 		return graph;
 
@@ -314,7 +315,12 @@ public class Testing {
 		Graph testGraph = testGraph();
 		// makeEdges(testGraph);
 		Graph newGraph = makeBigGraph2(2, 2);
-		System.out.println(newGraph.gameMap);
+		System.out.println(newGraph.getTotalVertices());
+		System.out.println(newGraph.toString());
+		
+		Graph anotherGraph = new Graph(10,10);
+		
+		
 
 	}
 }
