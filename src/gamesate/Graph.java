@@ -1,67 +1,74 @@
 package gamesate;
 
 import java.util.*;
+
 /**
- * it's possible that this could be implemetned using a TreeMap
- * as it can have a subMap method that could be very useful for 
- * returning a subset of the map for each ant.
+ * it's possible that this could be implemetned using a TreeMap as it can have a
+ * subMap method that could be very useful for returning a subset of the map for
+ * each ant.
+ * 
  * @author agonzales
- *
+ * 
  */
-public class Graph implements GameGraphInterface<Vertex>
-{
+public class Graph implements GameGraphInterface<Vertex> {
 
-  protected static Map<Integer, List<Vertex>> gameMap;
-  // public Iterator<Integer> it = graphDict.
-  protected int numVertices;
+	protected static Map<Vertex, List<Vertex>> gameMap;
+	// public Iterator<Integer> it = graphDict.
+	private int numVertices;
 
-  
-  Graph()
-  {
-	  gameMap = new HashMap<Integer, List<Vertex>>();
-  }
+	// protected static Map<Integer, Vertex> vertexList;
 
-  public void addVertex(Vertex vertex)
-  {
-    gameMap.put(vertex.getId(), vertex.getEdges());
+	Graph() {
+		gameMap = new HashMap<Vertex, List<Vertex>>();
+	}
 
-  }
+	/**
+	 * adds a vertex to the graph map. takes the Vertex's inner edge list and
+	 * adds it as <Vertex, List> to the inner map.
+	 */
+	public void addVertex(Vertex vertex) {
+		gameMap.put(vertex, vertex.getEdges());
+		this.numVertices++;
 
-  // public void addEdge(Vertex vertex1, Vertex vertex2) {
-  // // gets the list at the id of vertex on, adds vertex two to that list
-  // graphDict.get(vertex1.getId()).add(vertex2);
-  // }
+	}
+	
 
-  public boolean hasVertex(Vertex vertex)
-  {
-    boolean present;
-    present = gameMap.containsKey(vertex.getId());
-    return present;
-  }
+	public void addVertex(Vertex vertex, List<Vertex> edges ) {
+		gameMap.put(vertex, edges);
+		//if (vertex.getEdges() == null ){
+			//vertex.addEdges(edges);
+		//}
+		this.numVertices++;
+	}
+	public void addEdge(Vertex vertex, Vertex e) {
+		gameMap.get(vertex).add(e);
+		
+	}
 
-  public boolean hasEdge(Vertex vertex1, Vertex vertex2)
-  {
-    boolean present;
-    // if vertex 2 is in vertex 1's edgelist
-    present = gameMap.get(vertex1.getId()).contains(vertex2);
-    return present;
-  }
+	public boolean hasVertex(Vertex vertex) {
+		boolean present;
+		present = gameMap.containsKey(vertex);
+		return present;
+	}
 
-  public ArrayList<Vertex> vertices()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	public boolean hasEdge(Vertex vertex1, Vertex vertex2) {
+		boolean present;
+		
+		present = gameMap.get(vertex1).contains(vertex2);
+		return present;
+	}
 
-  public List<Vertex> neighbors(Vertex vertex)
-  {
-    return gameMap.get(vertex.getId());
-  }
+	public ArrayList<Vertex> vertices() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public List<Vertex> getEdges(Vertex vertex)
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	public List<Vertex> neighbors(Vertex vertex) {
+		return gameMap.get(vertex);
+	}
+	
+	public int getVertices(){
+		return numVertices;
+	}
 
 }
