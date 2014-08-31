@@ -1,5 +1,6 @@
 package event;
 
-public abstract class GameEvent {
+public abstract class GameEvent
+{
 
 }

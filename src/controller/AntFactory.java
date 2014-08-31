@@ -1,12 +1,16 @@
 package controller;
 
-import clientPack.antworld.data.*;
+import antworld.data.*;
 
-public class AntFactory {
-  private AntFactory() {
+public class AntFactory
+{
+  private AntFactory()
+  {
   }
-  public static Ant makeant(AntData data) {
-    switch(data.antType) {
+  public static Ant makeant(AntData data)
+  {
+    switch(data.antType)
+    {
       case DEFENCE:
         return new DefenceAnt(data);
       case ATTACK:
