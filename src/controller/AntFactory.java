@@ -1,6 +1,6 @@
 package controller;
 
-import clientPack.antworld.data.*;
+import antworld.data.*;
 
 public class AntFactory
 {

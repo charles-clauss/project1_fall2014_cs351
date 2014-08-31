@@ -2,7 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.concurrent.*;
-import clientPack.antworld.data.*;
+import antworld.data.*;
 
 public class AntController
 {

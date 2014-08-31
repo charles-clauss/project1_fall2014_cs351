@@ -2,8 +2,7 @@ package controller;
 
 import java.util.ArrayDeque;
 
-import astar.Vertex;
-import clientPack.antworld.data.*;
+import antworld.data.*;
 import event.Observer;
 import event.GameEvent;
 
@@ -12,7 +11,6 @@ import event.GameEvent;
 public abstract class Ant extends Observer implements Runnable
 {
   protected AntData data;
-  protected Vertex position;
   protected int queueCap = 10;
   protected ArrayDeque<AntAction> actions;
   public Ant()

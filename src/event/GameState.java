@@ -13,7 +13,7 @@ package event;
 
 import astar.AStar;
 import controller.AntController;
-import clientPack.antworld.data.*;
+import antworld.data.*;
 import client.ClientSocket;
 
 import java.io.IOException;
@@ -23,10 +23,7 @@ import java.net.UnknownHostException;
 
 public class GameState
 {
-  private AntController control;
-  private Observer astar = new AStar();
-  private static CommData dataSent;
-  private static CommData dataReceived;
+
   
   /**
    * @param args Any arguments passed on execution of the program.
@@ -44,6 +41,10 @@ public class GameState
   {
     try
     {
+      AntController control;
+      Observer astar = new AStar();
+      CommData dataSent;
+      CommData dataReceived;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());

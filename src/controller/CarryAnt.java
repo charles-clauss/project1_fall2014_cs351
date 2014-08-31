@@ -1,6 +1,6 @@
 package controller;
 
-import clientPack.antworld.data.*;
+import antworld.data.*;
 import event.GameEvent;
 
 public class CarryAnt extends Ant
