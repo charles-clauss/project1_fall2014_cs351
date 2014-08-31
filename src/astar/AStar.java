@@ -3,13 +3,16 @@
  */
 package astar;
 
-
-import gameBoard.GameMap;
+import gameBoard.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
+import event.GameEvent;
 import event.Observer;
 
 /**
@@ -18,121 +21,91 @@ import event.Observer;
  *         represented.
  */
 public class AStar extends Observer {
+	private Graph searchMap;
+	private Vertex current;
+	private Vertex next;
+	private Queue<Vertex> openList = new PriorityQueue<Vertex>();
+	private List<Vertex> closedList = new ArrayList<Vertex>();
+	private List<Vertex> cameFromList = new ArrayList<Vertex>();
+	private List<Vertex> finishedPath = new ArrayList<Vertex>();
 
-	public AStar() {
-	}
-	/**
-	 * Implements the Astar best first search algorithm to find the shortest
-	 * path from the start to the goal.
-	 * 
-	 * @return A string containing the cost and the list of moves to perform to
-	 *         reach the goal as cheaply as possible.
-	 */
-	public String shortestPath() {
-		GameMap start = new GameMap(startx, starty, map[starty][startx]);
-		GameMap visit;
-		Comparator<GameMap> compare = new SortMapData();
-		PriorityQueue<GameMap> pq = new PriorityQueue<GameMap>(25, compare);
-		int visitx;
-		int visity;
-		int westx;
-		int eastx;
-		int southy;
-		int northy;
-		pq.add(start);
-		ArrayList<GameMap> visited = new ArrayList<GameMap>();
-		while ((visit = pq.poll()) != null) {
-			visited.add(visit);
-			visitx = visit.getX();
-			visity = visit.getY();
-			if (visitx == finishx && visity == finishy) {
-				return constructPath(visit);
-			}
-			westx = visitx - 1;
-			eastx = visitx + 1;
-			southy = visity + 1;
-			northy = visity - 1;
-			if (westx >= 0) {
-				GameMap westNeighbor = new GameMap(westx, visity, visit.getPathCost()
-						+ map[visity][westx], visit);
-				if (!visited.contains(westNeighbor)) {
-					pq.add(westNeighbor);
-				}
-			}
-			if (eastx < map[0].length) {
-				GameMap eastNeighbor = new GameMap(eastx, visity, visit.getPathCost()
-						+ map[visity][eastx], visit);
-				if (!visited.contains(eastNeighbor)) {
-					pq.add(eastNeighbor);
-				}
-			}
-			if (southy < map.length) {
-				GameMap southNeighbor = new GameMap(visitx, southy, visit.getPathCost()
-						+ map[southy][visitx], visit);
-				if (!visited.contains(southNeighbor)) {
-					pq.add(southNeighbor);
-				}
-			}
-			if (northy >= 0) {
-				GameMap northNeighbor = new GameMap(visitx, northy, visit.getPathCost()
-						+ map[northy][visitx], visit);
-				if (!visited.contains(northNeighbor)) {
-					pq.add(northNeighbor);
-				}
-			}
-		}
-		return "Failure.";
+	public List<Vertex> getFinishedPath() {
+		return finishedPath;
 	}
 
-	/**
-	 * A method that uses each MapData's origin field to construct the path that
-	 * was taken from the finish back to the start.
-	 * 
-	 * @return The list of moves to reach the finish from the start.
-	 */
-	public String constructPath(GameMap finish) {
-		GameMap previous = finish;
-		GameMap current = finish.getOrigin();
-		String path = "";
-		while (current != null) {
-			/*
-			 * This code remains as a snippet to indicate what was done to
-			 * create the generated image. for(int i = 0; i < 16; i++) { for(int
-			 * j = 0; j < 16; j++) { pic.setRGB(16*previous.getX() + i,
-			 * 16*previous.getY() + j, 255, 0, 0); } }
-			 */
-			path += pathHelper(current, previous);
-			previous = current;
-			current = current.getOrigin();
-		}
-		// pic.saveImage();
-		return finish.getFullCost() + "\n"
-				+ (new StringBuffer(path).reverse().toString());
+	
+	public AStar(Graph graph) {
+		this.searchMap = graph;
 	}
 
-	/**
-	 * A helper for constructPath that compares the x and y values of two nodes
-	 * to determine whether a move of left, right, up, or down was made.
-	 * 
-	 * @return A single character string of L, R, D, or U.
-	 * @see constructPath
-	 */
-	public String pathHelper(GameMap a, GameMap b) {
-		if ((a.getX() - b.getX()) == 1) {
-			return "L";
-		}
-		if ((b.getX() - a.getX()) == 1) {
-			return "R";
-		}
-		if ((a.getY() - b.getY()) == 1) {
-			return "U";
-		}
-		if ((b.getY() - a.getY()) == 1) {
-			return "D";
-		}
-		return "X";
+	@Override
+	public void update(GameEvent ge) {
+		// TODO Auto-generated method stub
+
 	}
 
-  public void update() {
-  }
-}
+	public List<Vertex> findPath(Vertex start, Vertex goal){
+		int gScore = 0;
+		int fScore = gScore + heuristicCost(start, goal);
+		openList.add(start);
+
+		while (openList.size() != 0){
+			if (current == goal){
+				return constructPath(cameFromList, goal);
+			}
+
+		}
+		
+		return finishedPath;
+	}
+
+	public List<Vertex> constructPath(List<Vertex> cameFrom, Vertex goal){
+		List<Vertex> pathList = new ArrayList<Vertex>();
+
+		return pathList;
+
+	}
+
+
+} // end class AStar
+
+
+/*
+ *
+closedset := the empty set    // The set of nodes already evaluated.
+openset := {start}    // The set of tentative nodes to be evaluated, initially containing the start node
+came_from := the empty map    // The map of navigated nodes.
+
+g_score[start] := 0    // Cost from start along best known path.
+// Estimated total cost from start to goal through y.
+f_score[start] := g_score[start] + heuristic_cost_estimate(start, goal)
+
+	while openset is not empty
+		current := the node in openset having the lowest f_score[] value
+		if current = goal
+		return reconstruct_path(came_from, goal)
+
+		remove current from openset
+		add current to closedset
+		for each neighbor in neighbor_nodes(current)
+			if neighbor in closedset
+				continue
+			tentative_g_score := g_score[current] + dist_between(current,neighbor)
+
+			if neighbor not in openset or tentative_g_score < g_score[neighbor] 
+				came_from[neighbor] := current
+				g_score[neighbor] := tentative_g_score
+				f_score[neighbor] := g_score[neighbor] + heuristic_cost_estimate(neighbor, goal)
+				if neighbor not in openset
+					add neighbor to openset
+
+		return failure
+
+function reconstruct_path(came_from, current_node)
+	if current_node in came_from
+		p := reconstruct_path(came_from, came_from[current_node])
+		return (p + current_node)
+	else
+		return current_node
+
+*/
