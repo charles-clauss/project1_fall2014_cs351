@@ -7,21 +7,15 @@ import antworld.data.*;
 public class AntController
 {
   private ExecutorService exec;
-  private CommData cd;
   private ArrayList<Ant> ants;
 
-  public AntController(NestNameEnum nest, TeamNameEnum team)
+  public AntController()
   {
-    cd  = new CommData(nest, team);
-    for(AntData data : cd.myAntList)
-    {
-      ants.add(AntFactory.makeant(data));
-    }
   }
 
   public void dispatchThreads()
   {
-    exec = Executors.newFixedThreadPool(8);
+    exec = Executors.newFixedThreadPool(4);
     //get data communicated at this time step
     //check to see if there are new ants to be made
     for(Ant ant : ants)
@@ -30,5 +24,9 @@ public class AntController
     }
     exec.shutdown();
     while(!exec.isTerminated()) {}
+  }
+  
+  public void addAnt(AntData data) {
+    ants.add(AntFactory.makeant(data));
   }
 }
