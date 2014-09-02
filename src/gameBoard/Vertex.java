@@ -1,5 +1,6 @@
 package gameBoard;
 
+
 import java.util.*;
 
 /**
@@ -25,6 +26,12 @@ public class Vertex
   // list of edges for this node
   List<Vertex> edgeList = new ArrayList<Vertex>();
 
+  /**
+   * Constructor that gives a pointer for astar
+   */
+  public Vertex(){
+	  
+  }
   /**
    * Constructor that takes the id, x and y, and walkable
    */
@@ -159,5 +166,18 @@ public class Vertex
     }
     return false;
   }
+  
+  /**
+  * Provides the parameter of interest to be used
+  * for comparison in the priority queue that is
+  * used to implement the Astar algorithm.
+  * @see final_lab1
+  */
+  class SortVertex implements Comparator<Vertex> {
+    public int compare(Vertex a, Vertex b) {
+      return a.getWeight() - b.getWeight();
+    }
+  }
+
 } // end class
 
