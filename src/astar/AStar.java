@@ -44,68 +44,64 @@ public class AStar extends Observer {
 
 	}
 
+	/**
+  * A function that calculates a heuristic for each node, in this
+  * case the manhattan distance of the node from the finish
+  * is used.
+  * @return The estimated total distance of a node from the finish,
+  * based on the cost to reach that node plus the heuristic estimate.
+  */
+  public static int cost(int x, int y, int accumulate, Vertex goal) {
+    int heuristic = Math.abs(goal.getX() - x) + Math.abs(goal.getY() - y);
+    return accumulate + heuristic;
+  }
+
 	public List<Vertex> findPath(Vertex start, Vertex goal){
 		int gScore = 0;
 		int fScore = gScore + heuristicCost(start, goal);
+		int accumulatedScore;
 		openList.add(start);
+		List<Vertex> nullList = new ArrayList<Vertex>();
+		nullList = null;
 
-		while (openList.size() != 0){
+		while (openList.poll() != null){
+			current = openList.poll();
 			if (current == goal){
 				return constructPath(cameFromList, goal);
 			}
 
+			openList.remove(current);
+			closedList.add(current);
+
+			for (Vertex neighbor : current.getEdges()){
+				if (closedList.contains(neighbor)){
+					continue;
+				}
+				else {
+					accumulatedScore = gScore(current) + getDistance(current, neighbor);
+				}
+				if (openList.contains(neighbor) == false || accumulatedScore < gScore(neighbor)){
+					if (!openList.contains(neighbor)) {
+						openList.add(neighbor);
+					}
+					cameFromList.add(current);
+					current = cameFromList.get(neighbor);
+
+				}
+
+			}
 		}
-		
-		return finishedPath;
+		return nullList;
 	}
 
-	public List<Vertex> constructPath(List<Vertex> cameFrom, Vertex goal){
+	public List<Vertex> constructPath(List<Vertex> cameFrom, Vertex current){
 		List<Vertex> pathList = new ArrayList<Vertex>();
-
-		return pathList;
-
-	}
-
-
+		if (cameFrom.contains(current)){
+			finishedPath.add(constructPath(cameFrom, cameFrom(current)));
+			}
+			else {
+				return current;
+			}
+			return pathList;
+		}
 } // end class AStar
-
-
-/*
- *
-closedset := the empty set    // The set of nodes already evaluated.
-openset := {start}    // The set of tentative nodes to be evaluated, initially containing the start node
-came_from := the empty map    // The map of navigated nodes.
-
-g_score[start] := 0    // Cost from start along best known path.
-// Estimated total cost from start to goal through y.
-f_score[start] := g_score[start] + heuristic_cost_estimate(start, goal)
-
-	while openset is not empty
-		current := the node in openset having the lowest f_score[] value
-		if current = goal
-		return reconstruct_path(came_from, goal)
-
-		remove current from openset
-		add current to closedset
-		for each neighbor in neighbor_nodes(current)
-			if neighbor in closedset
-				continue
-			tentative_g_score := g_score[current] + dist_between(current,neighbor)
-
-			if neighbor not in openset or tentative_g_score < g_score[neighbor] 
-				came_from[neighbor] := current
-				g_score[neighbor] := tentative_g_score
-				f_score[neighbor] := g_score[neighbor] + heuristic_cost_estimate(neighbor, goal)
-				if neighbor not in openset
-					add neighbor to openset
-
-		return failure
-
-function reconstruct_path(came_from, current_node)
-	if current_node in came_from
-		p := reconstruct_path(came_from, came_from[current_node])
-		return (p + current_node)
-	else
-		return current_node
-
-*/
