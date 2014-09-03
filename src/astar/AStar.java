@@ -51,11 +51,16 @@ public class AStar extends Observer {
   * @return The estimated total distance of a node from the finish,
   * based on the cost to reach that node plus the heuristic estimate.
   */
-  public static int cost(int x, int y, int accumulate, Vertex goal) {
-    int heuristic = Math.abs(goal.getX() - x) + Math.abs(goal.getY() - y);
-    return accumulate + heuristic;
+  public static int distance(Vertex current, Vertex goal) {
+    int heuristic = Math.abs(goal.getX() - current.getX()) + Math.abs(goal.getY() - current.getY());
+    return heuristic;
   }
 
+  public static int estimateDistance(Vertex current, Vertex goal, Vertex neighbor, int currentDistance){
+    int estimate = distance(neighbor, goal) + currentDistance;
+    return estimate;
+  }
+  
 	public List<Vertex> findPath(Vertex start, Vertex goal){
 		int gScore = 0;
 		int fScore = gScore + heuristicCost(start, goal);
@@ -78,14 +83,14 @@ public class AStar extends Observer {
 					continue;
 				}
 				else {
-					accumulatedScore = gScore(current) + getDistance(current, neighbor);
+					accumulatedScore = distance(current, goal) + distance(current, neighbor);
 				}
-				if (openList.contains(neighbor) == false || accumulatedScore < gScore(neighbor)){
+				if (openList.contains(neighbor) == false || accumulatedScore < distance(neighbor,goal)){
 					if (!openList.contains(neighbor)) {
 						openList.add(neighbor);
 					}
 					cameFromList.add(current);
-					current = cameFromList.get(neighbor);
+					current = neighbor;
 
 				}
 

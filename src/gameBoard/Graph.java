@@ -129,6 +129,18 @@ public class Graph implements GameGraphInterface<Vertex> {
 		return gameMap;
 	}
 
+	public List<Integer> getPixelVal(Picture pic, int x, int y)
+  {
+    int red = pic.getRed(x, y);
+    int green = pic.getGreen(x, y);
+    int blue = pic.getBlue(x, y);
+    List<Integer> pixels = new ArrayList<Integer>();
+    pixels.add(red);
+    pixels.add(green);
+    pixels.add(blue);
+
+    return pixels;
+  }
 	/**
 	 * Constructor for Graph that builds a graph with x rows and y columns.
 	 * The graph is built as a grid for a game, with each (row, column) pair 
@@ -137,17 +149,26 @@ public class Graph implements GameGraphInterface<Vertex> {
 	 * @param x number of rows
 	 * @param y number of columns
 	 */
-	Graph(int x, int y) {
-
+	Graph( Picture pic) {
+// todo
+	  // each vertex needs to be created with pixel values
+	  // pic read in to graph
+	  // 
+	  int x = pic.getImageWidth();
+	  int y = pic.getImageHeight();
+	  
 		Vertex[][] vertArray = new Vertex[x][y];
 		int id = 0;
 		for (int i = 0; i < vertArray.length; i++) {
 			for (int j = 0; j < vertArray[i].length; j++) {
 				id++;
 
-				//System.out.println("Coordinates: " + i + "," + j);
-				//System.out.println("ID =         " + id);
+				System.out.println("Coordinates: " + i + "," + j);
+				System.out.println("ID =         " + id);
 				vertArray[i][j] = new Vertex(id, i, j, true);
+				
+				vertArray[i][j].updateWeight(getPixelVal(pic, i,j));
+				System.out.println("Weight: " + getPixelVal(pic,i,j));
 				List<Vertex> empty = new ArrayList<Vertex>();
 				this.addVertex(vertArray[i][j], empty);
 			}
@@ -219,4 +240,28 @@ public class Graph implements GameGraphInterface<Vertex> {
 		vertArray = null;
 
 	} // end big constructor
+	
+	/**
+	 * Builds a graph using a picture object. 
+	 * uses helper functions to fill in the right info.
+	 * @param pic
+	 */
+	
+	  
+	  Vertex getVertex(int id){
+	    for (Vertex v : this.getGameMap().keySet()){
+	      if (v.getId() == id) {
+	        return v;
+	      }
+	        else {
+	          return null;
+	        }
+	      
+	    }
+      return null;
+	    
+	  }
+	
+
+	
 }

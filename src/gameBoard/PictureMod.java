@@ -44,11 +44,14 @@ public class PictureMod
     return al;
   }
 
+  
+  
   public static void main(String[] args)
   {
     System.out.println("testing pic class");
 
     Picture pic = new Picture();
+    
 
     // test blue values
     int red = pic.getRed(0, 0);

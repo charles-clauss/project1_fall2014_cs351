@@ -99,23 +99,22 @@ public class Vertex
   {
     //rgb values - switch? 
     // blue, water
-    if (rgb.get(3) == 255){
+    if (rgb.get(2) == 255){
       this.walkable = false;
       // right now this is a magic number
       this.weight = 1000;
     } 
     //green
-    if (rgb.get(2) >= 50 ){
+    if (rgb.get(1) >= 50 ){
       this.weight = 10;
       this.walkable = true;
     }
     
-    if (rgb.get(3) == 0){
+    if (rgb.get(2) == 0){
       this.weight = 0;
       this.walkable = true;
       this.nest = true;
     }
-    
   }
 
   public boolean getWalkable()
