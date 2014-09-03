@@ -25,6 +25,7 @@ public class Vertex
   protected Vertex west = null;
   // list of edges for this node
   List<Vertex> edgeList = new ArrayList<Vertex>();
+  private boolean nest = false;
 
   /**
    * Constructor that gives a pointer for astar
@@ -94,9 +95,27 @@ public class Vertex
    * will be essential to read game state? may re implement another way, perhaps
    * with a few more Booleans, e.g. isFood, isEnemy, etc.
    */
-  public void updateWeight(int X)
+  public void updateWeight(List<Integer> rgb)
   {
-    this.x = X;
+    //rgb values - switch? 
+    // blue, water
+    if (rgb.get(3) == 255){
+      this.walkable = false;
+      // right now this is a magic number
+      this.weight = 1000;
+    } 
+    //green
+    if (rgb.get(2) >= 50 ){
+      this.weight = 10;
+      this.walkable = true;
+    }
+    
+    if (rgb.get(3) == 0){
+      this.weight = 0;
+      this.walkable = true;
+      this.nest = true;
+    }
+    
   }
 
   public boolean getWalkable()
