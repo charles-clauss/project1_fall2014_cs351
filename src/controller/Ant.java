@@ -42,4 +42,6 @@ public abstract class Ant extends Observer implements Runnable
   public void update(GameEvent ge)
   {
   }
+  public void run() {
+  }
 }
