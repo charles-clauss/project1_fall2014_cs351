@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generic methods for tuples, mostly used as a data structure for generating
- * and updating the vertices in the game graph. based on implementation of our
- * textbook's generic tuple approach, unsure why this isn't working
+ * Coordinate is the class that helps pathfinding.
+ * it creades nodes based on the game picture and all
+ * 
+ * @author AaronGonzales
+ *
  */
 public class Coordinate
 {
@@ -17,18 +19,17 @@ public class Coordinate
       new Picture("/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
   private int weight;
   private Coordinate parent;
-  private int costSoFar = 0;
+  private int costSoFar;
+  private int costWithMe;
 
-  // private int pathCost;
+  
   /**
    * Main constructor that stores the rgb values from the pic
-   * 
-   * @param a
-   *          x
-   * @param b
-   *          y
-   * @param game
-   *          picture object
+   * Mostly to be used for the starting and goal  
+   * @param a x coordinate
+   * @param b y coordinate
+   *
+   *
    */
   Coordinate(int a, int b)
   {
@@ -44,18 +45,14 @@ public class Coordinate
 
   }
 
-  /**
-   * Constructor that helps return the path on the map
-   * 
-   * @param a
-   *          x
-   * @param b
-   *          y
-   * @param game
-   *          picture
-   * @param Parent
-   *          coordinate that birthed this
-   */
+/**
+ * 
+ * @param a x coordinate
+ * @param b y coordinate
+ * @param parent node from which this was birthed
+ * @param costsofar movement cost from the start of the path not including this node
+ * @param costWithMe movement cost from the start of the path including this node
+ */
   Coordinate(int a, int b, Coordinate parent)
   {
     this.x = a;
@@ -68,45 +65,41 @@ public class Coordinate
     rgb.add(PIC.getBlue(x, y));
     setWeight();
     this.parent = parent;
+    this.costSoFar = parent.getCostSoFar();
+    this.costWithMe = this.costSoFar + this.weight;
 
   }
 
-  /**
-   * Constructor that just holds the coordinates; can be used to pass the
-   * coordinates to an ant in a list?
-   * 
-   * @param x
-   */
-  /*Coordinate(int x, int y)
-  {
-    this.x = x;
-    this.y = y;
-
-  }
-*/
+/**
+ * 
+ * @return x coordinate
+ */
   public int getX()
   {
     return this.x;
 
   }
-
+/**
+ * 
+ * @return y coordinate
+ */
   public int getY()
   {
     return y;
   }
 
+  /**
+   * 
+   * @return rgb value list
+   */
   public List<Integer> getRGB()
   {
     return this.rgb;
   }
 
-  public static Picture getPic()
-  {
-    return PIC;
-  }
-
   /**
    * sets the weight of this coordinate using 'magic numbers'
+   * TODO update the values as the are learned
    */
   public void setWeight()
   {
@@ -124,17 +117,29 @@ public class Coordinate
     // need to implement the rest of these color schemes as we know what they
     // are
   }
-
+/**
+ * 
+ * @return this node's movement weight
+ */
   public int getWeight()
   {
     return weight;
   }
 
+  /**
+   * 
+   * @return get's this nodes parent, useful for returning the path
+   */
   public Coordinate getParent()
   {
     return this.parent;
   }
   
+  /**
+   * Tests if a node is equal to another node based on x/y coordinates
+   * @param a - node to test
+   * @return true if equal, false if not
+   */
   public boolean areEqual (Coordinate a){
     if (a.getX() == this.getX() && a.getY() == this.getY()){
       return true;
@@ -145,6 +150,10 @@ public class Coordinate
     
   }
 
+  /**
+   * Get's the neighboring (N,E,S,W) neighbors of the current node
+   * @return list of this coordinate's neighbors
+   */
   public List<Coordinate> getNeighbors()
   {
     List<Coordinate> neighbors = new ArrayList<Coordinate>();
@@ -172,13 +181,22 @@ public class Coordinate
     return neighbors;
   }
   
+  /**
+   * 
+   * @return cost of the path so far
+   */
   int getCostSoFar(){
     return this.costSoFar;
   }
   
-  void setCostSoFar(int c){
-    this.costSoFar = c;
+  /**
+   * 
+   * @return cost of path with me included
+   */
+  int getCostWithMe(){
+    return this.costWithMe;
   }
+  
 
 } // end class
 

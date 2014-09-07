@@ -48,10 +48,8 @@ public class AStar extends Observer
     Coordinate current;
     Comparator<Coordinate> compare = new SortCoordinate();
     List<Coordinate> nullList = new ArrayList<Coordinate>();
-
     List<Coordinate> closedList = new ArrayList<Coordinate>();
     List<Coordinate> cameFromList = new ArrayList<Coordinate>();
-    // List<Coordinate> finishedPath = new ArrayList<Coordinate>();
     Queue<Coordinate> openList = new PriorityQueue<Coordinate>(25, compare);
 
     int gScore = 0;
@@ -95,10 +93,5 @@ public class AStar extends Observer
     return nullList;
   } // end findpath
 
-  /**
-   * public List<Coordinate> constructPath(List<Coordinate> cameFrom, Coordinate
-   * current){ List<Coordinate> pathList = new ArrayList<Coordinate>(); if
-   * (cameFrom.contains(current)){ finishedPath.add(constructPath(cameFrom,
-   * cameFrom(current))); } else { return current; } return pathList; }
-   */
+  
 } // end class AStar
