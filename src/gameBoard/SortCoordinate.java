@@ -9,6 +9,6 @@ import java.util.Comparator;
 */
 public class SortCoordinate implements Comparator<Coordinate> {
   public int compare(Coordinate a, Coordinate b) {
-    return a.getWeight() - b.getWeight();
+    return a.getDistanceToGoal() - b.getDistanceToGoal();
   }
 }
