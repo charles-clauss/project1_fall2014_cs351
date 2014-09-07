@@ -295,12 +295,12 @@ public class Testing {
 
 	public static void main(String[] args) throws MalformedURLException,
 			IOException, NoSuchAlgorithmException {
-		testVertices();
-		Graph testGraph = testGraph();
+		//testVertices();
+		//Graph testGraph = testGraph();
 		// makeEdges(testGraph);
-		Graph newGraph = makeBigGraph2(500,500);
-		System.out.println(newGraph.getTotalVertices());
-		System.out.println(newGraph.toString());
+		//Graph newGraph = makeBigGraph2(500,500);
+		//System.out.println(newGraph.getTotalVertices());
+		//System.out.println(newGraph.toString());
 		
 		String path = new String("/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
 		Picture pic = new Picture(path);

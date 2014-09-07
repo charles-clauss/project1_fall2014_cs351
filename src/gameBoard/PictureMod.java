@@ -17,7 +17,7 @@ public class PictureMod
    * @param y
    * @return
    */
-  public List<Integer> getPixelVal(Picture pic, int x, int y)
+  public static List<Integer> getPixelVal(Picture pic, int x, int y)
   {
     int red = pic.getRed(x, y);
     int green = pic.getGreen(x, y);
@@ -29,7 +29,7 @@ public class PictureMod
 
     return pixels;
   }
-
+ 
   /**
    * will iterate over a range in the picture to get values
    * 
@@ -46,23 +46,30 @@ public class PictureMod
 
   
   
+  
+  
   public static void main(String[] args)
   {
     System.out.println("testing pic class");
 
-    Picture pic = new Picture();
+    String path = new String("/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
+    Picture pic = new Picture(path);
     
 
     // test blue values
-    int red = pic.getRed(0, 0);
-    int blue = pic.getBlue(0, 0);
-    int green = pic.getGreen(0, 0);
+    //int red = pic.getRed(0, 0);
+    //int blue = pic.getBlue(0, 0);
+    //int green = pic.getGreen(0, 0);
+    
 
-    System.out.println("blue = " + blue);
-    System.out.println("red = " + red);
-    System.out.println("green = " + green);
-
-    // System.out.println(getPixelVal(pic, 10, 10));
+   // System.out.println("blue = " + blue);
+    //System.out.println("red = " + red);
+    //System.out.println("green = " + green);
+    List<Integer> rgb = new ArrayList<Integer>(getPixelVal(pic, 0, 0));
+    for (Integer i : rgb){
+      System.out.println(i);
+    }
+    System.out.println(getPixelVal(pic, 0, 10));
 
   }
 
