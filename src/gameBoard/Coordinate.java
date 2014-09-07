@@ -19,8 +19,9 @@ public class Coordinate
       new Picture("/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
   private int weight;
   private Coordinate parent;
-  private int costSoFar;
+  private int distanceSoFar;
   private int costWithMe;
+  private int distanceToGoal;
 
   
   /**
@@ -65,8 +66,8 @@ public class Coordinate
     rgb.add(PIC.getBlue(x, y));
     setWeight();
     this.parent = parent;
-    this.costSoFar = parent.getCostSoFar();
-    this.costWithMe = this.costSoFar + this.weight;
+    this.distanceSoFar = parent.getCostSoFar() + this.weight;
+    this.costWithMe = this.distanceSoFar + this.weight;
 
   }
 
@@ -109,8 +110,11 @@ public class Coordinate
       this.weight = 1000;
     }
 
-    else if (this.rgb.get(1) > 0)
+    else if (this.rgb.get(1) == 55)
     {
+      this.weight = 3;
+    }
+    else if (this.rgb.get(1) == 144){
       this.weight = 1;
     }
 
@@ -186,7 +190,7 @@ public class Coordinate
    * @return cost of the path so far
    */
   int getCostSoFar(){
-    return this.costSoFar;
+    return this.distanceSoFar;
   }
   
   /**
@@ -195,6 +199,16 @@ public class Coordinate
    */
   int getCostWithMe(){
     return this.costWithMe;
+  }
+
+  public int getDistanceToGoal()
+  {
+    return distanceToGoal;
+  }
+
+  public void setDistanceToGoal(int distanceToGoal)
+  {
+    this.distanceToGoal = distanceToGoal;
   }
   
 
