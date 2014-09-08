@@ -41,23 +41,35 @@ public class GameState
   {
     try
     {
-      AntController control;
-      Observer astar = new AStar();
-      CommData dataSent;
-      CommData dataReceived;
+      System.out.println("Got here.");
+      AntController control = new AntController();
+      CommData dataFirstSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
+      dataFirstSent.password = 715779476403L;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());
       //Initialize Ant Controller, needs to be refactored first.
-      send.writeObject((dataSent = new CommData(NestNameEnum.FIRE, TeamNameEnum.Buffalograss)));
+      send.writeObject(dataFirstSent.packageForSendToServer());
+      send.flush();
+      send.reset();
+      System.out.println("Got here too.");
       while(connection.isConnected())
       {
-        dataReceived = (CommData)receive.readObject();
+        System.out.println("Executing loop.");
+        CommData dataReceived = (CommData) receive.readObject();
+        System.out.println(dataReceived.errorMsg);
+        //System.out.println(dataReceived.toString());
         //Read pertinent data and process with Ant Controller
         //Create a new CommData object
         //Populate it with AntData that has the moves of each ant
-        dataSent = new CommData(NestNameEnum.FIRE, TeamNameEnum.Buffalograss);
-        send.writeObject(dataSent);
+        CommData dataSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
+        for(AntData data : dataSent.myAntList) {
+          data.myAction = new AntAction(AntAction.AntActionType.EXIT_NEST, dataReceived.nestData[NestNameEnum.BLACK_GARDEN.ordinal()].centerX, dataReceived.nestData[NestNameEnum.BLACK_GARDEN.ordinal()].centerY);
+        }
+        send.writeObject(dataSent.packageForSendToServer());
+        send.flush();
+        send.reset();
+        System.out.println("Sent some stuff.");
       }
       connection.close();
     }
