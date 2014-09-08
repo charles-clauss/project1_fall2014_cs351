@@ -11,7 +11,7 @@
 
 package event;
 
-import astar.AStar;
+import gameBoard.AStar;
 import controller.AntController;
 import antworld.data.*;
 import client.ClientSocket;
