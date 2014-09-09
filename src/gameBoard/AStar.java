@@ -11,8 +11,9 @@ import event.Observer;
 
 /**
  * @author agonzales Implements a version of the A* algorithm using a priority
- *         queue. Will change as we get program specs on how the graph is
- *         represented.
+ *         queue. Uses euclidian distance 
+ *         as a heuristic. 
+ *         Generates a 'coordinate' object with path information.
  */
 public class AStar extends Observer
 {
@@ -24,11 +25,31 @@ public class AStar extends Observer
 
   }
 
+  /**
+   * Returns the manhatten distance from a coordinate to another coordinate
+   * @param current a coordinate
+   * @param goal another coordinate
+   * @return the distance between the two
+   */
   public static int manDistance(Coordinate current, Coordinate goal)
   {
     int heuristic = Math.abs(goal.getX() - current.getX())
         + Math.abs(goal.getY() - current.getY());
     return heuristic;
+  }
+
+  /**
+   * Euclidian distance between nodes.
+   * @param current
+   * @param goal
+   * @return ceiling of the float distance. 
+   */
+  public int euclidDistance(Coordinate current, Coordinate goal)
+  {
+    double distance = Math.sqrt(
+        Math.pow(current.getX() - goal.getX(), 2) +
+            Math.pow(current.getY() - goal.getY(), 2));
+    return (int) Math.ceil(distance);
   }
 
   public static int estimateDistance(Coordinate goal,
@@ -38,6 +59,15 @@ public class AStar extends Observer
     return estimate;
   }
 
+  /**
+   * Implementation of A* for pathfinding. Doesn't use a closedlist, 
+   * just tossing things on the priority queue (openList) and letting it handle 
+   * what's on top. I may recheck the comparator at some point.
+   * @param start start of your path
+   * @param goal target node
+   * @return a list of the coordinates that each ant must traverse - this gives them
+   * a better thing that can handle game events. 
+   */
   public List<Coordinate> findPath(Coordinate start, Coordinate goal)
   {
     Coordinate current = start;
@@ -49,7 +79,7 @@ public class AStar extends Observer
     Queue<Coordinate> openList = new PriorityQueue<Coordinate>(25, compare);
     nullList = null;
     openList.add(current);
-//    System.out.println("Astar: pq peek = " + openList.peek());
+    // System.out.println("Astar: pq peek = " + openList.peek());
     current.setDistanceToGoal(manDistance(current, goal));
 
     while (openList.peek() != null)
@@ -68,7 +98,7 @@ public class AStar extends Observer
 
       for (Coordinate n : neighbors)
       {
-        n.setDistanceToGoal(n.getWeight() + manDistance(n, goal));
+        n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
         if (!closedList.contains(n))
         {
           openList.add(n);
@@ -80,34 +110,6 @@ public class AStar extends Observer
     // failure
     return nullList;
   } // end findpath
-
-  /**
-   * A method that uses each MapData's origin field to construct the path that
-   * was taken from the finish back to the start.
-   * 
-   * @return The list of moves to reach the finish from the start.
-   */
-  public String constructPath(Coordinate finish)
-  {
-    Coordinate previous = finish;
-    Coordinate current = finish.getParent();
-    String path = "";
-    while (current != null)
-    {
-      /*
-       * This code remains as a snippet to indicate what was done to create the
-       * generated image. for(int i = 0; i < 16; i++) { for(int j = 0; j < 16;
-       * j++) { pic.setRGB(16*previous.getX() + i, 16*previous.getY() + j, 255,
-       * 0, 0); } }
-       */
-      path += pathHelper(current, previous);
-      previous = current;
-      current = current.getParent();
-    }
-    // pic.saveImage();
-    return finish.getCostSoFar() + "\n"
-        + (new StringBuffer(path).reverse().toString());
-  }
 
   /**
    * A helper for constructPath that compares the x and y values of two nodes to
