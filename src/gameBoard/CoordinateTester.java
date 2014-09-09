@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import astar.*;
 
 public class CoordinateTester
 {
@@ -20,7 +19,7 @@ public class CoordinateTester
 
   }
 
-  @Test
+  
   public void makeCoordinates()
   {
     // String path = new
@@ -78,11 +77,15 @@ public class CoordinateTester
     // printStuff(goal);
     myPath = astar.findPath(start, goal);
 
+    int cumWeight = 0;
     for (Coordinate c : myPath)
     {
+      cumWeight+=c.getWeight();
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
+      
     }
+    System.out.println("Weight of the path = " + cumWeight);
 
   }
 
