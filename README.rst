@@ -38,3 +38,12 @@ Ant Controller
 - Thread for each ant
 - Objects spawned by a factory
 - Initially just need to be able to find and gather food
+
+
+Notes
+------------
+- IMplement GUI methods - jtable, resizeable world, draw on the picture? 
+- waypoints for Astar or altered heuristic
+- Event handler can be a priority queue
+- add methods to coordinate class to handle immovable objects
+
