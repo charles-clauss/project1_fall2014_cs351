@@ -22,6 +22,10 @@ public class Coordinate
   private int distanceSoFar;
   private int costWithMe;
   private int distanceToGoal;
+  private boolean isFood;
+  private boolean isMovable;
+  private boolean isEnemy;
+  private boolean isFriendly;
 
   /**
    * Main constructor that stores the rgb values from the pic Mostly to be used
@@ -225,6 +229,50 @@ public class Coordinate
   public void setDistanceToGoal(int distanceToGoal)
   {
     this.distanceToGoal = distanceToGoal;
+  }
+  
+  static public Picture getPic(){
+    return Coordinate.PIC;
+  }
+
+  public boolean isFood()
+  {
+    return isFood;
+  }
+
+  public void setFood(boolean isFood)
+  {
+    this.isFood = isFood;
+  }
+
+  public boolean isMovable()
+  {
+    return isMovable;
+  }
+
+  public void setMovable(boolean isMovable)
+  {
+    this.isMovable = isMovable;
+  }
+
+  public boolean isEnemy()
+  {
+    return isEnemy;
+  }
+
+  public void setEnemy(boolean isEnemy)
+  {
+    this.isEnemy = isEnemy;
+  }
+
+  public boolean isFriendly()
+  {
+    return isFriendly;
+  }
+
+  public void setFriendly(boolean isFriendly)
+  {
+    this.isFriendly = isFriendly;
   }
 
 } // end class
