@@ -15,7 +15,7 @@ import event.Observer;
  *         as a heuristic. 
  *         Generates a 'coordinate' object with path information.
  */
-public class AStar extends Observer
+public class AStar implements Observer
 {
 
   @Override

@@ -7,7 +7,7 @@ public class AttackAnt extends Ant
 {
   public AttackAnt(AntData data)
   {
-    this.data = data;
+    super(data);
   }
   public void run()
   {

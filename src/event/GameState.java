@@ -45,6 +45,7 @@ public class GameState
       AntController control = new AntController();
       CommData dataFirstSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
       dataFirstSent.password = 715779476403L;
+      dataFirstSent.requestNestData = true;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());
@@ -53,23 +54,23 @@ public class GameState
       send.flush();
       send.reset();
       System.out.println("Got here too.");
+      CommData communication = (CommData) receive.readObject();
+      for(AntData data : communication.myAntList) {
+        control.addAnt(data);
+      }
       while(connection.isConnected())
       {
         System.out.println("Executing loop.");
-        CommData dataReceived = (CommData) receive.readObject();
-        System.out.println(dataReceived.errorMsg);
-        //System.out.println(dataReceived.toString());
-        //Read pertinent data and process with Ant Controller
-        //Create a new CommData object
-        //Populate it with AntData that has the moves of each ant
-        CommData dataSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
-        for(AntData data : dataSent.myAntList) {
-          data.myAction = new AntAction(AntAction.AntActionType.EXIT_NEST, dataReceived.nestData[NestNameEnum.BLACK_GARDEN.ordinal()].centerX, dataReceived.nestData[NestNameEnum.BLACK_GARDEN.ordinal()].centerY);
-        }
-        send.writeObject(dataSent.packageForSendToServer());
+        //control.checkLastTurn
+        control.dispatchThreads();
+        communication.myAntList = control.getAntList();
+
+        send.writeObject(communication.packageForSendToServer());
         send.flush();
         send.reset();
         System.out.println("Sent some stuff.");
+        
+        communication = (CommData) receive.readObject();
       }
       connection.close();
     }

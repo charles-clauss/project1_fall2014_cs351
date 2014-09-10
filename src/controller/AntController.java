@@ -16,8 +16,6 @@ public class AntController
   public void dispatchThreads()
   {
     exec = Executors.newFixedThreadPool(4);
-    //get data communicated at this time step
-    //check to see if there are new ants to be made
     for(Ant ant : ants)
     {
       exec.execute(ant);
@@ -25,8 +23,21 @@ public class AntController
     exec.shutdown();
     while(!exec.isTerminated()) {}
   }
-  
-  public void addAnt(AntData data) {
-    ants.add(AntFactory.makeant(data));
+  public void addAnt(AntData data)
+  {
+    ants.add(AntFactory.makeAnt(data));
+  }
+  public void removeAnt(Ant ant)
+  {
+    ants.remove(ant);
+  }
+  public ArrayList<AntData> getAntList()
+  {
+    ArrayList<AntData> antCopy = new ArrayList<AntData>();
+    for(Ant ant : ants)
+    {
+      antCopy.add(ant.createAntData());
+    }
+    return antCopy;
   }
 }
