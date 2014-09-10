@@ -1,6 +1,6 @@
 package event;
 
-public abstract class Observer
+public interface Observer
 {
-  public abstract void update(GameEvent ge);
+  public void update(GameEvent ge);
 }

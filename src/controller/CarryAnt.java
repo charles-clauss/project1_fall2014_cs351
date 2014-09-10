@@ -7,7 +7,7 @@ public class CarryAnt extends Ant
 {
   public CarryAnt(AntData data)
   {
-    this.data = data;
+    super(data);
   }
   public void run()
   {

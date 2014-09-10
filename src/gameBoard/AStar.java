@@ -14,7 +14,7 @@ import event.Observer;
  *         queue. Will change as we get program specs on how the graph is
  *         represented.
  */
-public class AStar extends Observer
+public class AStar implements Observer
 {
 
   @Override
