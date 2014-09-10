@@ -44,7 +44,7 @@ public class AStar extends Observer
    * @param goal
    * @return ceiling of the float distance. 
    */
-  public int euclidDistance(Coordinate current, Coordinate goal)
+  public static int euclidDistance(Coordinate current, Coordinate goal)
   {
     double distance = Math.sqrt(
         Math.pow(current.getX() - goal.getX(), 2) +
@@ -68,7 +68,7 @@ public class AStar extends Observer
    * @return a list of the coordinates that each ant must traverse - this gives them
    * a better thing that can handle game events. 
    */
-  public List<Coordinate> findPath(Coordinate start, Coordinate goal)
+  public static List<Coordinate> findPath(Coordinate start, Coordinate goal)
   {
     Coordinate current = start;
     Comparator<Coordinate> compare = new SortCoordinate();
