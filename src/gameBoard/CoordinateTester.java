@@ -75,7 +75,7 @@ public class CoordinateTester
     // }
     List<Coordinate> myPath = new ArrayList<Coordinate>();
     // printStuff(goal);
-    myPath = astar.findPath(start, goal);
+    myPath = AStar.findPath(start, goal);
 
     int cumWeight = 0;
     for (Coordinate c : myPath)
