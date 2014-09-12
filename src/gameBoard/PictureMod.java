@@ -1,9 +1,14 @@
 package gameBoard;
 
+import java.awt.Color;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PictureMod
+import javax.swing.JScrollPane;
+
+public class PictureMod implements ComponentListener
 {
 
   PictureMod()
@@ -44,10 +49,42 @@ public class PictureMod
     return al;
   }
 
+  public void writeText(String string, Picture pic, Coordinate c){
+   
+   
+    
+  }
   
   
   
   
+
+  public void componentResized(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void componentMoved(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void componentShown(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void componentHidden(ComponentEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+  
+  
+
   public static void main(String[] args)
   {
     System.out.println("testing pic class");
@@ -70,6 +107,35 @@ public class PictureMod
       System.out.println(i);
     }
     System.out.println(getPixelVal(pic, 0, 10));
+
+    
+    System.out.println("Testing Astar");
+    // AStar astar = new AStar();
+
+     Coordinate start = new Coordinate(300,250);
+     //Coordinate start = new Coordinate(580,170);
+
+     Coordinate goal = new Coordinate(580, 160);
+     
+
+     
+     List<Coordinate> myPath = new ArrayList<Coordinate>();
+     // printStuff(goal);
+     myPath = AStar.findPath(start, goal);
+
+     int cumWeight = 0;
+     for (Coordinate c : myPath)
+     {
+       cumWeight+=c.getWeight();
+       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
+           + c.getDistanceToGoal());
+       Color black = new Color(0, 0, 0);
+       Coordinate.getPic().setColor(c.getX(), c.getY(), black);
+       
+     }
+     System.out.println("Weight of the path = " + cumWeight);
+
+
 
   }
 

@@ -1,5 +1,6 @@
 package gameBoard;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,28 +52,17 @@ public class CoordinateTester
 
   }
 
-  @Test
+ // @Test
   public void testPathfinder()
   {
 
     System.out.println("Testing Astar");
-    AStar astar = new AStar();
+   // AStar astar = new AStar();
 
     Coordinate start = new Coordinate(1000, 2400);
     Coordinate goal = new Coordinate(1010, 2370);
 
-    // printStuff(start);
-    // System.out.println("Getting neighbors of start: " + start);
-    // System.out.println(start.getNeighbors());
-    // System.out.println("Getting neighbors of goal: " + goal);
-    // System.out.println(start.getNeighbors());
-
-    // System.out.println("Getting coordinates of all neighbors");
-    // for (Coordinate c : start.getNeighbors()){
-    // System.out.println("Neighbors X,Y: " + c.getX() + "," + c.getY()
-    // +", weight = " + c.getWeight() );
-
-    // }
+    
     List<Coordinate> myPath = new ArrayList<Coordinate>();
     // printStuff(goal);
     myPath = AStar.findPath(start, goal);
@@ -83,6 +73,8 @@ public class CoordinateTester
       cumWeight+=c.getWeight();
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
+      Color black = new Color(0, 0, 0);
+      c.getPic().setColor(c.getX(), c.getY(), black);
       
     }
     System.out.println("Weight of the path = " + cumWeight);

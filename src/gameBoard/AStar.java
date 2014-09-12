@@ -1,5 +1,6 @@
 package gameBoard;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -59,6 +60,21 @@ public class AStar implements Observer
     return estimate;
   }
 
+  public static void drawpath(Coordinate c){
+    Color red = new Color(200, 0, 0);
+    Coordinate.getPic().setColor(c.getX(), c.getY(), red);
+  }
+  
+  public static boolean checkClosed(List<Coordinate> list, Coordinate c){
+    for (Coordinate a : list){
+      if( c.areEqual(a) ){
+        return true;
+      }
+      
+    }
+    return false;
+    
+  }
   /**
    * Implementation of A* for pathfinding. Doesn't use a closedlist, 
    * just tossing things on the priority queue (openList) and letting it handle 
@@ -80,8 +96,8 @@ public class AStar implements Observer
     nullList = null;
     openList.add(current);
     // System.out.println("Astar: pq peek = " + openList.peek());
-    current.setDistanceToGoal(manDistance(current, goal));
-
+    current.setDistanceToGoal(euclidDistance(current, goal));
+    int examined = 0;
     while (openList.peek() != null)
     {
       current = openList.poll();
@@ -91,6 +107,7 @@ public class AStar implements Observer
       if (current.areEqual(goal) == true)
       {
         // System.out.println(constructPath(goal));
+        System.out.println("examined "+  examined + " nodes");
         return cameFromList;
       }
 
@@ -98,14 +115,31 @@ public class AStar implements Observer
 
       for (Coordinate n : neighbors)
       {
-        n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
-        if (!closedList.contains(n))
+        /*if (n.isMovable()==false){
+          closedList.add(n);
+          System.out.print("added " + n + " to closedlist, size = " );
+          System.out.println(closedList.size());
+          continue;
+        }*/
+        
+        
+        //if (!closedList.contains(n))
+        if (checkClosed(closedList, n) == false)
         {
-          openList.add(n);
-        }
-      } // end for
-      System.out.println(openList.peek().getDistanceToGoal());
+          n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
+          //n.setDistanceToGoal(euclidDistance(n, goal));
+          //n.setDistanceToGoal(n.getWeight());
 
+          openList.add(n);
+          
+        }
+        drawpath(n);
+        //System.out.print("added " + n + " "+ n.getX() + "," +n.getY()+ " to openlist, size = " );
+       // System.out.println(openList.size());
+        examined++;
+      } // end for
+      //System.out.println(openList.peek().getDistanceToGoal());
+      neighbors = null;
     } // end while
     // failure
     return nullList;

@@ -4,7 +4,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -20,8 +23,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class Picture extends JFrame implements ComponentListener
+public class Picture extends JFrame implements ComponentListener, MouseListener
 {
   public static final String VERSION = "Picture() Version 2013.4.16";
 
@@ -60,6 +64,7 @@ public class Picture extends JFrame implements ComponentListener
     contantPane.setLayout(null);
     drawPane = new DrawPane();
     contantPane.add(drawPane);
+    addMouseListener(this);
 
     addSpaceToFrameForBoarder();
   }
@@ -114,11 +119,13 @@ public class Picture extends JFrame implements ComponentListener
     imageHeight = offScreenImage.getHeight();
     this.setResizable(false);
     this.setVisible(true);
+    
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     Container contantPane = this.getContentPane();
     contantPane.setLayout(null);
     drawPane = new DrawPane();
     contantPane.add(drawPane);
+    addMouseListener(this);
 
     addSpaceToFrameForBoarder();
   }
@@ -398,12 +405,12 @@ public class Picture extends JFrame implements ComponentListener
 
   }
 
-  public static void main(String[] args)
+  /*public static void main(String[] args)
   {
     new Picture();
     String path = "../clientPack/AntWorld.png";
     new Picture(path);
-  }
+  }*/
 
   // =========================================================================
   // DrawPane
@@ -416,5 +423,41 @@ public class Picture extends JFrame implements ComponentListener
     {
       canvas.drawImage(offScreenImage, 0, 0, null);
     }
+  }
+
+  public void mouseClicked(MouseEvent e)
+  {
+    System.out.println("Mouse clicked on :"
+        + e.getX() + "," + e.getY());
+    System.out.println(Coordinate.getPic().getX() + "," + Coordinate.getPic().getY());
+    
+    
+    
+    Coordinate.getPic().setRGB(e.getX(), e.getY(), 0, 0, 0);
+    
+  }
+
+  public void mousePressed(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void mouseReleased(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void mouseEntered(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  public void mouseExited(MouseEvent e)
+  {
+    // TODO Auto-generated method stub
+    
   }
 }
