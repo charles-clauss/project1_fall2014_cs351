@@ -52,7 +52,7 @@ public class CoordinateTester
 
   }
 
-  @Test
+ // @Test
   public void testPathfinder()
   {
 

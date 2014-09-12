@@ -23,7 +23,7 @@ public class Coordinate
   private int costWithMe;
   private int distanceToGoal;
   private boolean isFood;
-  private boolean isMovable;
+  private boolean isMovable = true;
   private boolean isEnemy;
   private boolean isFriendly;
 
@@ -46,6 +46,9 @@ public class Coordinate
     rgb.add(PIC.getRed(x, y));
     rgb.add(PIC.getGreen(x, y));
     rgb.add(PIC.getBlue(x, y));
+    if (rgb.get(2) == 255){
+      this.isMovable = false;
+    }
     setWeight();
 
   }
@@ -69,13 +72,16 @@ public class Coordinate
     // Coordinate.setPic(game);
     // PIC = game;
     this.rgb = new ArrayList<Integer>();
-    rgb.add(PIC.getRed(x, y));
-    rgb.add(PIC.getGreen(x, y));
-    rgb.add(PIC.getBlue(x, y));
+    this.rgb.add(PIC.getRed(x, y));
+    this.rgb.add(PIC.getGreen(x, y));
+    this.rgb.add(PIC.getBlue(x, y));
     setWeight();
     this.parent = parent;
     this.distanceSoFar = parent.getCostSoFar() + this.weight;
     this.costWithMe = this.distanceSoFar + this.weight;
+    if (this.rgb.get(2) == 255){
+      this.isMovable = false;
+    }
 
   }
 
@@ -113,12 +119,12 @@ public class Coordinate
     // water
     if (this.rgb.get(2) == 255)
     {
-      this.weight = 1000;
+      this.weight = 10000;
     }
 
     else if (this.rgb.get(1) == 55)
     {
-      this.weight = 3;
+      this.weight = 10;
     }
     else if (this.rgb.get(1) == 144)
     {
@@ -175,31 +181,42 @@ public class Coordinate
     List<Coordinate> neighbors = new ArrayList<Coordinate>();
 
     Coordinate north = new Coordinate(this.x - 1, this.y, this);
+    if (north.isMovable){
     neighbors.add(north);
+    }
     
     Coordinate northEast = new Coordinate(this.x-1, this.y+1, this);
-    neighbors.add(northEast);
+    if (northEast.isMovable){
+    neighbors.add(northEast);}
 
     Coordinate east = new Coordinate(this.x, this.y + 1,
         this);
+    if (east.isMovable){
     neighbors.add(east);
+    }
     
     Coordinate southEast = new Coordinate(this.x+1, this.y+1, this);
-    neighbors.add(southEast);
+    if (southEast.isMovable){
+    neighbors.add(southEast);}
     
 
     Coordinate south = new Coordinate(this.x + 1, this.y, this);
-    neighbors.add(south);
+    if (south.isMovable){
+    neighbors.add(south);}
     
     Coordinate southWest = new Coordinate(this.x + 1, this.y-1, this);
-    neighbors.add(southWest);
+    if (southWest.isMovable){
+    neighbors.add(southWest);}
     
 
     Coordinate west = new Coordinate(this.x, this.y - 1, this);
+    if (west.isMovable){
     neighbors.add(west);
-
+    }
+    
     Coordinate northWest = new Coordinate(this.x-1, this.y - 1, this);
-    neighbors.add(northWest);
+    if (northWest.isMovable){
+    neighbors.add(northWest);}
 
     
     return neighbors;
