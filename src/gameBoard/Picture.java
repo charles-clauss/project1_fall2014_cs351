@@ -427,13 +427,10 @@ public class Picture extends JFrame implements ComponentListener, MouseListener
 
   public void mouseClicked(MouseEvent e)
   {
-    System.out.println("Mouse clicked on :"
-        + e.getX() + "," + e.getY());
-    System.out.println(Coordinate.getPic().getX() + "," + Coordinate.getPic().getY());
-    
-    
-    
-    Coordinate.getPic().setRGB(e.getX(), e.getY(), 0, 0, 0);
+    System.out.print("Mouse clicked on :"
+        + e.getX() + "," + e.getY() + " ");
+    Coordinate c = new Coordinate(e.getX(), e.getY());
+    System.out.println(" , rgb = " + c.getRGB());
     
   }
 
