@@ -26,10 +26,11 @@ public class Coordinate
   private boolean isMovable = true;
   private boolean isEnemy;
   private boolean isFriendly;
+  private boolean isNest = false;
 
   /**
    * Main constructor that stores the rgb values from the pic Mostly to be used
-   * for the starting and goal
+   * for the starting and goal or just a generic 'coordinate'
    * 
    * @param a
    *          x coordinate
@@ -120,27 +121,36 @@ public class Coordinate
     if (this.rgb.get(2) == 255)
     {
       this.weight = 10000;
+      this.isMovable = false;
     }
 
     else if (this.rgb.get(1) == 55)
     {
-      this.weight = 10;
-    }
-    else if (this.rgb.get(1) == 144)
-    {
       this.weight = 1;
+    }
+    else if (this.rgb.get(1) > 55)
+    {
+      this.weight = 5;
+    }
+    else if (this.rgb.get(0) == 240){
+      this.isMovable = true;
+      this.weight = 0; 
+      this.isNest = true;
     }
 
     // need to implement the rest of these color schemes as we know what they
     // are
   }
 
+  public boolean getNest(){
+    return this.isNest;
+  }
   /**
    * @return this node's movement weight
    */
   public int getWeight()
   {
-    return weight;
+    return this.weight;
   }
 
   /**
