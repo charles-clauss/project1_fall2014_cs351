@@ -74,7 +74,7 @@ public class CoordinateTester
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
       Color black = new Color(0, 0, 0);
-      c.getPic().setColor(c.getX(), c.getY(), black);
+      Coordinate.getPic().setColor(c.getX(), c.getY(), black);
       
     }
     System.out.println("Weight of the path = " + cumWeight);
