@@ -7,7 +7,7 @@ public class VisionAnt extends Ant
 {
   public VisionAnt(AntData data)
   {
-    this.data = data;
+    super(data);
   }
   public void run()
   {

@@ -15,7 +15,7 @@ import event.Observer;
  * queue. Uses euclidian distance as a heuristic. Generates a
  * 'coordinate' object with path information.
  */
-public class AStar extends Observer
+public class AStar implements Observer
 {
 
   @Override
