@@ -11,6 +11,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
@@ -117,16 +120,24 @@ public class Picture extends JFrame implements ComponentListener, MouseListener
     this.setTitle(path);
     imageWidth = offScreenImage.getWidth();
     imageHeight = offScreenImage.getHeight();
-    this.setResizable(false);
+    this.setResizable(true);
     this.setVisible(true);
+    JScrollPane jsp = new JScrollPane();
     
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    Container contantPane = this.getContentPane();
-    contantPane.setLayout(null);
+    Container contentPane = this.getContentPane();
+    
+    contentPane.setLayout(null);
     drawPane = new DrawPane();
-    contantPane.add(drawPane);
+    contentPane.add(drawPane);
+    // ag added this
     addMouseListener(this);
-
+   // contentPane.add(jsp);
+    contentPane.setPreferredSize(new Dimension(500,750));
+    contentPane.add(jsp);
+    contentPane.repaint();
+    //contentPane.pack();
+    
     addSpaceToFrameForBoarder();
   }
 

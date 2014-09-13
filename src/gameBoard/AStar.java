@@ -77,7 +77,7 @@ public class AStar implements Observer
   public static void drawpath(Coordinate c)
   {
     Color red = new Color(200, 0, 0);
-    PictureMod.getPic().setColor(c.getX(), c.getY(), red);
+    Coordinate.getPic().setColor(c.getX(), c.getY(), red);
   }
 /**
  * Helper function that looks up a coordinate by x and y position

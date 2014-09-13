@@ -10,12 +10,16 @@ import javax.swing.JScrollPane;
 
 public class PictureMod implements ComponentListener
 {
-  private static final Picture MODPIC =
-      new Picture(
-          "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
+  private static Picture MODPIC;
+      
   PictureMod()
   {
 
+  }
+  
+  public static void makePick(){
+    PictureMod.MODPIC = new Picture(
+        "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
   }
 
   /**
@@ -118,7 +122,7 @@ public class PictureMod implements ComponentListener
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
       Color black = new Color(0, 0, 0);
-      PictureMod.getPic().setColor(c.getX(), c.getY(), black);
+      Coordinate.getPic().setColor(c.getX(), c.getY(), black);
       //PictureMod.MODPIC.getGraphics().drawString(".", c.getX(), c.getY());
 
 
