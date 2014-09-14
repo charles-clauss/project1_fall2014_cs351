@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayDeque;
+import java.util.Queue;
 
 import antworld.data.*;
 import event.Observer;
@@ -10,12 +11,12 @@ import event.GameEvent;
 //by a global event handler that holds game state
 public abstract class Ant implements Runnable, Observer
 {
-  protected int queueCap = 10;
-  protected ArrayDeque<AntAction> actions;
+  protected int queueCap = 20;
+  protected Queue<AntAction> actions;
   protected GameEvent currentTask;
   protected GameEvent newTask;
-  public AntAction nextAction;
   
+  public AntAction nextAction;
   public NestNameEnum nest;
   public TeamNameEnum team;
   public AntType antType;
@@ -27,6 +28,7 @@ public abstract class Ant implements Runnable, Observer
   public int health;
   public boolean underground = true;
   public boolean alive = true;
+  
   public Ant(AntData data)
   {
     actions = new ArrayDeque<AntAction>(queueCap);
@@ -41,12 +43,12 @@ public abstract class Ant implements Runnable, Observer
     this.ticksUntilNextAction = data.ticksUntilNextAction;
     this.health = data.health;
     this.underground = data.underground;
-    this.alive= data.alive;
+    this.alive = data.alive;
   }
+  
   public AntData createAntData()
   {
     AntData copy = new AntData(id, antType, nest, team);
-    copy.id = this.id;
     copy.gridX = this.xPos;
     copy.gridY = this.yPos;
     copy.carryType = this.carryType;
@@ -58,6 +60,7 @@ public abstract class Ant implements Runnable, Observer
     copy.alive = this.alive;
     return copy;
   }
+  
   public void setNextAction()
   {
     if(!actions.isEmpty())
@@ -69,15 +72,19 @@ public abstract class Ant implements Runnable, Observer
       nextAction = new AntAction(AntAction.AntActionType.STASIS);
     }
   }
+  
   public void update(GameEvent ge)
   {
   }
+  
   public void run()
   {
-    //check for event update
-    //do any path finding
-    //setNextAction and update data based on that action
+    if(currentTask != null)
+    {
+      setNextAction();
+    }
   }
+  
   public boolean equals(Object o)
   {
     if(o instanceof AntData)

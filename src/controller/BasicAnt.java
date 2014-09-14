@@ -9,9 +9,6 @@ public class BasicAnt extends Ant
   {
     super(data);
   }
-  public void run()
-  {
-  }
   public void update(GameEvent ge)
   {
   }

@@ -11,7 +11,6 @@
 
 package event;
 
-import gameBoard.AStar;
 import controller.AntController;
 import antworld.data.*;
 import client.ClientSocket;
@@ -42,22 +41,21 @@ public class GameState
     try
     {
       System.out.println("Got here.");
-      AntController control = new AntController();
       CommData dataFirstSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
       dataFirstSent.password = 715779476403L;
       dataFirstSent.requestNestData = true;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());
-      //Initialize Ant Controller, needs to be refactored first.
+
       send.writeObject(dataFirstSent.packageForSendToServer());
       send.flush();
       send.reset();
       System.out.println("Got here too.");
       CommData communication = (CommData) receive.readObject();
-      for(AntData data : communication.myAntList) {
-        control.addAnt(data);
-      }
+
+      AntController control = new AntController(communication.myAntList);
+      
       while(connection.isConnected())
       {
         System.out.println("Executing loop.");

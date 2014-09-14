@@ -1,21 +1,29 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.*;
-import antworld.data.*;
+
+import antworld.data.AntData;
+import event.GameEvent;
 
 public class AntController
 {
-  private ExecutorService exec;
-  private ArrayList<Ant> ants;
+  private ExecutorService exec = Executors.newFixedThreadPool(4);
+  private List<Ant> ants = new ArrayList<Ant>();
+  private List<GameEvent> events = Collections.synchronizedList(new ArrayList<GameEvent>());
 
-  public AntController()
+  public AntController(ArrayList<AntData> startingAnts)
   {
+    for(AntData ant : startingAnts)
+    {
+      addAnt(ant);
+    }
   }
 
   public void dispatchThreads()
   {
-    exec = Executors.newFixedThreadPool(4);
     for(Ant ant : ants)
     {
       exec.execute(ant);
