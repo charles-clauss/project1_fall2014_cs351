@@ -5,7 +5,7 @@ public class GameEvent
   private String eventType; 
   
   
- GameEvent(String type){
+ public GameEvent(String type){
    this.eventType = type;
  }
   

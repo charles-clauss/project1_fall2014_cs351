@@ -48,4 +48,16 @@ public class AntController
     }
     return antCopy;
   }
+  
+  
+  public GameEvent getEvent (){
+    if (!events.isEmpty()){
+      return events.get(0);
+    }else{
+      GameEvent e = new GameEvent("gatherFood");
+      return e;
+    }
+    
+    
+  }
 }
