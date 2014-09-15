@@ -25,10 +25,15 @@ public class Coordinate
   private int distanceSoFar;
   private int costWithMe;
   private int distanceToGoal;
+  private boolean isFood;
+  private boolean isMovable = true;
+  private boolean isEnemy;
+  private boolean isFriendly;
+  private boolean isNest = false;
 
   /**
    * Main constructor that stores the rgb values from the pic Mostly to be used
-   * for the starting and goal
+   * for the starting and goal or just a generic 'coordinate'
    * 
    * @param a
    *          x coordinate
@@ -45,6 +50,9 @@ public class Coordinate
     rgb.add(PIC.getRed(x, y));
     rgb.add(PIC.getGreen(x, y));
     rgb.add(PIC.getBlue(x, y));
+    if (rgb.get(2) == 255){
+      this.isMovable = false;
+    }
     setWeight();
 
   }
@@ -68,13 +76,16 @@ public class Coordinate
     // Coordinate.setPic(game);
     // PIC = game;
     this.rgb = new ArrayList<Integer>();
-    rgb.add(PIC.getRed(x, y));
-    rgb.add(PIC.getGreen(x, y));
-    rgb.add(PIC.getBlue(x, y));
+    this.rgb.add(PIC.getRed(x, y));
+    this.rgb.add(PIC.getGreen(x, y));
+    this.rgb.add(PIC.getBlue(x, y));
     setWeight();
     this.parent = parent;
     this.distanceSoFar = parent.getCostSoFar() + this.weight;
     this.costWithMe = this.distanceSoFar + this.weight;
+    if (this.rgb.get(2) == 255){
+      this.isMovable = false;
+    }
 
   }
 
@@ -112,28 +123,37 @@ public class Coordinate
     // water
     if (this.rgb.get(2) == 255)
     {
-      this.weight = 1000;
+      this.weight = 10000;
+      this.isMovable = false;
     }
 
     else if (this.rgb.get(1) == 55)
     {
-      this.weight = 3;
-    }
-    else if (this.rgb.get(1) == 144)
-    {
       this.weight = 1;
+    }
+    else if (this.rgb.get(1) > 55)
+    {
+      this.weight = 5;
+    }
+    else if (this.rgb.get(0) == 240){
+      this.isMovable = true;
+      this.weight = 0; 
+      this.isNest = true;
     }
 
     // need to implement the rest of these color schemes as we know what they
     // are
   }
 
+  public boolean getNest(){
+    return this.isNest;
+  }
   /**
    * @return this node's movement weight
    */
   public int getWeight()
   {
-    return weight;
+    return this.weight;
   }
 
   /**
@@ -174,31 +194,42 @@ public class Coordinate
     List<Coordinate> neighbors = new ArrayList<Coordinate>();
 
     Coordinate north = new Coordinate(this.x - 1, this.y, this);
+    if (north.isMovable){
     neighbors.add(north);
+    }
     
     Coordinate northEast = new Coordinate(this.x-1, this.y+1, this);
-    neighbors.add(northEast);
+    if (northEast.isMovable){
+    neighbors.add(northEast);}
 
     Coordinate east = new Coordinate(this.x, this.y + 1,
         this);
+    if (east.isMovable){
     neighbors.add(east);
+    }
     
     Coordinate southEast = new Coordinate(this.x+1, this.y+1, this);
-    neighbors.add(southEast);
+    if (southEast.isMovable){
+    neighbors.add(southEast);}
     
 
     Coordinate south = new Coordinate(this.x + 1, this.y, this);
-    neighbors.add(south);
+    if (south.isMovable){
+    neighbors.add(south);}
     
     Coordinate southWest = new Coordinate(this.x + 1, this.y-1, this);
-    neighbors.add(southWest);
+    if (southWest.isMovable){
+    neighbors.add(southWest);}
     
 
     Coordinate west = new Coordinate(this.x, this.y - 1, this);
+    if (west.isMovable){
     neighbors.add(west);
-
+    }
+    
     Coordinate northWest = new Coordinate(this.x-1, this.y - 1, this);
-    neighbors.add(northWest);
+    if (northWest.isMovable){
+    neighbors.add(northWest);}
 
     
     return neighbors;
@@ -244,6 +275,50 @@ public class Coordinate
       }
     }
     return myDir;
+  }
+
+  static public Picture getPic(){
+    return Coordinate.PIC;
+  }
+
+  public boolean isFood()
+  {
+    return isFood;
+  }
+
+  public void setFood(boolean isFood)
+  {
+    this.isFood = isFood;
+  }
+
+  public boolean isMovable()
+  {
+    return isMovable;
+  }
+
+  public void setMovable(boolean isMovable)
+  {
+    this.isMovable = isMovable;
+  }
+
+  public boolean isEnemy()
+  {
+    return isEnemy;
+  }
+
+  public void setEnemy(boolean isEnemy)
+  {
+    this.isEnemy = isEnemy;
+  }
+
+  public boolean isFriendly()
+  {
+    return isFriendly;
+  }
+
+  public void setFriendly(boolean isFriendly)
+  {
+    this.isFriendly = isFriendly;
   }
 
 } // end class

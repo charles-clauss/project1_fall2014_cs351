@@ -1,19 +1,19 @@
 package gameBoard;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
 import event.GameEvent;
 import event.Observer;
 
 /**
- * @author agonzales Implements a version of the A* algorithm using a priority
- *         queue. Uses euclidian distance 
- *         as a heuristic. 
- *         Generates a 'coordinate' object with path information.
+ * @author agonzales 
+ * Implements a version of the A* algorithm using a priority
+ * queue. Uses euclidian distance as a heuristic. Generates a
+ * 'coordinate' object with path information.
  */
 public class AStar implements Observer
 {
@@ -26,9 +26,12 @@ public class AStar implements Observer
   }
 
   /**
-   * Returns the manhatten distance from a coordinate to another coordinate
-   * @param current a coordinate
-   * @param goal another coordinate
+   * Returns the Manhattan distance from a coordinate to another coordinate
+   * 
+   * @param current
+   *          a coordinate
+   * @param goal
+   *          another coordinate
    * @return the distance between the two
    */
   public static int manDistance(Coordinate current, Coordinate goal)
@@ -40,9 +43,10 @@ public class AStar implements Observer
 
   /**
    * Euclidian distance between nodes.
+   * 
    * @param current
    * @param goal
-   * @return ceiling of the float distance. 
+   * @return ceiling of the float distance.
    */
   public static int euclidDistance(Coordinate current, Coordinate goal)
   {
@@ -52,6 +56,13 @@ public class AStar implements Observer
     return (int) Math.ceil(distance);
   }
 
+  /**
+   * Estimates the distance between the neighbor and the goal
+   * @param goal
+   * @param neighbor
+   * @param currentDistance
+   * @return
+   */
   public static int estimateDistance(Coordinate goal,
       Coordinate neighbor, int currentDistance)
   {
@@ -60,13 +71,44 @@ public class AStar implements Observer
   }
 
   /**
-   * Implementation of A* for pathfinding. Doesn't use a closedlist, 
-   * just tossing things on the priority queue (openList) and letting it handle 
-   * what's on top. I may recheck the comparator at some point.
-   * @param start start of your path
-   * @param goal target node
-   * @return a list of the coordinates that each ant must traverse - this gives them
-   * a better thing that can handle game events. 
+   * Helper function to draw the nodes on the openList
+   * @param c
+   */
+  public static void drawpath(Coordinate c)
+  {
+    Color red = new Color(200, 0, 0);
+    PictureMod.getPic().setColor(c.getX(), c.getY(), red);
+  }
+/**
+ * Helper function that looks up a coordinate by x and y position
+ * 
+ * @param list
+ * @param c
+ * @return
+ */
+  public static boolean checkClosed(List<Coordinate> list, Coordinate c)
+  {
+    for (Coordinate a : list)
+    {
+      if (c.areEqual(a))
+      {
+        return true;
+      }
+
+    }
+    return false;
+
+  }
+
+  /**
+   * Implementation of A* for pathfinding. 
+   * 
+   * @param start
+   *          start of your path
+   * @param goal
+   *          target node
+   * @return a list of the coordinates that each ant must traverse - this gives
+   *         them a better thing that can handle potential game events.
    */
   public static List<Coordinate> findPath(Coordinate start, Coordinate goal)
   {
@@ -80,9 +122,9 @@ public class AStar implements Observer
     nullList = null;
     openList.add(current);
     // System.out.println("Astar: pq peek = " + openList.peek());
-    current.setDistanceToGoal(manDistance(current, goal));
-
-    while (openList.peek() != null)
+    current.setDistanceToGoal(euclidDistance(current, goal));
+    int examined = 0;
+    while (! openList.isEmpty())
     {
       current = openList.poll();
       closedList.add(current);
@@ -91,6 +133,7 @@ public class AStar implements Observer
       if (current.areEqual(goal) == true)
       {
         // System.out.println(constructPath(goal));
+        System.out.println("examined " + examined + " nodes");
         return cameFromList;
       }
 
@@ -98,45 +141,21 @@ public class AStar implements Observer
 
       for (Coordinate n : neighbors)
       {
-        n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
-        if (!closedList.contains(n))
+        if (checkClosed(closedList, n) == false)
         {
+          n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
           openList.add(n);
         }
+        drawpath(n);
+        examined++;
       } // end for
-      System.out.println(openList.peek().getDistanceToGoal());
-
+      // may help with GC? 
+      neighbors = null;
     } // end while
     // failure
     return nullList;
   } // end findpath
 
-  /**
-   * A helper for constructPath that compares the x and y values of two nodes to
-   * determine whether a move of left, right, up, or down was made.
-   * 
-   * @return A single character string of L, R, D, or U.
-   * @see constructPath
-   */
-  public String pathHelper(Coordinate a, Coordinate b)
-  {
-    if ((a.getX() - b.getX()) == 1)
-    {
-      return "L";
-    }
-    if ((b.getX() - a.getX()) == 1)
-    {
-      return "R";
-    }
-    if ((a.getY() - b.getY()) == 1)
-    {
-      return "U";
-    }
-    if ((b.getY() - a.getY()) == 1)
-    {
-      return "D";
-    }
-    return "X";
-  }
+  
 
 } // end class AStar
