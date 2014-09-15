@@ -1,11 +1,14 @@
 package controller;
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 
 import antworld.data.*;
 import event.Observer;
 import event.GameEvent;
+import gameBoard.AStar;
+import gameBoard.Coordinate;
 
 //Make this extend an Observer class that can be notified
 //by a global event handler that holds game state
@@ -75,13 +78,29 @@ public abstract class Ant implements Runnable, Observer
   
   public void update(GameEvent ge)
   {
+    currentTask = ge;
+    if(ge.getType() == "food")
+    {
+      Coordinate myPos = new Coordinate(this.xPos, this.yPos);
+      FoodData food = AntController.getNearestFood(myPos);
+      List<Coordinate> moves = AStar.findPath(myPos, new Coordinate(food.gridX, food.gridY));
+      actions.clear();
+      for(int i = 0; i < moves.size() - 3; i++)
+      {
+        actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
+      }
+      actions.add(new AntAction(AntAction.AntActionType.PICKUP, Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)), this.carryUnits));
+    }
   }
   
   public void run()
   {
-    if(currentTask != null)
+    if(this.ticksUntilNextAction == 0)
     {
-      setNextAction();
+      if(currentTask != null)
+      {
+        setNextAction();
+      }
     }
   }
   
@@ -95,5 +114,9 @@ public abstract class Ant implements Runnable, Observer
       }
     }
     return false;
+  }
+  public Queue<AntAction> moveHelper(List<Coordinate> moves)
+  {
+    
   }
 }
