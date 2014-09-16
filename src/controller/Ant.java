@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -119,4 +120,25 @@ public abstract class Ant implements Runnable, Observer
   {
     
   }
+  
+  public List<Object> toList(){
+    List<Object> myList = new ArrayList<Object>();
+    myList.add(this.id);
+    //myList.add(this.nest);
+   // myList.add(this.team);
+    myList.add(this.antType);
+    myList.add(this.xPos);
+    myList.add(this.yPos);
+    myList.add(this.carryType);
+    //myList.add(this.carryUnits);
+  //  myList.add(this.ticksUntilNextAction);
+    myList.add(this.health);
+   // myList.add(this.underground);
+    myList.add(this.alive);
+
+
+    return myList;
+    
+  }
+  
 }
