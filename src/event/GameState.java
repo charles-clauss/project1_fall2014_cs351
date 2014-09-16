@@ -1,5 +1,5 @@
 /**
- * @author Charles Clauss
+a * @author Charles Clauss
  * 
  * The GameState class provides the main execution handling
  * for communication between the Ant server and this project.
@@ -54,7 +54,7 @@ public class GameState
       System.out.println("Got here too.");
       CommData communication = (CommData) receive.readObject();
 
-      AntController control = new AntController(communication.myAntList);
+      AntController control = new AntController(communication);
       
       while(connection.isConnected())
       {
