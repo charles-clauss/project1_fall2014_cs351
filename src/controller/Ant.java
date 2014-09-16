@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 import antworld.data.*;
+import event.ExploreEvent;
 import event.Observer;
 import event.GameEvent;
 import gameBoard.AStar;
@@ -21,6 +22,8 @@ public class Ant implements Runnable, Observer
   protected GameEvent currentTask;
   protected GameEvent newTask;
   protected boolean actionSuccess = true;
+  protected int failureCount = 0;
+  protected int failureThreshold = Constants.random.nextInt(8) + 2;
   
   public AntAction nextAction = new AntAction(AntAction.AntActionType.STASIS);
   public NestNameEnum nest;
@@ -135,7 +138,7 @@ public class Ant implements Runnable, Observer
       Direction exploreDirection = Direction.values()[Constants.random.nextInt(Direction.SIZE)];
       Coordinate myPos = new Coordinate(xPos, yPos);
       List<Coordinate> moves = AStar.findPath(myPos,
-               new Coordinate(xPos + 15 * exploreDirection.deltaX(), yPos + 15 * exploreDirection.deltaY()));
+               new Coordinate(xPos + 40 * exploreDirection.deltaX(), yPos + 40 * exploreDirection.deltaY()));
       actions.clear();
       for(int i = 0; i < moves.size() - 2; i++)
       {
@@ -151,6 +154,7 @@ public class Ant implements Runnable, Observer
       if(actionSuccess)
       {
         setNextAction();
+        if(DEBUG) {System.out.println("Ant #" + id + " moving at x=" + xPos + " y=" + yPos);}
       }
     }
   }
@@ -158,6 +162,12 @@ public class Ant implements Runnable, Observer
   public void setFailure()
   {
     actionSuccess = false;
+    failureCount++;
+    if(failureCount > failureThreshold)
+    {
+      update(new ExploreEvent());
+    }
+    failureCount = 0;
   }
   
   public void setSuccess()

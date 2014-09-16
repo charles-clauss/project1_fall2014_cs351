@@ -41,7 +41,7 @@ public class AntController
     {
     	ant.update(getEvent());
     }
-    
+    System.out.println("Finished constructing");
     setNestLocations(startingAnts);
   }
   /**
