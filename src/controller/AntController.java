@@ -57,7 +57,5 @@ public class AntController
       GameEvent e = new GameEvent("gatherFood");
       return e;
     }
-    
-    
   }
 }

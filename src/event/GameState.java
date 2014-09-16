@@ -62,6 +62,10 @@ public class GameState
         //control.checkLastTurn
         control.dispatchThreads();
         communication.myAntList = control.getAntList();
+        communication.enemyAntSet = null;
+        communication.foodSet = null;
+        communication.foodStockPile = null;
+        communication.nestData = null;
 
         send.writeObject(communication.packageForSendToServer());
         send.flush();

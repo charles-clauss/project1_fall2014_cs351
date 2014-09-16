@@ -115,8 +115,4 @@ public abstract class Ant implements Runnable, Observer
     }
     return false;
   }
-  public Queue<AntAction> moveHelper(List<Coordinate> moves)
-  {
-    
-  }
 }
