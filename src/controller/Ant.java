@@ -18,6 +18,7 @@ public abstract class Ant implements Runnable, Observer
   protected Queue<AntAction> actions;
   protected GameEvent currentTask;
   protected GameEvent newTask;
+  protected boolean actionSuccess = true;
   
   public AntAction nextAction;
   public NestNameEnum nest;
@@ -66,7 +67,12 @@ public abstract class Ant implements Runnable, Observer
   
   public void setNextAction()
   {
-    if(!actions.isEmpty())
+    if(this.underground)
+    {
+      Coordinate exit = AntController.getRandomExitCoordinate();
+      nextAction = new AntAction(AntAction.AntActionType.EXIT_NEST, exit.getX(), exit.getY());
+    }
+    else if(!actions.isEmpty())
     {
       nextAction = actions.poll();
     }
@@ -79,7 +85,7 @@ public abstract class Ant implements Runnable, Observer
   public void update(GameEvent ge)
   {
     currentTask = ge;
-    if(ge.getType() == "food")
+    if(ge.getType() == "gatherFood")
     {
       Coordinate myPos = new Coordinate(this.xPos, this.yPos);
       FoodData food = AntController.getNearestFood(myPos);
@@ -90,12 +96,14 @@ public abstract class Ant implements Runnable, Observer
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
       }
       actions.add(new AntAction(AntAction.AntActionType.PICKUP, Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)), this.carryUnits));
+      myPos = moves.get(moves.size() - 2);
+      List<Coordinate> movesHome = AStar.findPath(myPos, AntController.getNearestNestCoordinate(myPos));
     }
   }
   
   public void run()
   {
-    if(this.ticksUntilNextAction == 0)
+    if(ticksUntilNextAction == 0)
     {
       if(currentTask != null)
       {
