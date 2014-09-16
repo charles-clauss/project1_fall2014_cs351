@@ -1,16 +1,18 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.*;
 
+import antworld.data.AntAction;
 import antworld.data.AntData;
 import antworld.data.CommData;
 import antworld.data.Constants;
 import antworld.data.FoodData;
+import event.ExploreEvent;
 import event.GameEvent;
+import event.GatherEvent;
 import gameBoard.AStar;
 import gameBoard.Coordinate;
 
@@ -18,7 +20,6 @@ public class AntController
 {
   private ExecutorService exec = Executors.newFixedThreadPool(4);
   private List<Ant> ants = new ArrayList<Ant>();
-  //private List<GameEvent> events = Collections.synchronizedList(new ArrayList<GameEvent>());
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood;
   private static Coordinate nestCenter;
@@ -39,8 +40,8 @@ public class AntController
    */
   public void setNestLocations(CommData data){
     nestCenter = new Coordinate(data.nestData[data.myNest.ordinal()].centerX, data.nestData[data.myNest.ordinal()].centerY);
-    int x = data.nestData[data.myNest.ordinal()].centerX;
-    int y = data.nestData[data.myNest.ordinal()].centerY;
+    int x = nestCenter.getX();
+    int y = nestCenter.getY();
     //Coordinate nestCenter = new Coordinate(x,y);    
     Coordinate northCorner = new Coordinate(x-18, y);
     Coordinate southCorner = new Coordinate(x+18, y);
@@ -78,28 +79,66 @@ public class AntController
     return new Coordinate(randomNestPoint.getX() + xOffset, randomNestPoint.getY() + yOffset);
   }
 
-  public void dispatchThreads(ArrayList<AntData> serverAnts)
+  public void dispatchThreads(CommData data)
   {
+    AntController.visibleFood = data.foodSet;
     Ant temp;
-    for(AntData ant : serverAnts)
+    for(AntData ant : data.myAntList)
     {
       temp = ants.get(ants.indexOf(ant));
-      if(temp.xPos == ant.gridX && temp.yPos == ant.gridY &&
-         temp.carryUnits == ant.carryUnits)
+      if(temp.nextAction.type == AntAction.AntActionType.MOVE)
       {
-        temp.setSuccess();
+        if(temp.xPos == ant.gridX && temp.yPos == ant.gridY)
+        {
+          temp.setSuccess();
+        }
+        else
+        {
+          temp.setFailure();
+        }
       }
-      else
+      if(temp.nextAction.type == AntAction.AntActionType.PICKUP)
       {
-        temp.setFailure();
+        if(temp.carryUnits <= ant.carryUnits)
+        {
+          temp.setSuccess();
+        }
+        else
+        {
+          Coordinate tempPos = new Coordinate(temp.xPos, temp.yPos);
+          FoodData nearbyFood = getNearestFood(tempPos);
+          Coordinate foodPos = new Coordinate(nearbyFood.gridX, nearbyFood.gridY);
+          if(AStar.euclidDistance(tempPos, foodPos) == 1)
+          {
+            temp.setFailure();
+          }
+          else
+          {
+            temp.update(getEvent());
+          }
+        }
+      }
+      if(temp.nextAction.type == AntAction.AntActionType.DROP)
+      {
+        if(ant.carryUnits != 0)
+        {
+          temp.setFailure();
+        }
+        else
+        {
+          temp.setSuccess();
+        }
+      }
+      if(ant.myAction.type == AntAction.AntActionType.DIED)
+      {
+        removeAnt(temp);
+        continue;
       }
       exec.execute(temp);
     }
     exec.shutdown();
     while(!exec.isTerminated()) {}
   }
-  
-  
   
   public void addAnt(AntData data)
   {
@@ -142,18 +181,17 @@ public class AntController
     return bestFood;
   }
   
-  public GameEvent getEvent ()
+  public static GameEvent getEvent ()
   {
-    /*
-    if (!events.isEmpty())
+    GameEvent e;
+    if(!visibleFood.isEmpty())
     {
-      return events.get(0);
+      e = new GatherEvent();
     }
     else
     {
-    */
-    GameEvent e = new GameEvent("gatherFood");
+      e = new ExploreEvent();
+    }
     return e;
-    //}
   }
 }

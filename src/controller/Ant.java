@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Queue;
 
 import antworld.data.*;
+import event.GatherEvent;
 import event.Observer;
 import event.GameEvent;
 import gameBoard.AStar;
@@ -80,11 +81,19 @@ public abstract class Ant implements Runnable, Observer
         xPos += nextAction.direction.deltaX();
         yPos += nextAction.direction.deltaY();
       }
+      if(nextAction.type == AntAction.AntActionType.DROP)
+      {
+        carryUnits = 0;
+      }
+      if(nextAction.type == AntAction.AntActionType.PICKUP)
+      {
+        carryUnits = 1;
+      }
     }
     else
     {
       nextAction = new AntAction(AntAction.AntActionType.STASIS);
-      update(new GameEvent("gatherFood"));
+      update(AntController.getEvent());
     }
   }
   

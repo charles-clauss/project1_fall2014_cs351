@@ -60,7 +60,7 @@ public class GameState
       {
         System.out.println("Executing loop.");
 
-        control.dispatchThreads(communication.myAntList);
+        control.dispatchThreads(communication);
         communication.myAntList = control.getAntList();
         communication.enemyAntSet = null;
         communication.foodSet = null;
