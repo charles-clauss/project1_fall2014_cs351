@@ -249,7 +249,7 @@ public class ClientRandomWalk
   public static void main(String[] args)
   {
     
-    String serverHost = "129.24.57.80";
+    String serverHost = "b146-51";
     //System.out.println(args.length);
     if (args.length > 0) serverHost = args[0];
     
