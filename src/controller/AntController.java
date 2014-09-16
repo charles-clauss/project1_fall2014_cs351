@@ -78,23 +78,39 @@ public class AntController
     return new Coordinate(randomNestPoint.getX() + xOffset, randomNestPoint.getY() + yOffset);
   }
 
-  public void dispatchThreads()
+  public void dispatchThreads(ArrayList<AntData> serverAnts)
   {
-    for(Ant ant : ants)
+    Ant temp;
+    for(AntData ant : serverAnts)
     {
-      exec.execute(ant);
+      temp = ants.get(ants.indexOf(ant));
+      if(temp.xPos == ant.gridX && temp.yPos == ant.gridY &&
+         temp.carryUnits == ant.carryUnits)
+      {
+        temp.setSuccess();
+      }
+      else
+      {
+        temp.setFailure();
+      }
+      exec.execute(temp);
     }
     exec.shutdown();
     while(!exec.isTerminated()) {}
   }
+  
+  
+  
   public void addAnt(AntData data)
   {
     ants.add(AntFactory.makeAnt(data));
   }
+  
   public void removeAnt(Ant ant)
   {
     ants.remove(ant);
   }
+  
   public ArrayList<AntData> getAntList()
   {
     ArrayList<AntData> antCopy = new ArrayList<AntData>();

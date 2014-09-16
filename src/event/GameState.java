@@ -59,8 +59,8 @@ public class GameState
       while(connection.isConnected())
       {
         System.out.println("Executing loop.");
-        //control.checkLastTurn
-        control.dispatchThreads();
+
+        control.dispatchThreads(communication.myAntList);
         communication.myAntList = control.getAntList();
         communication.enemyAntSet = null;
         communication.foodSet = null;

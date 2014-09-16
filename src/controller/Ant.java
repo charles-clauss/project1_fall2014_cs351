@@ -75,10 +75,16 @@ public abstract class Ant implements Runnable, Observer
     else if(!actions.isEmpty())
     {
       nextAction = actions.poll();
+      if(nextAction.type == AntAction.AntActionType.MOVE)
+      {
+        xPos += nextAction.direction.deltaX();
+        yPos += nextAction.direction.deltaY();
+      }
     }
     else
     {
       nextAction = new AntAction(AntAction.AntActionType.STASIS);
+      update(new GameEvent("gatherFood"));
     }
   }
   
@@ -95,9 +101,18 @@ public abstract class Ant implements Runnable, Observer
       {
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
       }
-      actions.add(new AntAction(AntAction.AntActionType.PICKUP, Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)), this.carryUnits));
+      actions.add(new AntAction(AntAction.AntActionType.PICKUP,
+                  Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)),
+                  antType.getCarryCapacity()));
       myPos = moves.get(moves.size() - 2);
       List<Coordinate> movesHome = AStar.findPath(myPos, AntController.getNearestNestCoordinate(myPos));
+      for(int i = 0; i < moves.size() - 3; i++)
+      {
+        actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(movesHome.get(i), movesHome.get(i+1))));
+      }
+      actions.add(new AntAction(AntAction.AntActionType.DROP,
+                                Coordinate.getDirection(movesHome.get(movesHome.size() - 2), movesHome.get(movesHome.size() - 1)),
+                                antType.getCarryCapacity()));
     }
   }
   
@@ -105,11 +120,21 @@ public abstract class Ant implements Runnable, Observer
   {
     if(ticksUntilNextAction == 0)
     {
-      if(currentTask != null)
+      if(actionSuccess)
       {
         setNextAction();
       }
     }
+  }
+  
+  public void setFailure()
+  {
+    actionSuccess = false;
+  }
+  
+  public void setSuccess()
+  {
+    actionSuccess = true;
   }
   
   public boolean equals(Object o)
