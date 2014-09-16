@@ -3,6 +3,9 @@ package gameBoard;
 import java.util.ArrayList;
 import java.util.List;
 
+import antworld.data.AntAction;
+import antworld.data.Direction;
+
 /**
  * Coordinate is the class that helps pathfinding. it creates nodes based on the
  * game picture. can be stored in a map (not implemented yet)
@@ -37,7 +40,7 @@ public class Coordinate
    * @param b
    *          y coordinate
    */
-  Coordinate(int a, int b)
+  public Coordinate(int a, int b)
   {
     this.x = a;
     this.y = b;
@@ -258,6 +261,22 @@ public class Coordinate
     this.distanceToGoal = distanceToGoal;
   }
   
+  //two adjacent coordinates
+  public static Direction getDirection(Coordinate a, Coordinate b)
+  {
+    int deltax = b.x - a.x;
+    int deltay = b.y - a.y;
+    Direction myDir = null;
+    for(Direction d : Direction.values())
+    {
+      if(deltax == d.deltaX() && deltay == d.deltaY())
+      {
+        myDir = d;
+      }
+    }
+    return myDir;
+  }
+
   static public Picture getPic(){
     return Coordinate.PIC;
   }

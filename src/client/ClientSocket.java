@@ -10,6 +10,6 @@ public class ClientSocket extends Socket
 {
   public ClientSocket() throws UnknownHostException, IOException
   {
-    super("129.24.57.80", Constants.PORT);
+    super("b146-28.cs.unm.edu", Constants.PORT);
   }
 }
