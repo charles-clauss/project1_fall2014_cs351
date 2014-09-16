@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 import antworld.data.*;
+import event.GatherEvent;
 import event.Observer;
 import event.GameEvent;
 import gameBoard.AStar;
@@ -19,6 +20,7 @@ public abstract class Ant implements Runnable, Observer
   protected Queue<AntAction> actions;
   protected GameEvent currentTask;
   protected GameEvent newTask;
+  protected boolean actionSuccess = true;
   
   public AntAction nextAction;
   public NestNameEnum nest;
@@ -67,20 +69,39 @@ public abstract class Ant implements Runnable, Observer
   
   public void setNextAction()
   {
-    if(!actions.isEmpty())
+    if(this.underground)
+    {
+      Coordinate exit = AntController.getRandomExitCoordinate();
+      nextAction = new AntAction(AntAction.AntActionType.EXIT_NEST, exit.getX(), exit.getY());
+    }
+    else if(!actions.isEmpty())
     {
       nextAction = actions.poll();
+      if(nextAction.type == AntAction.AntActionType.MOVE)
+      {
+        xPos += nextAction.direction.deltaX();
+        yPos += nextAction.direction.deltaY();
+      }
+      if(nextAction.type == AntAction.AntActionType.DROP)
+      {
+        carryUnits = 0;
+      }
+      if(nextAction.type == AntAction.AntActionType.PICKUP)
+      {
+        carryUnits = 1;
+      }
     }
     else
     {
       nextAction = new AntAction(AntAction.AntActionType.STASIS);
+      update(AntController.getEvent());
     }
   }
   
   public void update(GameEvent ge)
   {
     currentTask = ge;
-    if(ge.getType() == "food")
+    if(ge.getType() == "gatherFood")
     {
       Coordinate myPos = new Coordinate(this.xPos, this.yPos);
       FoodData food = AntController.getNearestFood(myPos);
@@ -90,19 +111,40 @@ public abstract class Ant implements Runnable, Observer
       {
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
       }
-      actions.add(new AntAction(AntAction.AntActionType.PICKUP, Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)), this.carryUnits));
+      actions.add(new AntAction(AntAction.AntActionType.PICKUP,
+                  Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)),
+                  antType.getCarryCapacity()));
+      myPos = moves.get(moves.size() - 2);
+      List<Coordinate> movesHome = AStar.findPath(myPos, AntController.getNearestNestCoordinate(myPos));
+      for(int i = 0; i < moves.size() - 3; i++)
+      {
+        actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(movesHome.get(i), movesHome.get(i+1))));
+      }
+      actions.add(new AntAction(AntAction.AntActionType.DROP,
+                                Coordinate.getDirection(movesHome.get(movesHome.size() - 2), movesHome.get(movesHome.size() - 1)),
+                                antType.getCarryCapacity()));
     }
   }
   
   public void run()
   {
-    if(this.ticksUntilNextAction == 0)
+    if(ticksUntilNextAction == 0)
     {
-      if(currentTask != null)
+      if(actionSuccess)
       {
         setNextAction();
       }
     }
+  }
+  
+  public void setFailure()
+  {
+    actionSuccess = false;
+  }
+  
+  public void setSuccess()
+  {
+    actionSuccess = true;
   }
   
   public boolean equals(Object o)
@@ -115,10 +157,6 @@ public abstract class Ant implements Runnable, Observer
       }
     }
     return false;
-  }
-  public Queue<AntAction> moveHelper(List<Coordinate> moves)
-  {
-    
   }
   
   public List<Object> toList(){
@@ -140,5 +178,4 @@ public abstract class Ant implements Runnable, Observer
     return myList;
     
   }
-  
 }
