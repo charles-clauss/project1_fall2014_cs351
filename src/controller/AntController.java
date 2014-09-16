@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.*;
 
 import antworld.data.AntAction;
@@ -18,10 +19,15 @@ import gameBoard.Coordinate;
 
 public class AntController
 {
-  private ExecutorService exec = Executors.newFixedThreadPool(4);
+  private boolean DEBUG = true;
+  private static int corePoolSize = 150;
+  private static int maxPoolSize = 1000;
+  private static long time = 10;
+  private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(500);
+  private static ExecutorService exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
   private List<Ant> ants = new ArrayList<Ant>();
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
-  private static HashSet<FoodData> visibleFood;
+  private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
   private static Coordinate nestCenter;
 
   public AntController(CommData startingAnts)
@@ -29,6 +35,11 @@ public class AntController
     for(AntData ant : startingAnts.myAntList)
     {
       addAnt(ant);
+    }
+    
+    for(Ant ant : ants)
+    {
+    	ant.update(getEvent());
     }
     
     setNestLocations(startingAnts);
@@ -81,6 +92,12 @@ public class AntController
 
   public void dispatchThreads(CommData data)
   {
+	int total = 0;
+	for(Integer value : data.foodStockPile)
+	{
+		total += value;
+	}
+	if(DEBUG){System.out.println("Current food amount = " + total);}
     AntController.visibleFood = data.foodSet;
     AntData temp;
     for(Ant ant : ants)
@@ -102,6 +119,7 @@ public class AntController
         if(ant.carryUnits <= temp.carryUnits)
         {
           ant.setSuccess();
+          ant.carryUnits = temp.carryUnits;
         }
         else
         {
@@ -136,8 +154,6 @@ public class AntController
       }
       exec.execute(ant);
     }
-    exec.shutdown();
-    while(!exec.isTerminated()) {}
   }
   
   public void addAnt(AntData data)

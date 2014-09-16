@@ -14,6 +14,7 @@ package event;
 import controller.AntController;
 import antworld.data.*;
 import client.ClientSocket;
+import gameBoard.AntTable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -38,6 +39,7 @@ public class GameState
    */
   public static void main(String args[])
   {
+	boolean DEBUG = true; 
     try
     {
       System.out.println("Got here.");
@@ -66,10 +68,11 @@ public class GameState
     	  }
       }
       AntController control = new AntController(communication);
-      
+  //    new AntTable(control).setVisible(true);
+      //AntTable.
       while(connection.isConnected())
       {
-        System.out.println("Executing loop.");
+        if(DEBUG){System.out.println("Executing loop.");}
 
         control.dispatchThreads(communication);
         communication.myAntList = control.getAntList();

@@ -3,7 +3,9 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import antworld.data.AntData;
 import controller.Ant;
+import controller.AntController;
  
 /**
  * A table model implementation for a list of Ant objects.
@@ -27,7 +29,7 @@ public class AntTableModel extends AbstractTableModel {
      
     private String[] columnNames = 
       { "ID", "Type", "X", "Y", "FOOD", "HEALTH", "Alive" };
-    private List<Ant> listAnts;
+    private List<AntData> listAnts;
 
 
     
@@ -47,11 +49,14 @@ public class AntTableModel extends AbstractTableModel {
     
     public AntTableModel() {
       // need the right ant controller
-        //this.listAnts = AntController.getAntList();
+        
          
         
     }
  
+    public void getAntList (AntController ac){
+    	this.listAnts = ac.getAntList();
+    }
     @Override
     public int getColumnCount() {
         return columnNames.length;
@@ -77,7 +82,7 @@ public class AntTableModel extends AbstractTableModel {
  
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Ant Ant = listAnts.get(rowIndex);
+        AntData Ant = listAnts.get(rowIndex);
         Object returnValue = null;
          
         switch (columnIndex) {
@@ -88,10 +93,10 @@ public class AntTableModel extends AbstractTableModel {
             returnValue = Ant.antType;
             break;
         case COLUMN_X:
-            returnValue = Ant.xPos;
+            returnValue = Ant.gridX;
             break;
         case COLUMN_Y:
-            returnValue = Ant.yPos;
+            returnValue = Ant.gridY;
             break;
         case COLUMN_FOOD:
           returnValue = Ant.carryType;
@@ -110,7 +115,7 @@ public class AntTableModel extends AbstractTableModel {
         return returnValue;
     }
     
-    public void addAnt(Ant ant){
+    public void addAnt(AntData ant){
       listAnts.add(ant);
       fireTableRowsInserted(listAnts.size()-1, listAnts.size()-1);
     }

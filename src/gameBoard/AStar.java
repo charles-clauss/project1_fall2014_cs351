@@ -133,7 +133,7 @@ public class AStar implements Observer
       if (current.areEqual(goal) == true)
       {
         // System.out.println(constructPath(goal));
-        System.out.println("examined " + examined + " nodes");
+       // System.out.println("examined " + examined + " nodes");
         return cameFromList;
       }
 

@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import antworld.data.AntData;
 import controller.Ant;
+import controller.AntController;
 import controller.BasicAnt;
 
 public class AntTable extends JFrame {
@@ -18,8 +20,9 @@ public class AntTable extends JFrame {
 
   private JTable table;
 
-  public AntTable() {
+  public AntTable(AntController ac) {
       super();
+      model.getAntList(ac);
 
       setTitle("Ants!");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,9 +41,9 @@ public class AntTable extends JFrame {
       pack();
   }
 
-  public static void main(String[] args) {
-      new AntTable().setVisible(true);
-  }
+//  public static void main(String[] args) {
+//      new AntTable().setVisible(true);
+//  }
 
   private class AddAction extends AbstractAction {
       private AddAction() {
@@ -49,7 +52,7 @@ public class AntTable extends JFrame {
 
       public void actionPerformed(ActionEvent e) {
         Ant ant = new BasicAnt(null);
-          model.addAnt(ant);
+        model.addAnt(ant.createAntData());
       }
   }
 

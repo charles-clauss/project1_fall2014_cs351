@@ -13,15 +13,16 @@ import gameBoard.Coordinate;
 
 //Make this extend an Observer class that can be notified
 //by a global event handler that holds game state
-public abstract class Ant implements Runnable, Observer
+public class Ant implements Runnable, Observer
 {
+  protected boolean DEBUG = true; 
   protected int queueCap = 20;
   protected Queue<AntAction> actions;
   protected GameEvent currentTask;
   protected GameEvent newTask;
   protected boolean actionSuccess = true;
   
-  public AntAction nextAction;
+  public AntAction nextAction = new AntAction(AntAction.AntActionType.STASIS);
   public NestNameEnum nest;
   public TeamNameEnum team;
   public AntType antType;
@@ -100,10 +101,12 @@ public abstract class Ant implements Runnable, Observer
   public void update(GameEvent ge)
   {
     currentTask = ge;
+    if(DEBUG){System.out.println("Updated GE!");}
     if(currentTask.getType().equals("gatherFood"))
     {
       Coordinate myPos = new Coordinate(xPos, yPos);
       FoodData food = AntController.getNearestFood(myPos);
+      if(DEBUG){System.out.println("going to collect food at " + food.gridX + " " + food.gridY );}
       List<Coordinate> moves = AStar.findPath(myPos, new Coordinate(food.gridX, food.gridY));
       actions.clear();
       for(int i = 0; i < moves.size() - 3; i++)
@@ -114,7 +117,10 @@ public abstract class Ant implements Runnable, Observer
                   Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)),
                   antType.getCarryCapacity()));
       myPos = moves.get(moves.size() - 2);
+      
       List<Coordinate> movesHome = AStar.findPath(myPos, AntController.getNearestNestCoordinate(myPos));
+      if(DEBUG){System.out.println("Found my path home!");}
+      
       for(int i = 0; i < moves.size() - 3; i++)
       {
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(movesHome.get(i), movesHome.get(i+1))));
@@ -125,6 +131,7 @@ public abstract class Ant implements Runnable, Observer
     }
     if(currentTask.getType().equals("explore"))
     {
+    	if(DEBUG){System.out.println("I'm exploring");}
       Direction exploreDirection = Direction.values()[Constants.random.nextInt(Direction.SIZE)];
       Coordinate myPos = new Coordinate(xPos, yPos);
       List<Coordinate> moves = AStar.findPath(myPos,
