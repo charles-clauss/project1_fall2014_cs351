@@ -3,11 +3,6 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import antworld.data.AntAction;
-import antworld.data.AntType;
-import antworld.data.FoodType;
-import antworld.data.NestNameEnum;
-import antworld.data.TeamNameEnum;
 import controller.Ant;
  
 /**
@@ -15,7 +10,11 @@ import controller.Ant;
  * 
  */
 public class AntTableModel extends AbstractTableModel {
-    private static final int COLUMN_ID      = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4801313980601341505L;
+	private static final int COLUMN_ID      = 0;
     private static final int COLUMN_Type    = 1;
     private static final int COLUMN_X     = 2;
     private static final int COLUMN_Y     = 3;
@@ -48,7 +47,7 @@ public class AntTableModel extends AbstractTableModel {
     
     public AntTableModel() {
       // need the right ant controller
-        this.listAnts = AntController.getAntList();
+        //this.listAnts = AntController.getAntList();
          
         
     }

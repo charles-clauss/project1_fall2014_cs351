@@ -19,7 +19,7 @@ public class Coordinate
   private List<Integer> rgb;
   private static final Picture PIC =
       new Picture(
-          "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
+          "clientPack/AntWorld.png");
   private int weight;
   private Coordinate parent;
   private int distanceSoFar;

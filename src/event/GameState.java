@@ -41,19 +41,30 @@ public class GameState
     try
     {
       System.out.println("Got here.");
-      CommData dataFirstSent = new CommData(NestNameEnum.LEMON, TeamNameEnum.Bromegrass);
-      dataFirstSent.password = 715779476403L;
-      dataFirstSent.requestNestData = true;
+      NestNameEnum requestedNest = null;
+      CommData communication = null;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());
-
-      send.writeObject(dataFirstSent.packageForSendToServer());
-      send.flush();
-      send.reset();
-      System.out.println("Got here too.");
-      CommData communication = (CommData) receive.readObject();
-
+      int nestSelector = 0;
+      while(requestedNest == null){
+    	  System.out.println("Attempting to connect");
+    	  requestedNest = NestNameEnum.values()[nestSelector];
+    	  nestSelector++;
+    	  CommData dataFirstSent = new CommData(NestNameEnum.GUEST, TeamNameEnum.Bromegrass);
+    	  dataFirstSent.password = 715779476403L;
+    	  dataFirstSent.requestNestData = true;
+    	  send.writeObject(dataFirstSent.packageForSendToServer());
+    	  send.flush();
+    	  send.reset();
+    	  
+    	  communication = (CommData) receive.readObject();
+    	  if (communication.errorMsg != null){
+    		  System.out.println(communication.errorMsg);
+    		  requestedNest = null;
+    		  System.out.println("failled to get commdata/nest.");
+    	  }
+      }
       AntController control = new AntController(communication);
       
       while(connection.isConnected())
