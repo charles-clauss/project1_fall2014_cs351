@@ -18,9 +18,9 @@ import antworld.data.AntAction.AntActionType;
 
 public class ClientRandomWalk
 {
-  private static final boolean DEBUG = true;
-  private static final TeamNameEnum myTeam = TeamNameEnum.Bromegrass;
-  private static final long password = 715779476403L;//Each team has been assigned a random password.
+  private static final boolean DEBUG = false;
+  private static final TeamNameEnum myTeam = TeamNameEnum.RANDOM_WALKERS;
+  private static final long password = 962740848319L;//Each team has been assigned a random password.
   private ObjectInputStream inputStream = null;
   private ObjectOutputStream outputStream = null;
   private boolean isConnected = false;
@@ -149,13 +149,15 @@ public class ClientRandomWalk
     
   public void mainGameLoop(CommData data)
   {
+
     while (true)
-    {
+    { 
       try
       {
+
         if (DEBUG) System.out.println("ClientRandomWalk: chooseActions: " + myNestName);
 
-        chooseActionsOfAllAnts(data);
+        chooseActionsOfAllAnts(data);  
 
         CommData sendData = data.packageForSendToServer();
         
@@ -171,6 +173,7 @@ public class ClientRandomWalk
         data = recivedData;
   
         
+        
         if ((myNestName == null) || (data.myTeam != myTeam))
         {
           System.err.println("ClientRandomWalk: !!!!ERROR!!!! " + myNestName);
@@ -180,14 +183,14 @@ public class ClientRandomWalk
       {
         System.err.println("ClientRandomWalk***ERROR***: client read failed");
         e.printStackTrace();
-        try { Thread.sleep(1000); } catch (InterruptedException e1) {}
+        System.exit(0);
 
       }
       catch (ClassNotFoundException e)
       {
         System.err.println("ServerToClientConnection***ERROR***: client sent incorect data format");
         e.printStackTrace();
-        try { Thread.sleep(1000); } catch (InterruptedException e1) {}
+        System.exit(0);
       }
 
     }
@@ -209,8 +212,7 @@ public class ClientRandomWalk
     {
       System.err.println("ClientRandomWalk***ERROR***: client read failed");
       e.printStackTrace();
-      try { Thread.sleep(1000); } catch (InterruptedException e1) {}
-      return false;
+      System.exit(0);
     }
 
     return true;
@@ -248,9 +250,7 @@ public class ClientRandomWalk
 
   public static void main(String[] args)
   {
-    
-
-    String serverHost = "b146-51";
+    String serverHost = "b146-76";
 
     //System.out.println(args.length);
     if (args.length > 0) serverHost = args[0];
