@@ -82,59 +82,59 @@ public class AntController
   public void dispatchThreads(CommData data)
   {
     AntController.visibleFood = data.foodSet;
-    Ant temp;
-    for(AntData ant : data.myAntList)
+    AntData temp;
+    for(Ant ant : ants)
     {
-      temp = ants.get(ants.indexOf(ant));
-      if(temp.nextAction.type == AntAction.AntActionType.MOVE)
+      temp = data.myAntList.get(data.myAntList.indexOf(ant));
+      if(ant.nextAction.type == AntAction.AntActionType.MOVE)
       {
-        if(temp.xPos == ant.gridX && temp.yPos == ant.gridY)
+        if(temp.gridX == ant.xPos && temp.gridY == ant.yPos)
         {
-          temp.setSuccess();
+          ant.setSuccess();
         }
         else
         {
-          temp.setFailure();
+          ant.setFailure();
         }
       }
-      if(temp.nextAction.type == AntAction.AntActionType.PICKUP)
+      if(ant.nextAction.type == AntAction.AntActionType.PICKUP)
       {
-        if(temp.carryUnits <= ant.carryUnits)
+        if(ant.carryUnits <= temp.carryUnits)
         {
-          temp.setSuccess();
+          ant.setSuccess();
         }
         else
         {
-          Coordinate tempPos = new Coordinate(temp.xPos, temp.yPos);
+          Coordinate tempPos = new Coordinate(temp.gridX, temp.gridY);
           FoodData nearbyFood = getNearestFood(tempPos);
           Coordinate foodPos = new Coordinate(nearbyFood.gridX, nearbyFood.gridY);
           if(AStar.euclidDistance(tempPos, foodPos) == 1)
           {
-            temp.setFailure();
+            ant.setFailure();
           }
           else
           {
-            temp.update(getEvent());
+            ant.update(getEvent());
           }
         }
       }
-      if(temp.nextAction.type == AntAction.AntActionType.DROP)
+      if(ant.nextAction.type == AntAction.AntActionType.DROP)
       {
         if(ant.carryUnits != 0)
         {
-          temp.setFailure();
+          ant.setFailure();
         }
         else
         {
-          temp.setSuccess();
+          ant.setSuccess();
         }
       }
-      if(ant.myAction.type == AntAction.AntActionType.DIED)
+      if(temp.myAction.type == AntAction.AntActionType.DIED)
       {
-        removeAnt(temp);
+        removeAnt(ant);
         continue;
       }
-      exec.execute(temp);
+      exec.execute(ant);
     }
     exec.shutdown();
     while(!exec.isTerminated()) {}

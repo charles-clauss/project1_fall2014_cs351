@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Queue;
 
 import antworld.data.*;
-import event.GatherEvent;
 import event.Observer;
 import event.GameEvent;
 import gameBoard.AStar;
@@ -101,9 +100,9 @@ public abstract class Ant implements Runnable, Observer
   public void update(GameEvent ge)
   {
     currentTask = ge;
-    if(ge.getType() == "gatherFood")
+    if(currentTask.getType().equals("gatherFood"))
     {
-      Coordinate myPos = new Coordinate(this.xPos, this.yPos);
+      Coordinate myPos = new Coordinate(xPos, yPos);
       FoodData food = AntController.getNearestFood(myPos);
       List<Coordinate> moves = AStar.findPath(myPos, new Coordinate(food.gridX, food.gridY));
       actions.clear();
@@ -123,6 +122,18 @@ public abstract class Ant implements Runnable, Observer
       actions.add(new AntAction(AntAction.AntActionType.DROP,
                                 Coordinate.getDirection(movesHome.get(movesHome.size() - 2), movesHome.get(movesHome.size() - 1)),
                                 antType.getCarryCapacity()));
+    }
+    if(currentTask.getType().equals("explore"))
+    {
+      Direction exploreDirection = Direction.values()[Constants.random.nextInt(Direction.SIZE)];
+      Coordinate myPos = new Coordinate(xPos, yPos);
+      List<Coordinate> moves = AStar.findPath(myPos,
+               new Coordinate(xPos + 15 * exploreDirection.deltaX(), yPos + 15 * exploreDirection.deltaY()));
+      actions.clear();
+      for(int i = 0; i < moves.size() - 2; i++)
+      {
+        actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
+      }
     }
   }
   
