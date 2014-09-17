@@ -23,21 +23,14 @@ public class AntTable extends JFrame {
   public AntTable(AntController ac) {
       super();
       model.getAntList(ac);
-
       setTitle("Ants!");
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+      setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       table = new JTable(model);
-
       getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-
       JPanel buttons = new JPanel();
-
       ///buttons.add(new JButton(new AddAction()));
       //buttons.add(new JButton(new RemoveAction()));
-
-      getContentPane().add(buttons, BorderLayout.SOUTH);
-
+      //getContentPane().add(buttons, BorderLayout.SOUTH);
       pack();
   }
 
@@ -51,8 +44,8 @@ public class AntTable extends JFrame {
       }
 
       public void actionPerformed(ActionEvent e) {
-        Ant ant = new BasicAnt(null);
-        model.addAnt(ant.createAntData());
+        //Ant ant = new BasicAnt(null);
+        //model.addAnt(ant.createAntData());
       }
   }
 

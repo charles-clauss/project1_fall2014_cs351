@@ -8,9 +8,13 @@ import java.util.concurrent.*;
 
 import antworld.data.AntAction;
 import antworld.data.AntData;
+import antworld.data.AntType;
 import antworld.data.CommData;
 import antworld.data.Constants;
 import antworld.data.FoodData;
+import antworld.data.FoodType;
+import antworld.data.NestNameEnum;
+import antworld.data.TeamNameEnum;
 import event.ExploreEvent;
 import event.GameEvent;
 import event.GatherEvent;
@@ -29,6 +33,8 @@ public class AntController
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
   private static Coordinate nestCenter;
+  private static NestNameEnum nest;
+  private static TeamNameEnum team;
 
   public AntController(CommData startingAnts)
   {
@@ -41,7 +47,8 @@ public class AntController
     {
     	ant.update(getEvent());
     }
-    System.out.println("Finished constructing");
+    nest = startingAnts.myNest;
+    team = startingAnts.myTeam;
     setNestLocations(startingAnts);
   }
   /**
@@ -92,17 +99,72 @@ public class AntController
 
   public void dispatchThreads(CommData data)
   {
+	  List<Integer> foodData = new ArrayList<Integer>();
+    int antIndex;
 	int total = 0;
 	for(Integer value : data.foodStockPile)
 	{
+		foodData.add(value);
 		total += value;
+		
 	}
-	if(DEBUG){System.out.println("Current food amount = " + total);}
+	if(DEBUG){
+		System.out.println("Current food amount = " + total);
+		System.out.println("Food Types = " + 
+		foodData.get(FoodType.BASIC.ordinal()) + " " +  
+		foodData.get(FoodType.ATTACK.ordinal()) + " " + 
+		foodData.get(FoodType.CARRY.ordinal()) + " " +		
+		foodData.get(FoodType.DEFENCE.ordinal()) + " " +
+		foodData.get(FoodType.MEDIC.ordinal()) + " " +
+		foodData.get(FoodType.SPEED.ordinal()));
+		}
     AntController.visibleFood = data.foodSet;
     AntData temp;
+    for(FoodType ft : FoodType.values())
+    {
+      if(data.foodStockPile[ft.ordinal()] > 10 * ants.size())
+      {
+    	  if (DEBUG){ System.out.println("Birthing some ants!");
+    	  }
+        switch(ft)
+        {
+        case BASIC:
+        	addAnt(AntFactory.birthAnt(AntType.BASIC, nest, team));
+        	break;
+        case ATTACK:
+        	addAnt(AntFactory.birthAnt(AntType.ATTACK, nest, team));
+        	break;
+        case CARRY:
+        	addAnt(AntFactory.birthAnt(AntType.CARRY, nest, team));
+        	break;
+        case DEFENCE:
+        	addAnt(AntFactory.birthAnt(AntType.DEFENCE, nest, team));
+        	break;
+        case SPEED:
+        	addAnt(AntFactory.birthAnt(AntType.SPEED, nest, team));
+        	break;
+        case MEDIC:
+        	addAnt(AntFactory.birthAnt(AntType.MEDIC, nest, team));
+        	break;
+        case VISION:
+        	addAnt(AntFactory.birthAnt(AntType.VISION, nest, team));
+        	break;
+        case WATER:
+        	break;
+        case UNKNOWN:
+        	break;
+        }
+      }
+    }
     for(Ant ant : ants)
     {
-      temp = data.myAntList.get(data.myAntList.indexOf(ant));
+      antIndex = data.myAntList.indexOf(ant);
+      if(antIndex == -1)
+      {
+        removeAnt(ant);
+        continue;
+      }
+      temp = data.myAntList.get(antIndex);
       if(ant.nextAction.type == AntAction.AntActionType.MOVE)
       {
         if(temp.gridX == ant.xPos && temp.gridY == ant.yPos)
@@ -159,6 +221,11 @@ public class AntController
   public void addAnt(AntData data)
   {
     ants.add(AntFactory.makeAnt(data));
+  }
+  
+  public void addAnt(Ant ant)
+  {
+	ants.add(ant);
   }
   
   public void removeAnt(Ant ant)

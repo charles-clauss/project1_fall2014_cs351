@@ -68,8 +68,8 @@ public class GameState
     	  }
       }
       AntController control = new AntController(communication);
-  //    new AntTable(control).setVisible(true);
-      //AntTable.
+      new AntTable(control).setVisible(true);
+      
       while(connection.isConnected())
       {
         if(DEBUG){System.out.println("Executing loop.");}
