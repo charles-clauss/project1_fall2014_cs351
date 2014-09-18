@@ -80,6 +80,7 @@ public class GameState
       communication = (CommData) receive.readObject();
       */
       
+      
       while(connection.isConnected())
       {
         if(DEBUG){System.out.println("Executing loop.");}

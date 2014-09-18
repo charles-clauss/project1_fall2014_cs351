@@ -100,8 +100,11 @@ public class Ant implements Runnable, Observer
       nextAction = actions.poll();
       if(nextAction.type == AntAction.AntActionType.MOVE)
       {
-        xPos += nextAction.direction.deltaX();
-        yPos += nextAction.direction.deltaY();
+    	  if(nextAction.direction != null)
+    	  {
+          xPos += nextAction.direction.deltaX();
+          yPos += nextAction.direction.deltaY();
+    	  }
       }
       if(nextAction.type == AntAction.AntActionType.DROP)
       {
@@ -171,11 +174,11 @@ public class Ant implements Runnable, Observer
     }
     else if(currentTask.getType().equals("explore"))
     {
-    	//if(DEBUG){System.out.println("I'm exploring");}
+    	if(DEBUG){System.out.println("I'm exploring");}
       Direction exploreDirection = Direction.values()[Constants.random.nextInt(Direction.SIZE)];
       Coordinate myPos = new Coordinate(xPos, yPos);
       List<Coordinate> moves = AStar.findPath(myPos,
-               new Coordinate(xPos + 40 * exploreDirection.deltaX(), yPos + 40 * exploreDirection.deltaY()));
+               new Coordinate(xPos + 10 * exploreDirection.deltaX(), yPos + 3 * exploreDirection.deltaY()));
       actions.clear();
       for(int i = 0; i < moves.size() - 2; i++)
       {

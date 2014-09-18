@@ -29,12 +29,12 @@ import gameBoard.Coordinate;
  */
 public class AntController
 {
-  private boolean DEBUG = true;
-  private static int corePoolSize = 100;
-  private static int maxPoolSize = 500;
-  private static long time = 5L;
-  private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(200);
-  private static ExecutorService exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);;
+  //private boolean DEBUG = true;
+  //private static int corePoolSize = 100;
+  //private static int maxPoolSize = 500;
+  //private static long time = 5L;
+  //private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(200);
+  //private static ExecutorService exec;
   private List<Ant> ants = new ArrayList<Ant>();
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
@@ -123,6 +123,7 @@ public class AntController
    */
   public void dispatchThreads(CommData data)
   {
+	  //exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
 	  //List<Integer> foodData = new ArrayList<Integer>();
     int antIndex;
     /*
@@ -189,7 +190,7 @@ public class AntController
     int updateCount = 0;
     for(Ant ant : ants)
     {
-    	System.out.println("Checking ant #" + ant.id);
+    	//System.out.println("Checking ant #" + ant.id);
       if(ant.nextAction.type == AntAction.AntActionType.STASIS)
       {
     	ant.update(getEvent());
@@ -259,9 +260,11 @@ public class AntController
         removeAnt(ant);
         continue;
       }
-      exec.execute(ant);
+   
+      ant.run();
     }
     //exec.shutdown();
+    //while(!exec.isTerminated()) {}
   }
   
   public void addAnt(AntData data)
