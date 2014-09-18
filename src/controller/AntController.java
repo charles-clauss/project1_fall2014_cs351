@@ -33,20 +33,23 @@ public class AntController
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
   private static Coordinate nestCenter;
-  private static NestNameEnum nest;
-  private static TeamNameEnum team;
+  private NestNameEnum nest;
+  private TeamNameEnum team;
 
   public AntController(CommData startingAnts)
   {
+	System.out.println("Entering constructor.");
     for(AntData ant : startingAnts.myAntList)
     {
+      System.out.println("Added an ant.");
       addAnt(ant);
     }
     
     for(Ant ant : ants)
     {
-    	ant.update(getEvent());
+      ant.nextAction = new AntAction(AntAction.AntActionType.STASIS);
     }
+    System.out.println("Initializing nest data.");
     nest = startingAnts.myNest;
     team = startingAnts.myTeam;
     setNestLocations(startingAnts);
@@ -99,6 +102,7 @@ public class AntController
 
   public void dispatchThreads(CommData data)
   {
+	  //exec = Executors.newFixedThreadPool(4);
 	  List<Integer> foodData = new ArrayList<Integer>();
     int antIndex;
 	int total = 0;
@@ -120,6 +124,7 @@ public class AntController
 		}
     AntController.visibleFood = data.foodSet;
     AntData temp;
+    
     for(FoodType ft : FoodType.values())
     {
       if(data.foodStockPile[ft.ordinal()] > 10 * ants.size())
@@ -156,8 +161,13 @@ public class AntController
         }
       }
     }
+    
     for(Ant ant : ants)
     {
+      if(ant.nextAction.type == AntAction.AntActionType.STASIS)
+      {
+    	ant.update(getEvent());
+      }
       antIndex = data.myAntList.indexOf(ant);
       if(antIndex == -1)
       {
@@ -216,6 +226,7 @@ public class AntController
       }
       exec.execute(ant);
     }
+    //exec.shutdown();
   }
   
   public void addAnt(AntData data)
@@ -254,6 +265,10 @@ public class AntController
     FoodData bestFood = null;
     for(FoodData food : visibleFood)
     {
+      if(food.getCount() <= 0)
+      {
+    	  continue;
+      }
       current_guess = AStar.euclidDistance(location, new Coordinate(food.gridX, food.gridY));
       if(current_guess < best_guess)
       {

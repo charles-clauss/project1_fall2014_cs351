@@ -67,8 +67,9 @@ public class GameState
     		  System.out.println("failled to get commdata/nest.");
     	  }
       }
+      System.out.println("Creating controller.");
       AntController control = new AntController(communication);
-      new AntTable(control).setVisible(true);
+      //new AntTable(control).setVisible(true);
       
       while(connection.isConnected())
       {
@@ -80,6 +81,7 @@ public class GameState
         communication.foodSet = null;
         communication.foodStockPile = null;
         communication.nestData = null;
+        System.out.println("" + communication);
 
         send.writeObject(communication.packageForSendToServer());
         send.flush();
@@ -87,6 +89,7 @@ public class GameState
         System.out.println("Sent some stuff.");
         
         communication = (CommData) receive.readObject();
+        
       }
       connection.close();
     }

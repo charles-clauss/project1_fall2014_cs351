@@ -53,6 +53,7 @@ public class Ant implements Runnable, Observer
     this.health = data.health;
     this.underground = data.underground;
     this.alive = data.alive;
+    this.nextAction = data.myAction;
   }
   
   public AntData createAntData()
@@ -154,7 +155,7 @@ public class Ant implements Runnable, Observer
       if(actionSuccess)
       {
         setNextAction();
-        if(DEBUG) {System.out.println("Ant #" + id + " moving at x=" + xPos + " y=" + yPos);}
+        //if(DEBUG) {System.out.println("Ant #" + id + " moving at x=" + xPos + " y=" + yPos + " carrying " + carryUnits);}
       }
     }
   }
