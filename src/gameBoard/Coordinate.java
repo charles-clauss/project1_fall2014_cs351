@@ -7,10 +7,10 @@ import antworld.data.AntAction;
 import antworld.data.Direction;
 
 /**
- * Coordinate is the class that helps pathfinding. it creates nodes based on the
- * game picture. can be stored in a map (not implemented yet)
- * 
- * @author AaronGonzales
+ * Coordinate is the class that helps pathfinding and many other game events.
+ *  it creates nodes based on the game picture and can hold coordinate information
+ *  and other information as needed. 
+ *  @author AaronGonzales
  */
 public class Coordinate
 {
@@ -133,7 +133,7 @@ public class Coordinate
     }
     else if (this.rgb.get(1) > 55)
     {
-      this.weight = 5;
+      this.weight = 2;
     }
     else if (this.rgb.get(0) == 240){
       this.isMovable = true;

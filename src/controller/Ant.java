@@ -14,6 +14,11 @@ import gameBoard.Coordinate;
 
 //Make this extend an Observer class that can be notified
 //by a global event handler that holds game state
+/**
+ * Ant is the main class that handles controlling our ants.
+ * 
+ *
+ */
 public class Ant implements Runnable, Observer
 {
   protected boolean DEBUG = true; 
@@ -38,6 +43,11 @@ public class Ant implements Runnable, Observer
   public boolean underground = true;
   public boolean alive = true;
   
+  /**
+   * Main constructor for an Ant. 
+   * @param data - an AntData object that gets the specific information needed for this
+   * given ant
+   */
   public Ant(AntData data)
   {
     actions = new ArrayDeque<AntAction>(queueCap);
@@ -56,6 +66,10 @@ public class Ant implements Runnable, Observer
     this.nextAction = data.myAction;
   }
   
+  /**
+   * Copies the antdata back for communication purposes
+   * @return a copy of this ant's data
+   */
   public AntData createAntData()
   {
     AntData copy = new AntData(id, antType, nest, team);
@@ -71,6 +85,9 @@ public class Ant implements Runnable, Observer
     return copy;
   }
   
+  /**
+   * Handles the ant actions based on some simple logic.
+   */
   public void setNextAction()
   {
     if(this.underground)
@@ -101,7 +118,10 @@ public class Ant implements Runnable, Observer
       update(AntController.getEvent());
     }
   }
-  
+  /**
+   * Update updates this ant's position and action information based
+   * on a GameEvent dispatcher.
+   */
   public void update(GameEvent ge)
   {
     currentTask = ge;
@@ -147,7 +167,9 @@ public class Ant implements Runnable, Observer
       }
     }
   }
-  
+  /**
+   * overrided method for the ant's thread
+   */
   public void run()
   {
     if(ticksUntilNextAction == 0)
@@ -159,7 +181,9 @@ public class Ant implements Runnable, Observer
       }
     }
   }
-  
+  /**
+   * Sets the failure count for this ant
+   */
   public void setFailure()
   {
     actionSuccess = false;
@@ -170,7 +194,9 @@ public class Ant implements Runnable, Observer
     }
     failureCount = 0;
   }
-  
+  /**
+   * Tells the ant it's action was successful
+   */
   public void setSuccess()
   {
     actionSuccess = true;
@@ -188,23 +214,24 @@ public class Ant implements Runnable, Observer
     return false;
   }
   
+  /**
+   * Helper function for the Table display
+   * @return a list of this ant's data.
+   */
   public List<Object> toList(){
     List<Object> myList = new ArrayList<Object>();
     myList.add(this.id);
     //myList.add(this.nest);
-   // myList.add(this.team);
+    // myList.add(this.team);
     myList.add(this.antType);
     myList.add(this.xPos);
     myList.add(this.yPos);
     myList.add(this.carryType);
     //myList.add(this.carryUnits);
-  //  myList.add(this.ticksUntilNextAction);
+    //myList.add(this.ticksUntilNextAction);
     myList.add(this.health);
-   // myList.add(this.underground);
+    // myList.add(this.underground);
     myList.add(this.alive);
-
-
     return myList;
-    
   }
 }

@@ -14,10 +14,6 @@ import java.util.*;
  * @author agonzales
  * 
  */
-/**
- * @author agonzales
- *
- */
 public class Graph  {
 
 	private Map<Coordinate, List<Coordinate>> myMap;

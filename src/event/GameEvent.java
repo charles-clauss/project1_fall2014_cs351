@@ -1,5 +1,9 @@
 package event;
 
+/**
+ * Simple class wrapping up event types based on our actions
+ *
+ */
 public class GameEvent
 {
   private String eventType; 

@@ -21,6 +21,12 @@ import event.GatherEvent;
 import gameBoard.AStar;
 import gameBoard.Coordinate;
 
+/**
+ * Main handler for the ants. Drives the ants based on a thread pool and the 
+ * communicated data from the server.
+ * @author agonzales
+ *
+ */
 public class AntController
 {
   private boolean DEBUG = true;
@@ -36,6 +42,10 @@ public class AntController
   private NestNameEnum nest;
   private TeamNameEnum team;
 
+  /**
+   * Main constructor 
+   * @param startingAnts - the commdata object
+   */
   public AntController(CommData startingAnts)
   {
 	System.out.println("Entering constructor.");
@@ -55,7 +65,7 @@ public class AntController
     setNestLocations(startingAnts);
   }
   /**
-   * gives the appoximate corner locations for the ant nest
+   * gives the approximate corner locations for the ant nest
    * so ants can find their way back home. only ran at initial instantiation
    * @param data commdata package. 
    */
@@ -74,7 +84,11 @@ public class AntController
     nestLocations.add(westCorner);
     nestLocations.add(eastCorner);
   }
-  
+  /**
+   * Uses pathfinding helper methods to guestimate a place to go
+   * @param location this current location
+   * @return Coordinate with location information
+   */
   public static Coordinate getNearestNestCoordinate(Coordinate location)
   {
     int best_guess = Integer.MAX_VALUE, current_guess = Integer.MAX_VALUE;
@@ -90,7 +104,10 @@ public class AntController
     }
     return bestSpot;
   }
-  
+  /**
+   * Gets random ant exit coordinate
+   * @return Coordinate with the relevant positioning information
+   */
   public static Coordinate getRandomExitCoordinate()
   {
     int xOffset = Constants.random.nextInt(3) - 1;
@@ -100,6 +117,10 @@ public class AntController
     return new Coordinate(randomNestPoint.getX() + xOffset, randomNestPoint.getY() + yOffset);
   }
 
+  /**
+   * Sets off the ant's threads 
+   * @param data - the returned communication data from the server
+   */
   public void dispatchThreads(CommData data)
   {
 	  //exec = Executors.newFixedThreadPool(4);

@@ -24,35 +24,13 @@ public class AntTableModel extends AbstractTableModel {
     private static final int COLUMN_HEALTH     = 5;
     private static final int COLUMN_ALIVE     = 6;
 //    private static final int COLUMN_     = 3;
-
-
      
     private String[] columnNames = 
       { "ID", "Type", "X", "Y", "FOOD", "HEALTH", "Alive" };
     private List<AntData> listAnts;
-
-
-    
-    /*public AntAction nextAction;
-    public NestNameEnum nest;
-    public TeamNameEnum team;
-    public AntType antType;
-    public int id;
-    public int xPos, yPos;
-    public FoodType carryType;
-    public int carryUnits;
-    public int ticksUntilNextAction;
-    public int health;
-    public boolean underground = true;
-    public boolean alive = true;
-    */
-    
     public AntTableModel() {
       // need the right ant controller
-        
-         
-        
-    }
+     }
  
     public void getAntList (AntController ac){
     	this.listAnts = ac.getAntList();

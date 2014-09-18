@@ -2,21 +2,24 @@ package gameBoard;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
-import antworld.data.AntData;
-import controller.Ant;
 import controller.AntController;
-import controller.BasicAnt;
 
+/**
+ * Class that helps visualize our ant's information. Not working correctly.
+ *
+ */
 public class AntTable extends JFrame {
-  private AntTableModel model = new AntTableModel();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+private AntTableModel model = new AntTableModel();
 
   private JTable table;
 
@@ -27,7 +30,7 @@ public class AntTable extends JFrame {
       setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       table = new JTable(model);
       getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-      JPanel buttons = new JPanel();
+      //JPanel buttons = new JPanel();
       ///buttons.add(new JButton(new AddAction()));
       //buttons.add(new JButton(new RemoveAction()));
       //getContentPane().add(buttons, BorderLayout.SOUTH);
@@ -39,7 +42,12 @@ public class AntTable extends JFrame {
 //  }
 
   private class AddAction extends AbstractAction {
-      private AddAction() {
+      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private AddAction() {
           super("Add");
       }
 

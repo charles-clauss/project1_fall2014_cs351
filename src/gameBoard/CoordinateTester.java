@@ -6,10 +6,18 @@ import java.util.List;
 
 import org.junit.Test;
 
-
+/**
+ * JUnit test class for the coordinates/pathfinding.
+ * @author agonzales
+ *
+ */
 public class CoordinateTester
 {
 
+	/**
+	 * Prints various attributes of the coordinate class
+	 * @param a - a coordinate
+	 */
   public void printStuff(Coordinate a)
   {
     System.out.println("Testing Attributes of coordinate: " + a);
@@ -20,7 +28,7 @@ public class CoordinateTester
 
   }
 
-  
+  //@Test
   public void makeCoordinates()
   {
     // String path = new
@@ -32,11 +40,9 @@ public class CoordinateTester
     Coordinate fromPicture = new Coordinate(0, 0);
     System.out.println("AreEqual: " + justInts.areEqual(fromPicture));
     Coordinate birthed = new Coordinate(10, 10, fromPicture);
-
     printStuff(justInts);
     printStuff(fromPicture);
     printStuff(birthed);
-
     List<Coordinate> coordlist = new ArrayList<Coordinate>();
     for (int x = 1000; x < 1010; x++)
     {
@@ -49,24 +55,17 @@ public class CoordinateTester
     {
       printStuff(c);
     }
-
   }
 
  // @Test
   public void testPathfinder()
   {
-
     System.out.println("Testing Astar");
-   // AStar astar = new AStar();
-
     Coordinate start = new Coordinate(1000, 2400);
     Coordinate goal = new Coordinate(1010, 2370);
-
-    
     List<Coordinate> myPath = new ArrayList<Coordinate>();
     // printStuff(goal);
     myPath = AStar.findPath(start, goal);
-
     int cumWeight = 0;
     for (Coordinate c : myPath)
     {
@@ -74,8 +73,7 @@ public class CoordinateTester
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
       Color black = new Color(0, 0, 0);
-      Coordinate.getPic().setColor(c.getX(), c.getY(), black);
-      
+      Coordinate.getPic().setColor(c.getX(), c.getY(), black);     
     }
     System.out.println("Weight of the path = " + cumWeight);
 

@@ -2,8 +2,18 @@ package controller;
 
 import antworld.data.*;
 
+/**
+ * Factory idiom for building our ants.
+ * 
+ *
+ */
 public class AntFactory
 {
+	/**
+	 * ...Makes an ant 
+	 * @param data
+	 * @return
+	 */
   public static Ant makeAnt(AntData data)
   {
     switch(data.antType)
@@ -24,6 +34,14 @@ public class AntFactory
         return new BasicAnt(data);
     }
   }
+  
+  /**
+   * Births the ants from the nest
+   * @param type Enum of the ant
+   * @param nest our nest name
+   * @param team our team name
+   * @return
+   */
   public static Ant birthAnt(AntType type, NestNameEnum nest, TeamNameEnum team)
   {
     switch(type)
