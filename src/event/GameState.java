@@ -15,6 +15,7 @@ import controller.AntController;
 import antworld.data.*;
 import client.ClientSocket;
 import gameBoard.AntTable;
+import gameBoard.Coordinate;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -39,7 +40,8 @@ public class GameState
    */
   public static void main(String args[])
   {
-	boolean DEBUG = true; 
+	boolean DEBUG = true;
+	Coordinate makePic = new Coordinate(20,20);
     try
     {
       System.out.println("Got here.");
