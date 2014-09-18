@@ -74,10 +74,10 @@ public class AntController
     int x = nestCenter.getX();
     int y = nestCenter.getY();
     //Coordinate nestCenter = new Coordinate(x,y);    
-    Coordinate northCorner = new Coordinate(x-18, y);
-    Coordinate southCorner = new Coordinate(x+18, y);
-    Coordinate eastCorner = new Coordinate(x, y+18);
-    Coordinate westCorner = new Coordinate(x, y-18);
+    Coordinate northCorner = new Coordinate(x-17, y);
+    Coordinate southCorner = new Coordinate(x+17, y);
+    Coordinate eastCorner = new Coordinate(x, y+17);
+    Coordinate westCorner = new Coordinate(x, y-17);
     
     nestLocations.add(northCorner);
     nestLocations.add(southCorner);
@@ -110,8 +110,8 @@ public class AntController
    */
   public static Coordinate getRandomExitCoordinate()
   {
-    int xOffset = Constants.random.nextInt(3) - 1;
-    int yOffset = Constants.random.nextInt(3) - 1;
+    int xOffset = Constants.random.nextInt(5) - 2;
+    int yOffset = Constants.random.nextInt(5) - 2;
     int pick = Constants.random.nextInt(4);
     Coordinate randomNestPoint = nestLocations.get(pick);
     return new Coordinate(randomNestPoint.getX() + xOffset, randomNestPoint.getY() + yOffset);
@@ -210,6 +210,13 @@ public class AntController
       ant.ticksUntilNextAction = temp.ticksUntilNextAction;
       //System.out.println("Location of AntData " + temp.gridX + " " + temp.gridY);
       //System.out.println("Location of Ant " + ant.xPos + " " + ant.yPos);
+      if(ant.getFailCount() > 10)
+      {
+    	  ant.xPos = temp.gridX;
+    	  ant.yPos = temp.gridY;
+    	  ant.update(new ExploreEvent());
+    	  ant.resetFailCount();
+      }
       if(ant.nextAction.type == AntAction.AntActionType.MOVE)
       {
         if(temp.gridX == ant.xPos && temp.gridY == ant.yPos)

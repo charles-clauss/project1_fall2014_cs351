@@ -208,11 +208,16 @@ public class Ant implements Runnable, Observer
     actionSuccess = false;
     failureCount++;
     //System.out.println("" + failureCount);
-    if(failureCount > failureThreshold)
-    {
-      update(new ExploreEvent());
-      failureCount = 0;
-    }
+  }
+  
+  public int getFailCount()
+  {
+	  return failureCount;
+  }
+  
+  public void resetFailCount()
+  {
+	  failureCount = 0;
   }
   /**
    * Tells the ant it's action was successful
