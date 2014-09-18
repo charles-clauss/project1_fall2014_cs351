@@ -83,7 +83,7 @@ public class GameState
         communication.foodSet = null;
         communication.foodStockPile = null;
         communication.nestData = null;
-        System.out.println("" + communication);
+        //System.out.println("" + communication.gameTick);
 
         send.writeObject(communication.packageForSendToServer());
         send.flush();
@@ -91,6 +91,7 @@ public class GameState
         System.out.println("Sent some stuff.");
         
         communication = (CommData) receive.readObject();
+        System.out.println("" + communication);
         
       }
       connection.close();

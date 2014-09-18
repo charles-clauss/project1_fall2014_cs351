@@ -34,7 +34,7 @@ public class AntController
   private static int maxPoolSize = 1000;
   private static long time = 10;
   private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(500);
-  private static ExecutorService exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
+  private static ExecutorService exec;
   private List<Ant> ants = new ArrayList<Ant>();
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
@@ -123,7 +123,7 @@ public class AntController
    */
   public void dispatchThreads(CommData data)
   {
-	  //exec = Executors.newFixedThreadPool(4);
+	  exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
 	  List<Integer> foodData = new ArrayList<Integer>();
     int antIndex;
 	int total = 0;
@@ -196,14 +196,21 @@ public class AntController
         continue;
       }
       temp = data.myAntList.get(antIndex);
+      //System.out.println("Location of AntData " + temp.gridX + " " + temp.gridY);
+      //System.out.println("Location of Ant " + ant.xPos + " " + ant.yPos);
       if(ant.nextAction.type == AntAction.AntActionType.MOVE)
       {
+    	  if(ant.id == 9482)
+    	  {
+    		  System.out.println("Ant #" + ant.id + " thinks its at x=" + ant.xPos + " y=" + ant.yPos);
+    	  }
         if(temp.gridX == ant.xPos && temp.gridY == ant.yPos)
         {
           ant.setSuccess();
         }
         else
         {
+        	//System.out.println("Failed move for ant #" + ant.id);
           ant.setFailure();
         }
       }
@@ -247,7 +254,7 @@ public class AntController
       }
       exec.execute(ant);
     }
-    //exec.shutdown();
+    exec.shutdown();
   }
   
   public void addAnt(AntData data)

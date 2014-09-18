@@ -100,8 +100,10 @@ public class Ant implements Runnable, Observer
       nextAction = actions.poll();
       if(nextAction.type == AntAction.AntActionType.MOVE)
       {
-        xPos += nextAction.direction.deltaX();
-        yPos += nextAction.direction.deltaY();
+        if(id == 9482)
+        {
+        	System.out.println("Trying to move to " + nextAction.direction);
+        }
       }
       if(nextAction.type == AntAction.AntActionType.DROP)
       {
@@ -125,37 +127,53 @@ public class Ant implements Runnable, Observer
   public void update(GameEvent ge)
   {
     currentTask = ge;
-    if(DEBUG){System.out.println("Updated GE!");}
+    //if(DEBUG){System.out.println("Updated GE!");}
     if(currentTask.getType().equals("gatherFood"))
     {
+    	
       Coordinate myPos = new Coordinate(xPos, yPos);
       FoodData food = AntController.getNearestFood(myPos);
-      if(DEBUG){System.out.println("going to collect food at " + food.gridX + " " + food.gridY );}
+      //if(DEBUG){System.out.println("going to collect food at " + food.gridX + " " + food.gridY );}
       List<Coordinate> moves = AStar.findPath(myPos, new Coordinate(food.gridX, food.gridY));
       actions.clear();
-      for(int i = 0; i < moves.size() - 3; i++)
+      for(int i = 0; i < moves.size() - 2; i++)
       {
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(moves.get(i), moves.get(i+1))));
       }
+      
+      //System.out.println("" + moves.size());
+      if(moves.size() > 1)
+      { 
+    	 
       actions.add(new AntAction(AntAction.AntActionType.PICKUP,
                   Coordinate.getDirection(moves.get(moves.size() - 2), moves.get(moves.size() - 1)),
                   antType.getCarryCapacity()));
       myPos = moves.get(moves.size() - 2);
+
+      }
+      else
+      {
+    	actions.add(new AntAction(AntAction.AntActionType.PICKUP,
+    			    Coordinate.getDirection(myPos, moves.get(0)),
+    			    antType.getCarryCapacity()));
+    	
+      }
       
       List<Coordinate> movesHome = AStar.findPath(myPos, AntController.getNearestNestCoordinate(myPos));
-      if(DEBUG){System.out.println("Found my path home!");}
+      //if(DEBUG){System.out.println("Found my path home!");}
       
-      for(int i = 0; i < moves.size() - 3; i++)
+      for(int i = 0; i < movesHome.size() - 2; i++)
       {
         actions.add(new AntAction(AntAction.AntActionType.MOVE, Coordinate.getDirection(movesHome.get(i), movesHome.get(i+1))));
       }
       actions.add(new AntAction(AntAction.AntActionType.DROP,
                                 Coordinate.getDirection(movesHome.get(movesHome.size() - 2), movesHome.get(movesHome.size() - 1)),
                                 antType.getCarryCapacity()));
+      
     }
-    if(currentTask.getType().equals("explore"))
+    else if(currentTask.getType().equals("explore"))
     {
-    	if(DEBUG){System.out.println("I'm exploring");}
+    	//if(DEBUG){System.out.println("I'm exploring");}
       Direction exploreDirection = Direction.values()[Constants.random.nextInt(Direction.SIZE)];
       Coordinate myPos = new Coordinate(xPos, yPos);
       List<Coordinate> moves = AStar.findPath(myPos,
@@ -188,11 +206,12 @@ public class Ant implements Runnable, Observer
   {
     actionSuccess = false;
     failureCount++;
+    //System.out.println("" + failureCount);
     if(failureCount > failureThreshold)
     {
       update(new ExploreEvent());
+      failureCount = 0;
     }
-    failureCount = 0;
   }
   /**
    * Tells the ant it's action was successful
