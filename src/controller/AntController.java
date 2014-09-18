@@ -24,7 +24,7 @@ public class AntController
   private static int maxPoolSize = 1000;
   private static long time = 10;
   private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(500);
-  private static ExecutorService exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
+  private static ExecutorService exec;
   private List<Ant> ants = new ArrayList<Ant>();
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
@@ -92,6 +92,7 @@ public class AntController
 
   public void dispatchThreads(CommData data)
   {
+  exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
 	int total = 0;
 	for(Integer value : data.foodStockPile)
 	{
@@ -154,6 +155,8 @@ public class AntController
       }
       exec.execute(ant);
     }
+    exec.shutdown();
+    while(!exec.isTerminated()) {}
   }
   
   public void addAnt(AntData data)
