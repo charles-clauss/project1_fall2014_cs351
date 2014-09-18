@@ -44,9 +44,10 @@ public class GameState
 	Coordinate makePic = new Coordinate(20,20);
     try
     {
-      System.out.println("Got here.");
+      //System.out.println("Got here.");
       NestNameEnum requestedNest = null;
       CommData communication = null;
+      AntController control;
       ClientSocket connection = new ClientSocket();
       ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());
       ObjectInputStream receive = new ObjectInputStream(connection.getInputStream());
@@ -70,8 +71,14 @@ public class GameState
     	  }
       }
       System.out.println("Creating controller.");
-      AntController control = new AntController(communication);
+      control = new AntController(communication);
       //new AntTable(control).setVisible(true);
+      /*
+      send.writeObject(communication.packageForSendToServer());
+      send.flush();
+      send.reset();
+      communication = (CommData) receive.readObject();
+      */
       
       while(connection.isConnected())
       {
@@ -83,7 +90,7 @@ public class GameState
         communication.foodSet = null;
         communication.foodStockPile = null;
         communication.nestData = null;
-        //System.out.println("" + communication.gameTick);
+        System.out.println("" + communication);
 
         send.writeObject(communication.packageForSendToServer());
         send.flush();
@@ -91,7 +98,7 @@ public class GameState
         System.out.println("Sent some stuff.");
         
         communication = (CommData) receive.readObject();
-        System.out.println("" + communication);
+        //System.out.println("" + communication);
         
       }
       connection.close();

@@ -30,11 +30,11 @@ import gameBoard.Coordinate;
 public class AntController
 {
   private boolean DEBUG = true;
-  private static int corePoolSize = 150;
-  private static int maxPoolSize = 1000;
-  private static long time = 10;
-  private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(500);
-  private static ExecutorService exec;
+  private static int corePoolSize = 100;
+  private static int maxPoolSize = 500;
+  private static long time = 5L;
+  private static BlockingQueue<Runnable> runPool = new ArrayBlockingQueue<Runnable>(200);
+  private static ExecutorService exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);;
   private List<Ant> ants = new ArrayList<Ant>();
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
@@ -51,7 +51,7 @@ public class AntController
 	System.out.println("Entering constructor.");
     for(AntData ant : startingAnts.myAntList)
     {
-      System.out.println("Added an ant.");
+      System.out.println("Added an ant #" + ant.id);
       addAnt(ant);
     }
     
@@ -123,9 +123,9 @@ public class AntController
    */
   public void dispatchThreads(CommData data)
   {
-	  exec = new ThreadPoolExecutor(corePoolSize, maxPoolSize, time, TimeUnit.SECONDS, runPool);
-	  List<Integer> foodData = new ArrayList<Integer>();
+	  //List<Integer> foodData = new ArrayList<Integer>();
     int antIndex;
+    /*
 	int total = 0;
 	for(Integer value : data.foodStockPile)
 	{
@@ -143,12 +143,13 @@ public class AntController
 		foodData.get(FoodType.MEDIC.ordinal()) + " " +
 		foodData.get(FoodType.SPEED.ordinal()));
 		}
+		*/
     AntController.visibleFood = data.foodSet;
     AntData temp;
     
     for(FoodType ft : FoodType.values())
     {
-      if(data.foodStockPile[ft.ordinal()] > 10 * ants.size())
+      if(data.foodStockPile[ft.ordinal()] > 12 * ants.size())
       {
     	  if (DEBUG){ System.out.println("Birthing some ants!");
     	  }
@@ -196,14 +197,11 @@ public class AntController
         continue;
       }
       temp = data.myAntList.get(antIndex);
+      ant.ticksUntilNextAction = temp.ticksUntilNextAction;
       //System.out.println("Location of AntData " + temp.gridX + " " + temp.gridY);
       //System.out.println("Location of Ant " + ant.xPos + " " + ant.yPos);
       if(ant.nextAction.type == AntAction.AntActionType.MOVE)
       {
-    	  if(ant.id == 9482)
-    	  {
-    		  System.out.println("Ant #" + ant.id + " thinks its at x=" + ant.xPos + " y=" + ant.yPos);
-    	  }
         if(temp.gridX == ant.xPos && temp.gridY == ant.yPos)
         {
           ant.setSuccess();
@@ -254,7 +252,7 @@ public class AntController
       }
       exec.execute(ant);
     }
-    exec.shutdown();
+    //exec.shutdown();
   }
   
   public void addAnt(AntData data)

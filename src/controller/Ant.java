@@ -100,10 +100,8 @@ public class Ant implements Runnable, Observer
       nextAction = actions.poll();
       if(nextAction.type == AntAction.AntActionType.MOVE)
       {
-        if(id == 9482)
-        {
-        	System.out.println("Trying to move to " + nextAction.direction);
-        }
+        xPos += nextAction.direction.deltaX();
+        yPos += nextAction.direction.deltaY();
       }
       if(nextAction.type == AntAction.AntActionType.DROP)
       {
