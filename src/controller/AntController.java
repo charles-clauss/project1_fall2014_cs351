@@ -147,6 +147,7 @@ public class AntController
     AntController.visibleFood = data.foodSet;
     AntData temp;
     
+    /*
     for(FoodType ft : FoodType.values())
     {
       if(data.foodStockPile[ft.ordinal()] > 12 * ants.size())
@@ -183,12 +184,20 @@ public class AntController
         }
       }
     }
-    
+    */
+    int updateLimit = 2;
+    int updateCount = 0;
     for(Ant ant : ants)
     {
+    	System.out.println("Checking ant #" + ant.id);
       if(ant.nextAction.type == AntAction.AntActionType.STASIS)
       {
     	ant.update(getEvent());
+    	updateCount++;
+    	if(updateCount > updateLimit)
+    	{
+    		break;
+    	}
       }
       antIndex = data.myAntList.indexOf(ant);
       if(antIndex == -1)
