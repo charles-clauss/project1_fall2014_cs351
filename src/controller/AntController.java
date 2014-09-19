@@ -27,7 +27,7 @@ import gameBoard.Coordinate;
  */
 public class AntController
 {
-  // private boolean DEBUG = true;
+  private boolean DEBUG = true;
   // private static int corePoolSize = 100;
   // private static int maxPoolSize = 500;
   // private static long time = 5L;
@@ -50,7 +50,7 @@ public class AntController
    */
   public AntController(CommData startingAnts)
   {
-    System.out.println("Entering constructor.");
+    if (DEBUG) {System.out.println("Entering constructor.");}
     for (AntData ant : startingAnts.myAntList)
     {
       System.out.println("Added an ant #" + ant.id);
@@ -61,7 +61,7 @@ public class AntController
     {
       ant.nextAction = new AntAction(AntAction.AntActionType.STASIS);
     }
-    System.out.println("Initializing nest data.");
+    if (DEBUG){System.out.println("Initializing nest data.");}
     // nest = startingAnts.myNest;
     // team = startingAnts.myTeam;
     setNestLocations(startingAnts);
@@ -178,7 +178,7 @@ public class AntController
     int updateCount = 0;
     for (Ant ant : ants)
     {
-      // System.out.println("Checking ant #" + ant.id);
+      if (DEBUG) {System.out.println("Checking ant #" + ant.id);}
       if (ant.nextAction.type == AntAction.AntActionType.STASIS)
       {
         ant.update(getEvent());
@@ -196,9 +196,6 @@ public class AntController
       }
       temp = data.myAntList.get(antIndex);
       ant.ticksUntilNextAction = temp.ticksUntilNextAction;
-      // System.out.println("Location of AntData " + temp.gridX + " " +
-      // temp.gridY);
-      // System.out.println("Location of Ant " + ant.xPos + " " + ant.yPos);
       if (ant.getFailCount() > 10)
       {
         ant.xPos = temp.gridX;

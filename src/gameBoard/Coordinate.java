@@ -31,6 +31,7 @@ public class Coordinate
   private boolean isEnemy;
   private boolean isFriendly;
   private boolean isNest = false;
+  // private boolean DEBUG = false;
 
   /**
    * Main constructor that stores the rgb values from the pic Mostly to be used
@@ -45,8 +46,6 @@ public class Coordinate
   {
     this.x = a;
     this.y = b;
-    // Coordinate.setPic(game);
-    // PIC = game;
     this.rgb = new ArrayList<Integer>();
     rgb.add(PIC.getRed(x, y));
     rgb.add(PIC.getGreen(x, y));
@@ -75,8 +74,6 @@ public class Coordinate
   {
     this.x = a;
     this.y = b;
-    // Coordinate.setPic(game);
-    // PIC = game;
     this.rgb = new ArrayList<Integer>();
     this.rgb.add(PIC.getRed(x, y));
     this.rgb.add(PIC.getGreen(x, y));
@@ -277,7 +274,12 @@ public class Coordinate
     this.distanceToGoal = distanceToGoal;
   }
 
-  // two adjacent coordinates
+  /**
+   * Gets the direction of movement between two coordinates
+   * @param a current coordinate
+   * @param b next coordinate
+   * @return the enumerated Direction
+   */
   public static Direction getDirection(Coordinate a, Coordinate b)
   {
     int deltax = b.x - a.x;
