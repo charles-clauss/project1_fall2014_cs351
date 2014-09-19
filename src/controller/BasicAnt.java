@@ -3,8 +3,7 @@ package controller;
 import antworld.data.*;
 
 /**
- * Basic ants. 
- * 
+ * Basic ants.
  */
 public class BasicAnt extends Ant
 {

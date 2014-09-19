@@ -8,16 +8,18 @@ import org.junit.Test;
 
 /**
  * JUnit test class for the coordinates/pathfinding.
+ * 
  * @author agonzales
- *
  */
 public class CoordinateTester
 {
 
-	/**
-	 * Prints various attributes of the coordinate class
-	 * @param a - a coordinate
-	 */
+  /**
+   * Prints various attributes of the coordinate class
+   * 
+   * @param a
+   *          - a coordinate
+   */
   public void printStuff(Coordinate a)
   {
     System.out.println("Testing Attributes of coordinate: " + a);
@@ -28,7 +30,7 @@ public class CoordinateTester
 
   }
 
-  //@Test
+  @Test
   public void makeCoordinates()
   {
     // String path = new
@@ -57,7 +59,7 @@ public class CoordinateTester
     }
   }
 
- // @Test
+  // @Test
   public void testPathfinder()
   {
     System.out.println("Testing Astar");
@@ -69,11 +71,11 @@ public class CoordinateTester
     int cumWeight = 0;
     for (Coordinate c : myPath)
     {
-      cumWeight+=c.getWeight();
+      cumWeight += c.getWeight();
       System.out.println("Path is: " + c.getX() + "," + c.getY() + "Distance"
           + c.getDistanceToGoal());
       Color black = new Color(0, 0, 0);
-      Coordinate.getPic().setColor(c.getX(), c.getY(), black);     
+      Coordinate.getPic().setColor(c.getX(), c.getY(), black);
     }
     System.out.println("Weight of the path = " + cumWeight);
 

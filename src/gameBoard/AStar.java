@@ -10,9 +10,9 @@ import event.GameEvent;
 import event.Observer;
 
 /**
- * Implements a version of the A* algorithm using a priority
- * queue. Uses euclidian distance as a heuristic. Generates a
- * 'coordinate' object with path information.
+ * Implements a version of the A* algorithm using a priority queue. Uses
+ * euclidian distance as a heuristic. Generates a 'coordinate' object with path
+ * information.
  */
 public class AStar implements Observer
 {
@@ -56,6 +56,7 @@ public class AStar implements Observer
 
   /**
    * Estimates the distance between the neighbor and the goal
+   * 
    * @param goal
    * @param neighbor
    * @param currentDistance
@@ -70,6 +71,7 @@ public class AStar implements Observer
 
   /**
    * Helper function to draw the nodes on the openList
+   * 
    * @param c
    */
   public static void drawpath(Coordinate c)
@@ -77,13 +79,14 @@ public class AStar implements Observer
     Color red = new Color(200, 0, 0);
     Coordinate.getPic().setColor(c.getX(), c.getY(), red);
   }
-/**
- * Helper function that looks up a coordinate by x and y position
- * 
- * @param list
- * @param c
- * @return
- */
+
+  /**
+   * Helper function that looks up a coordinate by x and y position
+   * 
+   * @param list
+   * @param c
+   * @return
+   */
   public static boolean checkClosed(List<Coordinate> list, Coordinate c)
   {
     for (Coordinate a : list)
@@ -99,7 +102,7 @@ public class AStar implements Observer
   }
 
   /**
-   * Implementation of A* for pathfinding. 
+   * Implementation of A* for pathfinding.
    * 
    * @param start
    *          start of your path
@@ -121,8 +124,8 @@ public class AStar implements Observer
     openList.add(current);
     // System.out.println("Astar: pq peek = " + openList.peek());
     current.setDistanceToGoal(euclidDistance(current, goal));
-   // int examined = 0;
-    while (! openList.isEmpty())
+    // int examined = 0;
+    while (!openList.isEmpty())
     {
       current = openList.poll();
       closedList.add(current);
@@ -131,7 +134,7 @@ public class AStar implements Observer
       if (current.areEqual(goal) == true)
       {
         // System.out.println(constructPath(goal));
-       // System.out.println("examined " + examined + " nodes");
+        // System.out.println("examined " + examined + " nodes");
         return cameFromList;
       }
 
@@ -144,16 +147,14 @@ public class AStar implements Observer
           n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
           openList.add(n);
         }
-        //drawpath(n);
-        //examined++;
+        // drawpath(n);
+        // examined++;
       } // end for
-      // may help with GC? 
+      // may help with GC?
       neighbors = null;
     } // end while
     // failure
     return nullList;
   } // end findpath
-
-  
 
 } // end class AStar

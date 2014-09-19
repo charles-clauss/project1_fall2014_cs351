@@ -6,18 +6,19 @@ import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JScrollPane;
+//import javax.swing.JScrollPane;
 
 public class PictureMod implements ComponentListener
 {
   private static Picture MODPIC;
-      
+
   PictureMod()
   {
 
   }
-  
-  public static void makePick(){
+
+  public static void makePick()
+  {
     PictureMod.MODPIC = new Picture(
         "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
   }
@@ -54,7 +55,9 @@ public class PictureMod implements ComponentListener
     List<Integer> al = new ArrayList<Integer>();
     return al;
   }
-  static public Picture getPic(){
+
+  static public Picture getPic()
+  {
     return PictureMod.MODPIC;
   }
 
@@ -89,28 +92,26 @@ public class PictureMod implements ComponentListener
 
   public static void main(String[] args)
   {
-    ///System.out.println("testing pic class");
- /*   String path = new String(
-        "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png");
-    Picture pic = new Picture(path);
-    */
-  /*
-    List<Integer> rgb = new ArrayList<Integer>(getPixelVal(pic, 0, 0));
-    for (Integer i : rgb)
-    {
-      System.out.println(i);
-    }
-    System.out.println(getPixelVal(pic, 0, 10));
-*/
+    // /System.out.println("testing pic class");
+    /*
+     * String path = new String(
+     * "/Users/carlyhendrickson/Dropbox/cs/351/project_01/clientPack/AntWorld.png"
+     * ); Picture pic = new Picture(path);
+     */
+    /*
+     * List<Integer> rgb = new ArrayList<Integer>(getPixelVal(pic, 0, 0)); for
+     * (Integer i : rgb) { System.out.println(i); }
+     * System.out.println(getPixelVal(pic, 0, 10));
+     */
     System.out.println("Testing Astar");
     // AStar astar = new AStar();
 
-     Coordinate start = new Coordinate(300, 250);
+    Coordinate start = new Coordinate(300, 250);
     // Coordinate start = new Coordinate(580,170);
 
-    //Coordinate goal = new Coordinate(580, 160);
-     Coordinate goal = new Coordinate(905,517);
-    
+    // Coordinate goal = new Coordinate(580, 160);
+    Coordinate goal = new Coordinate(905, 517);
+
     List<Coordinate> myPath = new ArrayList<Coordinate>();
     // printStuff(goal);
     myPath = AStar.findPath(start, goal);
@@ -123,15 +124,13 @@ public class PictureMod implements ComponentListener
           + c.getDistanceToGoal());
       Color black = new Color(0, 0, 0);
       Coordinate.getPic().setColor(c.getX(), c.getY(), black);
-      //PictureMod.MODPIC.getGraphics().drawString(".", c.getX(), c.getY());
-
+      // PictureMod.MODPIC.getGraphics().drawString(".", c.getX(), c.getY());
 
     }
     System.out.println("Weight of the path = " + cumWeight);
 
-   // PictureMod.MODPIC.getGraphics().drawString("Test", 100, 100);
-    
+    // PictureMod.MODPIC.getGraphics().drawString("Test", 100, 100);
+
   }
-  
 
 }

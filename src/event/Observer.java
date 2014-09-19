@@ -1,8 +1,7 @@
 package event;
 
 /**
- * Observer pattern, not impelmented 
- *
+ * Observer pattern, not impelmented
  */
 public interface Observer
 {

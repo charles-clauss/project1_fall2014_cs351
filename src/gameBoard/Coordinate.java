@@ -3,14 +3,15 @@ package gameBoard;
 import java.util.ArrayList;
 import java.util.List;
 
-import antworld.data.AntAction;
+//import antworld.data.AntAction;
 import antworld.data.Direction;
 
 /**
- * Coordinate is the class that helps pathfinding and many other game events.
- *  it creates nodes based on the game picture and can hold coordinate information
- *  and other information as needed. 
- *  @author AaronGonzales
+ * Coordinate is the class that helps pathfinding and many other game events. it
+ * creates nodes based on the game picture and can hold coordinate information
+ * and other information as needed.
+ * 
+ * @author AaronGonzales
  */
 public class Coordinate
 {
@@ -50,7 +51,8 @@ public class Coordinate
     rgb.add(PIC.getRed(x, y));
     rgb.add(PIC.getGreen(x, y));
     rgb.add(PIC.getBlue(x, y));
-    if (rgb.get(2) == 255){
+    if (rgb.get(2) == 255)
+    {
       this.isMovable = false;
     }
     setWeight();
@@ -83,7 +85,8 @@ public class Coordinate
     this.parent = parent;
     this.distanceSoFar = parent.getCostSoFar() + this.weight;
     this.costWithMe = this.distanceSoFar + this.weight;
-    if (this.rgb.get(2) == 255){
+    if (this.rgb.get(2) == 255)
+    {
       this.isMovable = false;
     }
 
@@ -115,8 +118,7 @@ public class Coordinate
   }
 
   /**
-   * sets the weight of this coordinate using 'magic numbers' TODO update the
-   * values as the are learned
+   * sets the weight of this coordinate using 'magic numbers' 
    */
   public void setWeight()
   {
@@ -135,9 +137,10 @@ public class Coordinate
     {
       this.weight = 2;
     }
-    else if (this.rgb.get(0) == 240){
+    else if (this.rgb.get(0) == 240)
+    {
       this.isMovable = true;
-      this.weight = 0; 
+      this.weight = 0;
       this.isNest = true;
     }
 
@@ -145,9 +148,11 @@ public class Coordinate
     // are
   }
 
-  public boolean getNest(){
+  public boolean getNest()
+  {
     return this.isNest;
   }
+
   /**
    * @return this node's movement weight
    */
@@ -185,7 +190,8 @@ public class Coordinate
   }
 
   /**
-   * Get's the neighboring (N,NE, E, SE, S, SW, W, NW) neighbors of the current node
+   * Get's the neighboring (N,NE, E, SE, S, SW, W, NW) neighbors of the current
+   * node
    * 
    * @return list of this coordinate's neighbors
    */
@@ -194,44 +200,54 @@ public class Coordinate
     List<Coordinate> neighbors = new ArrayList<Coordinate>();
 
     Coordinate north = new Coordinate(this.x - 1, this.y, this);
-    if (north.isMovable){
-    neighbors.add(north);
+    if (north.isMovable)
+    {
+      neighbors.add(north);
     }
-    
-    Coordinate northEast = new Coordinate(this.x-1, this.y+1, this);
-    if (northEast.isMovable){
-    neighbors.add(northEast);}
+
+    Coordinate northEast = new Coordinate(this.x - 1, this.y + 1, this);
+    if (northEast.isMovable)
+    {
+      neighbors.add(northEast);
+    }
 
     Coordinate east = new Coordinate(this.x, this.y + 1,
         this);
-    if (east.isMovable){
-    neighbors.add(east);
+    if (east.isMovable)
+    {
+      neighbors.add(east);
     }
-    
-    Coordinate southEast = new Coordinate(this.x+1, this.y+1, this);
-    if (southEast.isMovable){
-    neighbors.add(southEast);}
-    
+
+    Coordinate southEast = new Coordinate(this.x + 1, this.y + 1, this);
+    if (southEast.isMovable)
+    {
+      neighbors.add(southEast);
+    }
 
     Coordinate south = new Coordinate(this.x + 1, this.y, this);
-    if (south.isMovable){
-    neighbors.add(south);}
-    
-    Coordinate southWest = new Coordinate(this.x + 1, this.y-1, this);
-    if (southWest.isMovable){
-    neighbors.add(southWest);}
-    
+    if (south.isMovable)
+    {
+      neighbors.add(south);
+    }
+
+    Coordinate southWest = new Coordinate(this.x + 1, this.y - 1, this);
+    if (southWest.isMovable)
+    {
+      neighbors.add(southWest);
+    }
 
     Coordinate west = new Coordinate(this.x, this.y - 1, this);
-    if (west.isMovable){
-    neighbors.add(west);
+    if (west.isMovable)
+    {
+      neighbors.add(west);
     }
-    
-    Coordinate northWest = new Coordinate(this.x-1, this.y - 1, this);
-    if (northWest.isMovable){
-    neighbors.add(northWest);}
 
-    
+    Coordinate northWest = new Coordinate(this.x - 1, this.y - 1, this);
+    if (northWest.isMovable)
+    {
+      neighbors.add(northWest);
+    }
+
     return neighbors;
   }
 
@@ -260,16 +276,16 @@ public class Coordinate
   {
     this.distanceToGoal = distanceToGoal;
   }
-  
-  //two adjacent coordinates
+
+  // two adjacent coordinates
   public static Direction getDirection(Coordinate a, Coordinate b)
   {
     int deltax = b.x - a.x;
     int deltay = b.y - a.y;
     Direction myDir = null;
-    for(Direction d : Direction.values())
+    for (Direction d : Direction.values())
     {
-      if(deltax == d.deltaX() && deltay == d.deltaY())
+      if (deltax == d.deltaX() && deltay == d.deltaY())
       {
         myDir = d;
       }
@@ -277,7 +293,8 @@ public class Coordinate
     return myDir;
   }
 
-  static public Picture getPic(){
+  static public Picture getPic()
+  {
     return Coordinate.PIC;
   }
 

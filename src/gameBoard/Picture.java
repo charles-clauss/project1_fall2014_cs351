@@ -123,21 +123,21 @@ public class Picture extends JFrame implements ComponentListener, MouseListener
     this.setResizable(true);
     this.setVisible(true);
     JScrollPane jsp = new JScrollPane();
-    
+
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     Container contentPane = this.getContentPane();
-    
+
     contentPane.setLayout(null);
     drawPane = new DrawPane();
     contentPane.add(drawPane);
     // ag added this
     addMouseListener(this);
-   // contentPane.add(jsp);
-    contentPane.setPreferredSize(new Dimension(500,750));
+    // contentPane.add(jsp);
+    contentPane.setPreferredSize(new Dimension(500, 750));
     contentPane.add(jsp);
     contentPane.repaint();
-    //contentPane.pack();
-    
+    // contentPane.pack();
+
     addSpaceToFrameForBoarder();
   }
 
@@ -416,12 +416,10 @@ public class Picture extends JFrame implements ComponentListener, MouseListener
 
   }
 
-  /*public static void main(String[] args)
-  {
-    new Picture();
-    String path = "../clientPack/AntWorld.png";
-    new Picture(path);
-  }*/
+  /*
+   * public static void main(String[] args) { new Picture(); String path =
+   * "../clientPack/AntWorld.png"; new Picture(path); }
+   */
 
   // =========================================================================
   // DrawPane
@@ -442,30 +440,30 @@ public class Picture extends JFrame implements ComponentListener, MouseListener
         + e.getX() + "," + e.getY() + " ");
     Coordinate c = new Coordinate(e.getX(), e.getY());
     System.out.println(" , rgb = " + c.getRGB());
-    
+
   }
 
   public void mousePressed(MouseEvent e)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
   public void mouseReleased(MouseEvent e)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
   public void mouseEntered(MouseEvent e)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
   public void mouseExited(MouseEvent e)
   {
     // TODO Auto-generated method stub
-    
+
   }
 }

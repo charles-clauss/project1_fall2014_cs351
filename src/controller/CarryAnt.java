@@ -4,8 +4,7 @@ import antworld.data.*;
 import event.GameEvent;
 
 /**
- * Carry ants carry things. 
- *
+ * Carry ants carry things.
  */
 public class CarryAnt extends Ant
 {
@@ -13,9 +12,11 @@ public class CarryAnt extends Ant
   {
     super(data);
   }
+
   public void run()
   {
   }
+
   public void update(GameEvent ge)
   {
   }

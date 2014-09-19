@@ -5,7 +5,6 @@ import event.GameEvent;
 
 /**
  * Defence Ants defend things.
- *
  */
 public class DefenceAnt extends Ant
 {
@@ -13,9 +12,11 @@ public class DefenceAnt extends Ant
   {
     super(data);
   }
+
   public void run()
   {
   }
+
   public void update(GameEvent ge)
   {
   }

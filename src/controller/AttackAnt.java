@@ -5,7 +5,6 @@ import event.GameEvent;
 
 /**
  * Attack ant has best offensive capabilities.
- *
  */
 public class AttackAnt extends Ant
 {
@@ -13,9 +12,11 @@ public class AttackAnt extends Ant
   {
     super(data);
   }
+
   public void run()
   {
   }
+
   public void update(GameEvent ge)
   {
   }
