@@ -132,6 +132,10 @@ public class Ant implements Runnable, Observer
   {
     currentTask = ge;
     // if(DEBUG){System.out.println("Updated GE!");}
+    /**
+     * Creates a path from the ant's current position to the closest food item
+     * and then creates a path from that location back to the nest for dropoff
+     */
     if (currentTask.getType().equals("gatherFood"))
     {
 
@@ -182,6 +186,11 @@ public class Ant implements Runnable, Observer
           antType.getCarryCapacity()));
 
     }
+    /**
+     * Explores in a random direction to try to statistically
+     * increase the food that can be seen without traveling
+     * too far from the nest
+     */
     else if (currentTask.getType().equals("explore"))
     {
       if (DEBUG)
@@ -204,7 +213,8 @@ public class Ant implements Runnable, Observer
   }
 
   /**
-   * overrided method for the ant's thread
+   * Implementing the runnable interface, but threading has been
+   * deactivated, since the thread pools were not working correctly
    */
   public void run()
   {

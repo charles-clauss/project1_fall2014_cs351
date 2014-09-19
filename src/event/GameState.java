@@ -1,5 +1,5 @@
 /**
- * a * @author Charles Clauss The GameState class provides the main execution
+ * The GameState class provides the main execution
  * handling for communication between the Ant server and this project. This
  * class provides no functionality of its own, it merely owns instances of each
  * of the important pieces necessary to process the information received and
@@ -51,6 +51,9 @@ public class GameState
       ObjectInputStream receive = new ObjectInputStream(
           connection.getInputStream());
       int nestSelector = 0;
+      /**
+       * Creates a connection to the server, asking for the GUEST nest
+       */
       while (requestedNest == null)
       {
         System.out.println("Attempting to connect");
@@ -80,6 +83,13 @@ public class GameState
        * send.reset(); communication = (CommData) receive.readObject();
        */
 
+      /**
+       * Executes the main reading and writing of objects through
+       * the socket connection.  Data is read, and then the ant
+       * objects are run to check their previous actions and update
+       * them accordingly, and then new actions are calculated and
+       * passed back to the server.
+       */
       while (connection.isConnected())
       {
         if (DEBUG)

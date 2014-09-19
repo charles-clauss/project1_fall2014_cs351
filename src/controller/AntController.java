@@ -131,7 +131,9 @@ public class AntController
   }
 
   /**
-   * Sets off the ant's threads NOT WORKING
+   * Checks each of the ant's actions against what the server
+   * reports, and tries again to execute that action a certain
+   * number of times before trying something else.
    * 
    * @param data
    *          - the returned communication data from the server
@@ -319,7 +321,12 @@ public class AntController
     }
     return bestFood;
   }
-
+  /**
+   * Creates a food event if there is any food
+   * that can be seen in the communicated data,
+   * and otherwise explores to find food.
+   * @return A GameEvent of a particular sub class.
+   */
   public static GameEvent getEvent()
   {
     GameEvent e;
