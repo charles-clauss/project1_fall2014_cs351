@@ -3,6 +3,10 @@ package controller;
 import antworld.data.*;
 import event.GameEvent;
 
+/**
+ * Carry ants carry things. 
+ *
+ */
 public class CarryAnt extends Ant
 {
   public CarryAnt(AntData data)

@@ -5,7 +5,6 @@ import event.GameEvent;
 
 /**
  * Attack ant has best offensive capabilities.
- * @author 
  *
  */
 public class AttackAnt extends Ant

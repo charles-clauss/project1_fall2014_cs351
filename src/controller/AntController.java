@@ -3,18 +3,18 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.*;
+//import java.util.Queue;
+//import java.util.concurrent.*;
 
 import antworld.data.AntAction;
 import antworld.data.AntData;
-import antworld.data.AntType;
+//import antworld.data.AntType;
 import antworld.data.CommData;
 import antworld.data.Constants;
 import antworld.data.FoodData;
-import antworld.data.FoodType;
-import antworld.data.NestNameEnum;
-import antworld.data.TeamNameEnum;
+//import antworld.data.FoodType;
+//import antworld.data.NestNameEnum;
+//import antworld.data.TeamNameEnum;
 import event.ExploreEvent;
 import event.GameEvent;
 import event.GatherEvent;
@@ -24,7 +24,6 @@ import gameBoard.Coordinate;
 /**
  * Main handler for the ants. Drives the ants based on a thread pool and the 
  * communicated data from the server.
- * @author agonzales
  *
  */
 public class AntController
@@ -39,8 +38,8 @@ public class AntController
   private static List<Coordinate> nestLocations = new ArrayList<Coordinate>();
   private static HashSet<FoodData> visibleFood = new HashSet<FoodData>();
   private static Coordinate nestCenter;
-  private NestNameEnum nest;
-  private TeamNameEnum team;
+  //private NestNameEnum nest;
+  //private TeamNameEnum team;
 
   /**
    * Main constructor 
@@ -60,8 +59,8 @@ public class AntController
       ant.nextAction = new AntAction(AntAction.AntActionType.STASIS);
     }
     System.out.println("Initializing nest data.");
-    nest = startingAnts.myNest;
-    team = startingAnts.myTeam;
+   // nest = startingAnts.myNest;
+    //team = startingAnts.myTeam;
     setNestLocations(startingAnts);
   }
   /**
@@ -119,6 +118,7 @@ public class AntController
 
   /**
    * Sets off the ant's threads 
+   * NOT WORKING
    * @param data - the returned communication data from the server
    */
   public void dispatchThreads(CommData data)
@@ -304,6 +304,11 @@ public class AntController
     AntController.visibleFood = food;
   }
   
+  /**
+   * Find's the nearest food to the ant. 
+   * @param location - location coordinate
+   * @return Returns a FoodData object
+   */
   public static FoodData getNearestFood(Coordinate location)
   {
     int best_guess = Integer.MAX_VALUE, current_guess = Integer.MAX_VALUE;

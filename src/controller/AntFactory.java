@@ -3,8 +3,7 @@ package controller;
 import antworld.data.*;
 
 /**
- * Factory idiom for building our ants.
- * 
+ * Factory pattern for building our ants.
  *
  */
 public class AntFactory

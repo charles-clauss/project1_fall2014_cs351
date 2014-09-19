@@ -10,7 +10,6 @@ import event.GameEvent;
 import event.Observer;
 
 /**
- * @author agonzales 
  * Implements a version of the A* algorithm using a priority
  * queue. Uses euclidian distance as a heuristic. Generates a
  * 'coordinate' object with path information.
@@ -21,7 +20,6 @@ public class AStar implements Observer
   @Override
   public void update(GameEvent ge)
   {
-    // TODO Auto-generated method stub
 
   }
 
@@ -123,7 +121,7 @@ public class AStar implements Observer
     openList.add(current);
     // System.out.println("Astar: pq peek = " + openList.peek());
     current.setDistanceToGoal(euclidDistance(current, goal));
-    int examined = 0;
+   // int examined = 0;
     while (! openList.isEmpty())
     {
       current = openList.poll();
@@ -146,8 +144,8 @@ public class AStar implements Observer
           n.setDistanceToGoal(n.getWeight() + euclidDistance(n, goal));
           openList.add(n);
         }
-        drawpath(n);
-        examined++;
+        //drawpath(n);
+        //examined++;
       } // end for
       // may help with GC? 
       neighbors = null;
